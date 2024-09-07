@@ -7,14 +7,16 @@
 .my-logged-layout-header {
     height: var(--height-header);
     background-color: var(--bs-primary) !important;
-    --width-right: 3rem;
+    --width-right: 5rem;
 }
 .my-logged-layout-header-left {
     display: flex !important;
     width: calc(100% - var(--width-right));
+    flex-shrink: 0;
 }
 .my-logged-layout-header-right {
     width: var(--width-right);
+    flex-shrink: 0;
 }
 
 .my-logged-layout-body {
@@ -22,4 +24,10 @@
     color: var(--bs-dark) !important;
     height: calc(100% - var(--height-header));
     transition: height 250ms;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.my-logged-layout-body-links {
+    height: 1.5rem;
+    background-color: var(--bs-secondary-25);
 }

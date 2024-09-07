@@ -1,6 +1,8 @@
 .my-icon-button {
     background-color: transparent !important;
     border: none !important;
+    aspect-ratio: 1/1 !important;
+    height: 100%;
 }
 .my-icon-button:hover {
     background-color: var(--bs-light-25) !important;

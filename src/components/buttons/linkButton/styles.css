@@ -1,9 +1,12 @@
 .my-link-button {
-    text-decoration: none;
-    color: var(--bs-light);
-    background-color: var(--bs-dark);
+    color: var(--bs-dark);
+    scale: 100%;
+    transition: scale 100ms;
 }
 
+.my-link-button:active {
+    scale: 90%;
+}
 .my-link-button.active {
-    background-color: var(--bs-info);
+    color: var(--bs-info);
 }

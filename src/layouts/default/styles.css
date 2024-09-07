@@ -1,0 +1,9 @@
+.my-default-layout-root {
+    height: 100svh;
+    width: 100svw;
+}
+
+.my-default-layout-header {
+    height: 3rem;
+    background-color: var(--bs-primary);
+}
