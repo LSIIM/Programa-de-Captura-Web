@@ -1,0 +1,10 @@
+.my-icon-button {
+    background-color: transparent !important;
+    border: none !important;
+}
+.my-icon-button:hover {
+    background-color: var(--bs-light-25) !important;
+}
+.my-icon-button:active {
+    background-color: var(--bs-light-50) !important;
+}

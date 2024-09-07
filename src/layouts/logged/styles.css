@@ -1,0 +1,25 @@
+.my-logged-layout-root {
+    height: 100svh !important;
+    width: 100svw !important;
+    --height-header: 3rem;
+}
+
+.my-logged-layout-header {
+    height: var(--height-header);
+    background-color: var(--bs-primary) !important;
+    --width-right: 3rem;
+}
+.my-logged-layout-header-left {
+    display: flex !important;
+    width: calc(100% - var(--width-right));
+}
+.my-logged-layout-header-right {
+    width: var(--width-right);
+}
+
+.my-logged-layout-body {
+    background-color: var(--bs-light) !important;
+    color: var(--bs-dark) !important;
+    height: calc(100% - var(--height-header));
+    transition: height 250ms;
+}

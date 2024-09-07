@@ -1,0 +1,42 @@
+$theme-colors: (
+    "primary": #e08d79,
+    "primary-25": rgba(#e08d79, 0.25),
+    "primary-50": rgba(#e08d79, 0.5),
+    "primary-75": rgba(#e08d79, 0.75),
+    "secondary": #818d92,
+    "secondary-25": rgba(#818d92, 0.25),
+    "secondary-50": rgba(#818d92, 0.5),
+    "secondary-75": rgba(#818d92, 0.75),
+    "dark": #363537,
+    "dark-25": rgba(#363537, 0.25),
+    "dark-50": rgba(#363537, 0.5),
+    "dark-75": rgba(#363537, 0.75),
+    "light": #fff8eb,
+    "light-25": rgba(#fff8eb, 0.25),
+    "light-50": rgba(#fff8eb, 0.5),
+    "light-75": rgba(#fff8eb, 0.75),
+    "info": #385f71,
+    "success": #9ee493,
+    "warning": #ffd449,
+    "danger": #ff6b6b,
+    "body-bg": #fff8eb,
+    "body-color": #363537,
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+[data-bs-theme="dark"] {
+    --bs-primary: #a54027;
+    --bs-secondary: #818d92;
+
+    --bs-dark: #fff8eb;
+    --bs-light: #363537;
+
+    --bs-info: #adcad7;
+    --bs-success: #9ee493;
+    --bs-warning: #ffd449;
+    --bs-danger: #ff6b6b;
+
+    --bs-body-bg: #363537;
+    --bs-body-color: #fff8eb;
+}

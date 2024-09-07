@@ -1,0 +1,9 @@
+.my-link-button {
+    text-decoration: none;
+    color: var(--bs-light);
+    background-color: var(--bs-dark);
+}
+
+.my-link-button.active {
+    background-color: var(--bs-info);
+}
