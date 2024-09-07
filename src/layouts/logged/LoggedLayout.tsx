@@ -1,43 +1,20 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useContext } from "react";
 import { Stack } from "react-bootstrap";
 import { IconButton, LinkButton } from "../../components";
-import myStorage, { tLightMode } from "../../services/localstorage";
-import "./styles.css";
 import api from "../../services/api";
 import { routes } from "../../router";
-
-const ATTRIBUTE_THEME = "data-bs-theme";
+import { SystemContext } from "../../contexts/SystemContext";
+import "./styles.css";
 
 export interface LoggedLayoutProps {
     children?: ReactNode;
 }
 
 export default function LoggedLayout(props: LoggedLayoutProps) {
-    //STATES
-    const [lightMode, setLightMode] = useState<tLightMode>("light");
+    //CONTEXTS
+    const { useToggleLightMode, lightMode } = useContext(SystemContext);
 
     //EVENTS
-    const handleOnLightMode = useCallback(() => {
-        const currentMode = myStorage.userPreferences.getLightMode();
-        document.documentElement.setAttribute(ATTRIBUTE_THEME, currentMode);
-        setLightMode(currentMode);
-    }, []);
-
-    useEffect(() => {
-        handleOnLightMode();
-        return () => {};
-    }, [handleOnLightMode]);
-
-    const handleOnToggleLightMode = useCallback(() => {
-        const currentMode = myStorage.userPreferences.getLightMode();
-        const newMode: tLightMode = currentMode === "dark" ? "light" : "dark";
-
-        //Modifica visualmente o tema e salva nas preferencias de usuário
-        document.documentElement.setAttribute(ATTRIBUTE_THEME, newMode);
-        myStorage.userPreferences.setLightMode(newMode);
-        setLightMode(newMode);
-    }, []);
-
     const handleOnClickLoggout = useCallback(async () => {
         try {
             await api.logout();
@@ -48,14 +25,14 @@ export default function LoggedLayout(props: LoggedLayoutProps) {
     }, []);
 
     return (
-        <Stack className="my-logged-layout-root d-flex overflow-hidden">
+        <Stack className="my-logged-layout-root d-flex overflow-hidden user-select-none">
             <div className="my-logged-layout-header d-flex w-100">
                 <div className="my-logged-layout-header-left d-flex gap-2 align-items-center h-100 ps-2">
                     <h5 className="mb-0 fw-bold text-dark-emphasis">Ferramenta de Captura LSIIM</h5>
                 </div>
                 <div className="my-logged-layout-header-right d-flex p-1 justify-content-end gap-1">
                     <IconButton
-                        onClick={handleOnToggleLightMode}
+                        onClick={useToggleLightMode}
                         className="rounded-circle text-dark-emphasis"
                         bootstrapIconName={lightMode === "light" ? "sun-fill" : "moon-fill"}
                         size="lg"

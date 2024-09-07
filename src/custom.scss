@@ -27,16 +27,40 @@ $theme-colors: (
 
 [data-bs-theme="dark"] {
     --bs-primary: #a54027;
-    --bs-secondary: #818d92;
+    --bs-primary-75: rgba(165, 64, 39, 0.75);
+    --bs-primary-50: rgba(165, 64, 39, 0.5);
+    --bs-primary-25: rgba(165, 64, 39, 0.25);
+
+    --bs-secondary: #D3D7D9;
+    --bs-secondary-75: rgba(211, 215, 217, 0.75);
+    --bs-secondary-50: rgba(211, 215, 217, 0.5);
+    --bs-secondary-25: rgba(211, 215, 217, 0.25);
 
     --bs-dark: #fff8eb;
+    --bs-dark-75: rgba(255, 248, 235, 0.75);
+    --bs-dark-50: rgba(255, 248, 235, 0.5);
+    --bs-dark-25: rgba(255, 248, 235, 0.25);
     --bs-light: #363537;
 
     --bs-info: #adcad7;
     --bs-success: #9ee493;
     --bs-warning: #ffd449;
     --bs-danger: #ff6b6b;
+}
 
-    --bs-body-bg: #363537;
-    --bs-body-color: #fff8eb;
+.form-control:focus {
+    border-color: var(--bs-primary-75) !important;
+    box-shadow: 0rem 0rem 0rem 0.15rem var(--bs-primary-50) !important;
+}
+
+.my-button-primary {
+    background-color: var(--bs-primary);
+    color: var(--bs-dark) !important;
+    transition: all 150ms;
+}
+.my-button-primary:hover {
+    background-color: var(--bs-primary-75);
+}
+.my-button-primary:active:focus {
+    background-color: var(--bs-primary-50);
 }

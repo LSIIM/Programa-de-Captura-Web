@@ -1,8 +1,7 @@
+import { tLightMode } from "../contexts/SystemContext";
+
 //KEYS
 export const LS_LIGHT_MODE_KEY = "LIGHT_MODE";
-
-//TYPES
-export type tLightMode = "light" | "dark";
 
 const myStorage = {
     userPreferences: {

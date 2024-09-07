@@ -5,11 +5,14 @@ import Router from "./router";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./custom.scss";
 import "./styles.css";
+import { SystemContextProvider } from "./contexts";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
     <React.StrictMode>
-        <Router />
+        <SystemContextProvider>
+            <Router />
+        </SystemContextProvider>
     </React.StrictMode>
 );
 

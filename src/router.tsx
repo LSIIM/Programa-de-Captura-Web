@@ -1,10 +1,9 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
 import { Babys, Login, Records } from "./views";
-import { LoggedLayout } from "./layouts";
+import { DefaultLayout, LoggedLayout } from "./layouts";
 
 export const routes = {
     login: "/login",
-
     logged: "/sistema",
     listBabys: "/sistema/bebes",
     listRecords: "/sistema/gravacoes",
@@ -13,7 +12,14 @@ export const routes = {
 export default function Router() {
     const router = createBrowserRouter([
         { path: "*", element: <Navigate to={routes.login} /> },
-        { path: routes.login, element: <Login /> },
+        {
+            path: routes.login,
+            element: (
+                <DefaultLayout>
+                    <Login />
+                </DefaultLayout>
+            ),
+        },
         {
             path: routes.logged,
             element: <LoggedLayout children={<Outlet />} />,

@@ -8,9 +8,11 @@ export interface DefaultLayoutProps {
 
 export default function DefaultLayout(props: DefaultLayoutProps) {
     return (
-        <Stack className="my-default-layout-root d-flex">
-            <div className="my-default-layout-header d-flex w-100"></div>
-            {props.children}
+        <Stack className="my-default-layout-root d-flex user-select-none">
+            <div className="my-default-layout-header d-flex w-100 align-items-center justify-content-center">
+                <h5 className="fw-bold m-0 text-dark-emphasis">Ferramenta de Captura LSIIM</h5>
+            </div>
+            <div className="my-default-layout-body d-flex w-100">{props.children}</div>
         </Stack>
     );
 }

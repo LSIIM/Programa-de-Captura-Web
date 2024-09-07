@@ -1,9 +1,17 @@
 .my-default-layout-root {
     height: 100svh;
     width: 100svw;
+    --height-header: 3rem;
 }
 
 .my-default-layout-header {
-    height: 3rem;
+    height: var(--height-header);
     background-color: var(--bs-primary);
+}
+
+.my-default-layout-body {
+    background-color: var(--bs-light) !important;
+    height: calc(100% - var(--height-header));
+    overflow-x: hidden;
+    overflow-y: auto;
 }
