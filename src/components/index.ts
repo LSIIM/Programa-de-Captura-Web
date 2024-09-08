@@ -9,6 +9,7 @@ import FormLogin from "./forms/formLogin/FormLogin";
 
 //INPUTS
 import InputPassword from "./inputs/inputPassword/InputPassword";
+import InputSearch from "./inputs/inputSearch/InputSearch";
 
 //LINK
 import TextLink from "./links/TextLink/TextLink";
@@ -28,6 +29,7 @@ export {
 
     //INPUTS
     InputPassword,
+    InputSearch,
 
     //LINK
     TextLink,

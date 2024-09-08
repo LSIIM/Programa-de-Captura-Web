@@ -1,0 +1,37 @@
+.my-layout-table-root {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    --layout-table-height-header: 3rem;
+}
+
+.my-layout-table-header {
+    height: var(--layout-table-height-header);
+    width: 100%;
+    --layout-table-width-button: max-content;
+}
+.my-layout-table-search {
+    width: 25rem;
+    max-width: calc(100% - var(--layout-table-width-button));
+}
+.my-layout-table-button {
+    width: var(--layout-table-width-button);
+}
+
+.my-layout-table-body {
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    .my-layout-table-button {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        box-shadow: auto;
+    }
+}
+@media (min-width: 576px) {
+    .my-layout-table-button > .btn {
+        box-shadow: 0px 0px 0px 0px transparent !important;
+    }
+}

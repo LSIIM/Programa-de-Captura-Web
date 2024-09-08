@@ -48,7 +48,7 @@ export default function LoggedLayout(props: LoggedLayoutProps) {
                 </div>
             </div>
             <Stack className="my-logged-layout-body bg-light d-flex w-100 position-relative">
-                <div className="my-logged-layout-body-links bg-secondary d-flex sticky-top w-100 gap-2 ps-2 pe-2 align-items-center border-bottom">
+                <div className="my-logged-layout-body-links bg-secondary d-flex w-100 gap-2 ps-2 pe-2 align-items-center border-bottom">
                     <TextLink to={routes.listBabys}>Bebês</TextLink>
                     <TextLink to={routes.listRecords}>Gravações</TextLink>
                 </div>

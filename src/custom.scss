@@ -41,7 +41,7 @@ $danger: #ff6b6b;
         color: $dark !important;
     }
     .bg-secondary {
-        background-color: rgba($secondary, 0.25) !important;
+        background-color: lighten($secondary, 33%) !important;
         color: $dark !important;
     }
     .bg-light {
@@ -83,11 +83,12 @@ $danger: #ff6b6b;
     .btn-primary {
         background-color: $primary !important;
         color: $dark !important;
+        border-color: lighten($primary, 3%) !important;
         &:hover {
             background-color: darken($primary, 10%) !important;
         }
         &:active {
-            background-color: darken($primary, 20%) !important;
+            background-color: darken($primary, 15%) !important;
         }
     }
 
@@ -112,6 +113,20 @@ $danger: #ff6b6b;
     .my-link-dark.my-link-active {
         color: $info !important;
     }
+
+    //TABLES
+    .my-table {
+        background: lighten($secondary, 33%);
+    }
+    .my-table > tbody > tr:nth-child(odd) {
+        background-color: lighten($secondary, 40%);
+    }
+    .my-table > tbody > tr:nth-child(odd):hover {
+        background-color: lighten($secondary-25, 42%);
+    }
+    .my-table > tbody > tr:nth-child(even):hover {
+        background-color: lighten($secondary-25, 42%);
+    }
 }
 
 [data-bs-theme="dark"] {
@@ -121,7 +136,7 @@ $danger: #ff6b6b;
         color: $light !important;
     }
     .bg-secondary {
-        background-color: rgba($secondary, 0.25) !important;
+        background-color: darken($secondary, 25%) !important;
         color: $light !important;
     }
     .bg-light {
@@ -162,12 +177,13 @@ $danger: #ff6b6b;
     }
     .btn-primary {
         background-color: $primary-dark !important;
+        border-color: lighten($primary-dark, 3%) !important;
         color: $light !important;
         &:hover {
             background-color: darken($primary-dark, 10%) !important;
         }
         &:active {
-            background-color: darken($primary-dark, 20%) !important;
+            background-color: darken($primary-dark, 15%) !important;
         }
     }
 
@@ -192,4 +208,34 @@ $danger: #ff6b6b;
     .my-link-dark.my-link-active {
         color: #{lighten($info, 40%)} !important;
     }
+
+    //TABLES
+    .my-table {
+        background-color: darken($secondary, 25%);
+    }
+    .my-table > tbody > tr:nth-child(odd) {
+        background-color: $secondary-25;
+    }
+    .my-table > tbody > tr:hover {
+        background-color: darken($secondary-25, 10%);
+    }
+    .my-table > tbody > tr:last-child > td:first-child {
+        border-bottom-left-radius: var(--bs-border-radius-lg) !important;
+    }
+}
+
+//PARA TODOS OS TEMAS
+//TABLE
+.my-table > tbody > tr {
+    cursor: pointer;
+}
+.my-table > tbody > tr > td {
+    padding: 0.35rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.my-table > thead > tr > th {
+    padding: 0.35rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
