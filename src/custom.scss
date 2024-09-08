@@ -1,66 +1,195 @@
-$theme-colors: (
-    "primary": #e08d79,
-    "primary-25": rgba(#e08d79, 0.25),
-    "primary-50": rgba(#e08d79, 0.5),
-    "primary-75": rgba(#e08d79, 0.75),
-    "secondary": #818d92,
-    "secondary-25": rgba(#818d92, 0.25),
-    "secondary-50": rgba(#818d92, 0.5),
-    "secondary-75": rgba(#818d92, 0.75),
-    "dark": #363537,
-    "dark-25": rgba(#363537, 0.25),
-    "dark-50": rgba(#363537, 0.5),
-    "dark-75": rgba(#363537, 0.75),
-    "light": #fff8eb,
-    "light-25": rgba(#fff8eb, 0.25),
-    "light-50": rgba(#fff8eb, 0.5),
-    "light-75": rgba(#fff8eb, 0.75),
-    "info": #385f71,
-    "success": #9ee493,
-    "warning": #ffd449,
-    "danger": #ff6b6b,
-    "body-bg": #fff8eb,
-    "body-color": #363537,
-);
+$primary: #e08d79;
+$primary-25: rgba(#e08d79, 0.25);
+$primary-50: rgba(#e08d79, 0.5);
+$primary-75: rgba(#e08d79, 0.75);
 
-@import "~bootstrap/scss/bootstrap";
+$primary-dark: #a54027;
+$primary-dark-25: rgba(#a54027, 0.25);
+$primary-dark-50: rgba(#a54027, 0.5);
+$primary-dark-75: rgba(#a54027, 0.75);
+
+$secondary: #818d92;
+$secondary-25: rgba(#818d92, 0.25);
+$secondary-50: rgba(#818d92, 0.5);
+$secondary-75: rgba(#818d92, 0.75);
+
+$dark: #363537;
+$dark-25: rgba(#363537, 0.25);
+$dark-50: rgba(#363537, 0.5);
+$dark-75: rgba(#363537, 0.75);
+
+$light: #fff8eb;
+$light-25: rgba(#fff8eb, 0.25);
+$light-50: rgba(#fff8eb, 0.5);
+$light-75: rgba(#fff8eb, 0.75);
+
+$info: #385f71;
+$info-25: rgba(#385f71, 0.25);
+$info-50: rgba(#385f71, 0.5);
+$info-75: rgba(#385f71, 0.75);
+
+$success: #9ee493;
+$warning: #ffd449;
+$danger: #ff6b6b;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+[data-bs-theme="light"] {
+    // BACKGROUNDS
+    .bg-primary {
+        background-color: $primary !important;
+        color: $dark !important;
+    }
+    .bg-secondary {
+        background-color: rgba($secondary, 0.25) !important;
+        color: $dark !important;
+    }
+    .bg-light {
+        background-color: $light !important;
+        color: $dark !important;
+    }
+    .bg-dark {
+        background-color: $dark !important;
+        color: $light !important;
+    }
+
+    // TEXTS
+    .text-primary {
+        color: $primary !important;
+    }
+    .text-secondary {
+        color: $secondary !important;
+    }
+    .text-light {
+        color: $light !important;
+    }
+    .text-dark {
+        color: $dark !important;
+    }
+    .text-info {
+        color: $info !important;
+    }
+
+    //BUTTONS
+    .btn-transparent {
+        background-color: transparent !important;
+        &:hover {
+            background-color: rgba($light, 0.25) !important;
+        }
+        &:active {
+            background-color: rgba($light, 0.5) !important;
+        }
+    }
+    .btn-primary {
+        background-color: $primary !important;
+        color: $dark !important;
+        &:hover {
+            background-color: darken($primary, 10%) !important;
+        }
+        &:active {
+            background-color: darken($primary, 20%) !important;
+        }
+    }
+
+    //FORMS.CONTROLS
+    .form-control:focus {
+        border-color: var($primary-75) !important;
+        box-shadow: 0rem 0rem 0rem 0.15rem var($primary-50) !important;
+    }
+
+    //LINKS
+    .my-link-dark {
+        color: $dark !important;
+        scale: 1 !important;
+        transition: scale 150ms !important;
+        &:hover {
+            scale: 0.98 !important;
+        }
+        &:active {
+            scale: 0.95 !important;
+        }
+    }
+    .my-link-dark.my-link-active {
+        color: $info !important;
+    }
+}
 
 [data-bs-theme="dark"] {
-    --bs-primary: #a54027;
-    --bs-primary-75: rgba(165, 64, 39, 0.75);
-    --bs-primary-50: rgba(165, 64, 39, 0.5);
-    --bs-primary-25: rgba(165, 64, 39, 0.25);
+    // BACKGROUNDS
+    .bg-primary {
+        background-color: $primary-dark !important;
+        color: $light !important;
+    }
+    .bg-secondary {
+        background-color: rgba($secondary, 0.25) !important;
+        color: $light !important;
+    }
+    .bg-light {
+        background-color: $dark !important;
+        color: $light !important;
+    }
+    .bg-dark {
+        background-color: $light !important;
+        color: $dark !important;
+    }
 
-    --bs-secondary: #D3D7D9;
-    --bs-secondary-75: rgba(211, 215, 217, 0.75);
-    --bs-secondary-50: rgba(211, 215, 217, 0.5);
-    --bs-secondary-25: rgba(211, 215, 217, 0.25);
+    // TEXTS
+    .text-primary {
+        color: $primary-dark !important;
+    }
+    .text-secondary {
+        color: $secondary !important;
+    }
+    .text-light {
+        color: $dark !important;
+    }
+    .text-dark {
+        color: $light !important;
+    }
+    .text-info {
+        color: $info !important;
+    }
 
-    --bs-dark: #fff8eb;
-    --bs-dark-75: rgba(255, 248, 235, 0.75);
-    --bs-dark-50: rgba(255, 248, 235, 0.5);
-    --bs-dark-25: rgba(255, 248, 235, 0.25);
-    --bs-light: #363537;
+    //BUTTONS
+    .btn-transparent {
+        background-color: transparent !important;
+        &:hover {
+            background-color: rgba($dark, 0.25) !important;
+        }
+        &:active {
+            background-color: rgba($dark, 0.5) !important;
+        }
+    }
+    .btn-primary {
+        background-color: $primary-dark !important;
+        color: $light !important;
+        &:hover {
+            background-color: darken($primary-dark, 10%) !important;
+        }
+        &:active {
+            background-color: darken($primary-dark, 20%) !important;
+        }
+    }
 
-    --bs-info: #adcad7;
-    --bs-success: #9ee493;
-    --bs-warning: #ffd449;
-    --bs-danger: #ff6b6b;
-}
+    //FORMS.CONTROLS
+    .form-control:focus {
+        border-color: var($primary-dark-75) !important;
+        box-shadow: 0rem 0rem 0rem 0.15rem var($primary-dark-50) !important;
+    }
 
-.form-control:focus {
-    border-color: var(--bs-primary-75) !important;
-    box-shadow: 0rem 0rem 0rem 0.15rem var(--bs-primary-50) !important;
-}
-
-.my-button-primary {
-    background-color: var(--bs-primary);
-    color: var(--bs-dark) !important;
-    transition: all 150ms;
-}
-.my-button-primary:hover {
-    background-color: var(--bs-primary-75);
-}
-.my-button-primary:active:focus {
-    background-color: var(--bs-primary-50);
+    //LINKS
+    .my-link-dark {
+        color: $light !important;
+        scale: 1 !important;
+        transition: scale 150ms !important;
+        &:hover {
+            scale: 0.98 !important;
+        }
+        &:active {
+            scale: 0.95 !important;
+        }
+    }
+    .my-link-dark.my-link-active {
+        color: #{lighten($info, 40%)} !important;
+    }
 }

@@ -6,7 +6,6 @@
 
 .my-logged-layout-header {
     height: var(--height-header);
-    background-color: var(--bs-primary) !important;
     --width-right: 5rem;
 }
 .my-logged-layout-header-left {
@@ -20,14 +19,15 @@
 }
 
 .my-logged-layout-body {
-    background-color: var(--bs-light) !important;
-    color: var(--bs-dark) !important;
     height: calc(100% - var(--height-header));
     transition: height 250ms;
     overflow-x: hidden;
     overflow-y: auto;
+    --height-links: 1.5rem;
 }
 .my-logged-layout-body-links {
-    height: 1.5rem;
-    background-color: var(--bs-secondary-25);
+    height: var(--height-links);
+}
+.my-logged-layout-body-content {
+    height: calc(100% - var(--height-links));
 }

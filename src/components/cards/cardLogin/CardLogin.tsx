@@ -14,11 +14,11 @@ export default function CardLogin(props: CardLoginProps) {
             <Card.Body>
                 <Row>
                     <Col sm="12" className="text-center">
-                        <h5 className="text-dark-emphasis fw-bold">LSIIM</h5>
+                        <h5 className="text-dark fw-bold">LSIIM</h5>
                     </Col>
                     <Col sm="12">{props.children}</Col>
                     <Col sm="12" className="text-end">
-                        <Button form={props.formId} type="submit" className="my-button-primary">
+                        <Button form={props.formId} type="submit">
                             Entrar {props.loading ? <Spinner size="sm" className="ms-2" animation="grow" /> : ""}
                         </Button>
                     </Col>

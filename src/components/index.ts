@@ -1,6 +1,5 @@
 //BUTTONS
 import IconButton from "./buttons/iconButton/IconButton";
-import LinkButton from "./buttons/linkButton/LinkButton";
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
@@ -11,13 +10,15 @@ import FormLogin from "./forms/formLogin/FormLogin";
 //INPUTS
 import InputPassword from "./inputs/inputPassword/InputPassword";
 
+//LINK
+import TextLink from "./links/TextLink/TextLink";
+
 //TABLES
 import BabysTable from "./tables/BabysTable";
 
 export {
     //BUTTONS
     IconButton,
-    LinkButton,
 
     //CARDS
     CardLogin,
@@ -27,6 +28,9 @@ export {
 
     //INPUTS
     InputPassword,
+
+    //LINK
+    TextLink,
 
     //TABLES
     BabysTable,

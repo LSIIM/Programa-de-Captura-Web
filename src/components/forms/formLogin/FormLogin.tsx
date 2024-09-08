@@ -46,7 +46,7 @@ export default function FormLogin(props: FormLoginProps) {
                     <Form id={props.formId} onSubmit={handleSubmit}>
                         <Row>
                             <Form.Group as={Col} sm="12" controlId={v4()}>
-                                <Form.Label className="opacity-0">Senha</Form.Label>
+                                <Form.Label />
                                 <InputPassword
                                     placeholder="Digite sua senha"
                                     onAccept={(password) => setValues({ ...values, password })}

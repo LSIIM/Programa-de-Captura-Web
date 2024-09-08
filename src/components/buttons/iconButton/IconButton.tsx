@@ -1,6 +1,6 @@
 import { Button, ButtonProps, Spinner } from "react-bootstrap";
-import "./styles.css";
 import { useCallback, useState } from "react";
+import "./styles.css";
 
 export interface IconButtonProps extends ButtonProps {
     bootstrapIconName: string;
@@ -27,7 +27,8 @@ export default function IconButton({ bootstrapIconName, text, onClickAsync, onCl
         <Button
             {...rest}
             onClick={handleOnClick}
-            className={"my-icon-button p-1 d-flex align-items-center justify-content-center " + rest.className}
+            variant="transparent"
+            className={rest.className + " my-icon-button p-1 d-flex align-items-center justify-content-center"}
         >
             {loading ? (
                 <Spinner size="sm" animation="grow" />

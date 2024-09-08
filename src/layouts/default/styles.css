@@ -6,11 +6,9 @@
 
 .my-default-layout-header {
     height: var(--height-header);
-    background-color: var(--bs-primary);
 }
 
 .my-default-layout-body {
-    background-color: var(--bs-light) !important;
     height: calc(100% - var(--height-header));
     overflow-x: hidden;
     overflow-y: auto;
