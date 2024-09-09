@@ -91,6 +91,18 @@ $danger: #ff6b6b;
             background-color: darken($primary, 15%) !important;
         }
     }
+    .btn-outline-secondary {
+        background-color: transparent !important;
+        color: darken($secondary, 15%) !important;
+        border-color: lighten($secondary, 3%) !important;
+        &:hover {
+            background-color: darken($secondary, 0%) !important;
+            color: white !important;
+        }
+        &:active {
+            background-color: darken($secondary, 5%) !important;
+        }
+    }
 
     //FORMS.CONTROLS
     .form-control:focus {
@@ -184,6 +196,18 @@ $danger: #ff6b6b;
         }
         &:active {
             background-color: darken($primary-dark, 15%) !important;
+        }
+    }
+    .btn-outline-secondary {
+        background-color: transparent !important;
+        color: lighten($secondary, 25%) !important;
+        border-color: lighten($secondary, 10%) !important;
+        &:hover {
+            background-color: darken($secondary, 5%) !important;
+            color: white !important;
+        }
+        &:active {
+            background-color: darken($secondary, 10%) !important;
         }
     }
 

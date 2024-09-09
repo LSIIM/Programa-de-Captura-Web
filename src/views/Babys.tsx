@@ -1,25 +1,35 @@
 import { Col } from "react-bootstrap";
 import { LayoutTable } from "../layouts";
-import { useState } from "react";
-import { BabysTable } from "../components";
+import { useCallback, useState } from "react";
+import { BabysTable, RegisterBabyModal } from "../components";
 import { Baby } from "../interfaces";
 
 export default function Babys() {
     //STATES
     const [search, setSearch] = useState("");
+    const [showRegisterBabyModal, setShowRegisterBabyModal] = useState(false);
+
+    //EVENTS
+    const handleOnClickRegister = useCallback(() => setShowRegisterBabyModal(true), []);
+    const handleOnHideModal = useCallback(() => setShowRegisterBabyModal(false), []);
 
     return (
-        <LayoutTable.Root>
-            <LayoutTable.Header>
-                <LayoutTable.Search value={search} onAccept={setSearch} />
-                <LayoutTable.Button className="rounded-pill shadow">Cadastrar</LayoutTable.Button>
-            </LayoutTable.Header>
-            <LayoutTable.Body>
-                <Col sm="12">
-                    <BabysTable babys={babys} />
-                </Col>
-            </LayoutTable.Body>
-        </LayoutTable.Root>
+        <>
+            <LayoutTable.Root>
+                <LayoutTable.Header>
+                    <LayoutTable.Search value={search} onAccept={setSearch} />
+                    <LayoutTable.Button className="rounded-pill shadow" onClick={handleOnClickRegister}>
+                        Cadastrar
+                    </LayoutTable.Button>
+                </LayoutTable.Header>
+                <LayoutTable.Body>
+                    <Col sm="12">
+                        <BabysTable babys={babys} />
+                    </Col>
+                </LayoutTable.Body>
+            </LayoutTable.Root>
+            <RegisterBabyModal show={showRegisterBabyModal} onHide={handleOnHideModal} />
+        </>
     );
 }
 
