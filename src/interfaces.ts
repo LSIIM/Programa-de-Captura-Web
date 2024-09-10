@@ -1,7 +1,7 @@
 //Entidades do banco de dados
 
 //BABYS_INFO
-export type Baby = {
+export type tBaby = {
     id_baby: number;
     name: string;
     birth_year: number;
@@ -11,13 +11,13 @@ export type Baby = {
 };
 
 //MOVS_INFO
-export type Movs = {
+export type tMovs = {
     id_mov: number;
     description: string;
 };
 
 //RECORDINGS
-export type Recordings = {
+export type tRecordings = {
     id_recording: number;
     ignore: boolean;
     observation: string;
@@ -33,19 +33,19 @@ export type Recordings = {
 };
 
 //CAM_INFO
-export type Cam = {
+export type tCam = {
     id_cam: number;
     model: string;
     is_ir: boolean;
 };
 
 //PROJECT
-export type Project = {
+export type tProject = {
     id_proj: number;
     name_proj: string;
 };
 
 //Tipo auxiliar para obter tipos parciais de tipos existentes
-export type PartialEntity<Entity, Keys extends keyof Entity> = {
+export type tPartialEntity<Entity, Keys extends keyof Entity> = {
     [Key in Keys]: Entity[Key];
 };

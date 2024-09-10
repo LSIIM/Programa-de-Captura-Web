@@ -1,22 +1,29 @@
 import { Button, Modal, ModalProps } from "react-bootstrap";
 import FormBaby, { tNewBaby } from "../../forms/formBaby/FormBaby";
 import { useCallback } from "react";
+import { useBaby } from "../../../hooks";
 
 const FORM_BABY_ID = "form-register-baby";
 
-export interface RegisterBabyModalProps extends ModalProps {}
+export interface RegisterBabyModalProps extends ModalProps {
+    onSuccessEdit?: () => void;
+}
 
-export default function RegisterBabyModal(props: RegisterBabyModalProps) {
+export default function RegisterBabyModal({ onSuccessEdit, ...props }: RegisterBabyModalProps) {
+    //HOOKS
+    const { handleOnCreateBaby } = useBaby({ triggerUseEffect: false });
+
     //EVENTOS
-    const handleOnSubmitNewBaby = useCallback(async (newBaby: tNewBaby) => {
-        try {
-            //TODO: Salvar no banco de dado os dados do novo bebê
-            console.log(newBaby);
-        } catch (err) {
-            //TODO: Mostrar Feedback visual de erro.
-            console.error(err);
-        }
-    }, []);
+    const handleOnSubmitNewBaby = useCallback(
+        (newBaby: tNewBaby) => {
+            handleOnCreateBaby(newBaby).then(() => {
+                //TODO: trocar console.log por um alerta
+                alert("Bebê adicionado com sucesso.");
+                if (onSuccessEdit) onSuccessEdit();
+            });
+        },
+        [handleOnCreateBaby, onSuccessEdit]
+    );
 
     return (
         <Modal {...props}>

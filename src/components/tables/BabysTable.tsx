@@ -1,7 +1,7 @@
-import { Baby } from "../../interfaces";
+import { tBaby } from "../../interfaces";
 
 export interface BabysTableProps {
-    babys: Baby[];
+    babys: tBaby[];
 }
 
 export default function BabysTable(props: BabysTableProps) {

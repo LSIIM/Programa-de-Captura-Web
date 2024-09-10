@@ -3,11 +3,11 @@ import * as yup from "yup";
 import { useCallback } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { v4 } from "uuid";
-import { Baby, PartialEntity } from "../../../interfaces";
+import { tBaby, tPartialEntity } from "../../../interfaces";
 import InputBirthBaby from "../../inputs/inputBirthBaby/InputBirthBaby";
 
 //TYPES
-export type tNewBaby = PartialEntity<Baby, "birth_day" | "birth_month" | "birth_year" | "is_prem" | "name">;
+export type tNewBaby = tPartialEntity<tBaby, "birth_day" | "birth_month" | "birth_year" | "is_prem" | "name">;
 
 export interface FormBabyProps {
     initialValues: tNewBaby;

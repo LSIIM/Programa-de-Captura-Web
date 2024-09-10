@@ -3,6 +3,7 @@ import IconButton from "./buttons/iconButton/IconButton";
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
+import CardRecord from "./cards/cardRecord/CardRecord";
 
 //FORMS
 import FormLogin from "./forms/formLogin/FormLogin";
@@ -28,6 +29,7 @@ export {
 
     //CARDS
     CardLogin,
+    CardRecord,
 
     //FORMS
     FormLogin,

@@ -1,0 +1,10 @@
+.my-card-record {
+    width: 100%;
+    height: max-content;
+}
+
+.my-card-record-thumbnail {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}

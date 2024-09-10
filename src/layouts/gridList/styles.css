@@ -1,0 +1,70 @@
+.my-layout-grid-list-root {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    --layout-grid-list-height-header: 3rem;
+    --layout-grid-list-width-button: max-content;
+}
+
+.my-layout-grid-list-header {
+    height: var(--layout-grid-list-height-header);
+}
+
+.my-layout-grid-list-body {
+    width: 100%;
+}
+
+.my-layout-grid-list-filters {
+    width: calc(100% - var(--layout-grid-list-width-button));
+    height: 100%;
+}
+
+.my-layout-grid-list-button {
+    width: var(--layout-grid-list-width-button);
+}
+
+.my-layout-grid-list-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+    column-gap: 1rem;
+}
+
+@media (max-width: 576px) {
+    .my-layout-grid-list-button {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        box-shadow: auto;
+    }
+}
+
+@media (min-width: 576px) {
+    .my-layout-grid-list-button > .btn {
+        box-shadow: 0px 0px 0px 0px transparent !important;
+    }
+    .my-layout-grid-list-body {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (min-width: 768px) {
+    .my-layout-grid-list-body {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+@media (min-width: 992px) {
+    .my-layout-grid-list-body {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+@media (min-width: 1200px) {
+    .my-layout-grid-list-body {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+}
+@media (min-width: 1400px) {
+    .my-layout-grid-list-body {
+        grid-template-columns: repeat(6, 1fr) !important;
+    }
+}
