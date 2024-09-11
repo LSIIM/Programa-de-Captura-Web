@@ -1,5 +1,6 @@
 //BUTTONS
 import IconButton from "./buttons/iconButton/IconButton";
+import MenuButton from "./buttons/menuButton/MenuButton";
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
@@ -26,6 +27,7 @@ import BabysTable from "./tables/BabysTable";
 export {
     //BUTTONS
     IconButton,
+    MenuButton,
 
     //CARDS
     CardLogin,

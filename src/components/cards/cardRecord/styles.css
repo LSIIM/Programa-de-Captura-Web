@@ -1,5 +1,4 @@
 .my-card-record {
-    width: 100%;
     height: max-content;
 }
 
@@ -7,4 +6,8 @@
     width: 100%;
     object-fit: cover;
     aspect-ratio: 16/9;
+}
+
+.my-card-record-div-baby-name {
+    height: 2rem;
 }

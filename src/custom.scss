@@ -74,10 +74,10 @@ $danger: #ff6b6b;
     .btn-transparent {
         background-color: transparent !important;
         &:hover {
-            background-color: rgba($light, 0.25) !important;
+            background-color: rgba($dark, 0.1) !important;
         }
         &:active {
-            background-color: rgba($light, 0.5) !important;
+            background-color: rgba($dark, 0.15) !important;
         }
     }
     .btn-primary {
@@ -139,6 +139,17 @@ $danger: #ff6b6b;
     .my-table > tbody > tr:nth-child(even):hover {
         background-color: lighten($secondary-25, 42%);
     }
+
+    //MENU LIST
+    .my-menu-list {
+        background-color: var(--bs-body-bg);
+    }
+    .my-menu-list > *:hover {
+        background-color: rgba($dark, 10%);
+    }
+    .my-menu-list > *:active {
+        background-color: rgba($dark, 15%);
+    }
 }
 
 [data-bs-theme="dark"] {
@@ -181,10 +192,10 @@ $danger: #ff6b6b;
     .btn-transparent {
         background-color: transparent !important;
         &:hover {
-            background-color: rgba($dark, 0.25) !important;
+            background-color: rgba($light, 0.15) !important;
         }
         &:active {
-            background-color: rgba($dark, 0.5) !important;
+            background-color: rgba($light, 0.2) !important;
         }
     }
     .btn-primary {
@@ -246,6 +257,17 @@ $danger: #ff6b6b;
     .my-table > tbody > tr:last-child > td:first-child {
         border-bottom-left-radius: var(--bs-border-radius-lg) !important;
     }
+
+    //MENU LIST
+    .my-menu-list {
+        background-color: var(--bs-body-bg);
+    }
+    .my-menu-list > *:hover {
+        background-color: rgba($light, 10%);
+    }
+    .my-menu-list > *:active {
+        background-color: rgba($light, 15%);
+    }
 }
 
 //PARA TODOS OS TEMAS
@@ -262,4 +284,22 @@ $danger: #ff6b6b;
     padding: 0.35rem;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+//MENU LIST
+.my-menu-list {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+.my-menu-list > * {
+    padding: 0.4rem !important;
+    border: none;
+    border-radius: 0px !important;
+    display: flex !important;
+    gap: 0.8rem !important;
+    align-items: center !important;
+}
+.my-menu-list > *:hover {
+    cursor: pointer;
+    user-select: none;
 }

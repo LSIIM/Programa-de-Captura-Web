@@ -75,7 +75,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">{errors.is_prem}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="12" lg="4" controlId={v4()}>
+                            <Form.Group as={Col} sm="12" controlId={v4()}>
                                 <Form.Label>Data de nascimento?</Form.Label>
                                 <InputBirthBaby
                                     day={values.birth_day}

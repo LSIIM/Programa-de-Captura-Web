@@ -33,7 +33,7 @@ export default function RegisterBabyModal({ onSuccessEdit, ...props }: RegisterB
             <Modal.Body>
                 <FormBaby
                     formId={FORM_BABY_ID}
-                    initialValues={{ name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: true }}
+                    initialValues={{ name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: false }}
                     onSubmit={handleOnSubmitNewBaby}
                 />
             </Modal.Body>
