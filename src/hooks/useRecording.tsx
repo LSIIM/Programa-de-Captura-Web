@@ -3,7 +3,7 @@ import { tPartialEntity, tRecordings } from "../interfaces";
 
 let abortController: AbortController | undefined;
 
-export default function useRecording({ triggerUseEffect }: { triggerUseEffect: boolean }) {
+export default function useRecording({ enableRead }: { enableRead: boolean }) {
     //STATES
     const [recordings, setRecordings] = useState<tRecordings[]>([]);
 
@@ -13,31 +13,33 @@ export default function useRecording({ triggerUseEffect }: { triggerUseEffect: b
     const [isCreating, setIsCreating] = useState(false);
 
     //EVENTS
-    const handleOnReadRecordings = useCallback(async (signal?: AbortSignal) => {
-        try {
-            setIsReading(true);
-            //TODO: Implementar a lógica de carregar dados das gravações.
-            const recordings = await new Promise<tRecordings[]>((resolve) =>
-                setTimeout(() => resolve(_recordings), 500)
-            );
-            setRecordings(recordings);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsReading(false);
-        }
-    }, []);
+    const handleOnReadRecordings = useCallback(
+        async (signal?: AbortSignal) => {
+            if (!enableRead) return;
+            try {
+                setIsReading(true);
+                //TODO: Implementar a lógica de carregar dados das gravações.
+                const recordings = await new Promise<tRecordings[]>((resolve) =>
+                    setTimeout(() => resolve(_recordings), 500)
+                );
+                setRecordings(recordings);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setIsReading(false);
+            }
+        },
+        [enableRead]
+    );
 
     useEffect(() => {
-        if (!triggerUseEffect) return;
-
         abortController = new AbortController();
         const signal = abortController.signal;
 
         handleOnReadRecordings(signal);
 
         return () => abortController?.abort();
-    }, [triggerUseEffect, handleOnReadRecordings]);
+    }, [handleOnReadRecordings]);
 
     const handleOnUpdateRecording = useCallback(async (recording: tPartialEntity<tRecordings, "id_recording">) => {
         try {

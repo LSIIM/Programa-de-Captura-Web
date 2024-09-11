@@ -2,24 +2,35 @@ import { ListGroup, Stack } from "react-bootstrap";
 import { tRecordings } from "../../../interfaces";
 import { useCallback } from "react";
 import MenuButton from "../../buttons/menuButton/MenuButton";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../router";
 import "./styles.css";
 
 export interface CardRecordProps {
-    record?: tRecordings;
+    record: tRecordings;
 }
 
-export default function CardRecord(props: CardRecordProps) {
-    //EVENTS
-    const handleOnClickPlay = useCallback(() => {}, []);
+export default function CardRecord({ record }: CardRecordProps) {
+    //HOOKS
+    const navigate = useNavigate();
 
-    const handleOnClickPlayProcessedVideo = useCallback(() => {}, []);
+    //EVENTS
+    const handleOnClickPlay = useCallback(() => {
+        navigate(routes.playingRecord.replace(":id", record.id_recording.toString()));
+    }, [navigate, record]);
+
+    const handleOnClickPlayProcessedVideo = useCallback(() => {
+        navigate(routes.playingRecord.replace(":id", record.id_recording.toString()));
+    }, [navigate, record]);
 
     const handleOnClickProcess = useCallback(() => {}, []);
 
     return (
         <>
-            <Stack className="my-card-record rounded-4 d-flex gap-2 w-100" role="button">
+            <Stack className="my-card-record rounded-4 d-flex gap-2 w-100">
                 <img
+                    role="button"
+                    onClick={handleOnClickPlay}
                     className="my-card-record-thumbnail rounded-4"
                     alt="thumbnail"
                     src="https://img.freepik.com/fotos-gratis/uma-pintura-digital-de-uma-montanha-com-uma-arvore-colorida-em-primeiro-plano_1340-25699.jpg"

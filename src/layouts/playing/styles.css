@@ -1,0 +1,56 @@
+.my-layout-playing-root {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.my-layout-playing-grid {
+    display: grid !important;
+    width: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows: max-content;
+    row-gap: 1.5rem;
+    column-gap: 1rem;
+    padding: 1rem;
+}
+
+.my-layout-playing-player-container {
+    width: 100% !important;
+}
+
+.my-layout-playing-list {
+    width: 100%;
+    height: max-content;
+}
+.my-layout-playing-list-placeholder {
+    aspect-ratio: 16/9 !important;
+    width: 100% !important;
+}
+
+.my-playing-player {
+    width: 100% !important;
+}
+.react-player {
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    border-radius: 1rem;
+    width: 100%;
+}
+.my-layout-playing-player-placeholder {
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    border-radius: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .my-layout-playing-grid {
+        grid-template-columns: calc(100% - 19rem) calc(19rem - 1rem) !important;
+    }
+}
+@media (min-width: 1200px) {
+    .my-layout-playing-grid {
+        grid-template-columns: calc(100% - 22rem) calc(22rem - 1rem) !important;
+    }
+}

@@ -27,5 +27,14 @@ export default function InputBirthBaby({ day, month, year, onAccept, ...rest }: 
         [onAccept]
     );
 
-    return <FormControl value={dateStr} onChange={handleOnChange} as={IMaskInput} type="date" {...rest} />;
+    return (
+        <FormControl
+            className={"rounded-4 " + rest.className}
+            value={dateStr}
+            onChange={handleOnChange}
+            as={IMaskInput}
+            type="date"
+            {...rest}
+        />
+    );
 }

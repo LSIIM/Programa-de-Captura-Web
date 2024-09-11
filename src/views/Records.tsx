@@ -4,7 +4,7 @@ import LayoutGridList from "../layouts/gridList";
 
 export default function Records() {
     //HOOKS
-    const { recordings, isReading } = useRecording({ triggerUseEffect: true });
+    const { recordings, isReading } = useRecording({ enableRead: true });
 
     return (
         <LayoutGridList.Root>
@@ -14,7 +14,7 @@ export default function Records() {
             </LayoutGridList.Header>
             <LayoutGridList.Body isLoading={isReading}>
                 {recordings.map((record) => (
-                    <CardRecord key={record.id_recording}></CardRecord>
+                    <CardRecord record={record} key={record.id_recording}></CardRecord>
                 ))}
             </LayoutGridList.Body>
         </LayoutGridList.Root>

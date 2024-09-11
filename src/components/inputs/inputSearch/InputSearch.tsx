@@ -20,8 +20,8 @@ export default function InputSearch({ value, onAccept, error, ...rest }: InputSe
 
     return (
         <InputGroup className="mb-3">
-            <FormControl type={"text"} onChange={handleOnChange} as={IMaskInput} {...rest} />
-            <InputGroup.Text className={rest.className + " rounded-end"}>
+            <FormControl className="rounded-start-4" type={"text"} onChange={handleOnChange} as={IMaskInput} {...rest} />
+            <InputGroup.Text className={rest.className + " rounded-end-4"}>
                 <i className={"bi bi-search"} />
             </InputGroup.Text>
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>

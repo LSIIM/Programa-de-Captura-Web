@@ -6,7 +6,7 @@ export interface BabysTableProps {
 
 export default function BabysTable(props: BabysTableProps) {
     return (
-        <table className="w-100 my-table rounded-3">
+        <table className="w-100 my-table rounded-4">
             <thead>
                 <tr>
                     <th>Nome</th>

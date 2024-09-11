@@ -50,6 +50,7 @@ export default function FormBaby(props: FormBabyProps) {
                             <Form.Group className="mb-2" as={Col} sm="7" lg="8" controlId={v4()}>
                                 <Form.Label>Nome do bebê</Form.Label>
                                 <Form.Control
+                                    className="rounded-4"
                                     name="name"
                                     onChange={handleChange}
                                     value={values.name}
@@ -57,9 +58,10 @@ export default function FormBaby(props: FormBabyProps) {
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="5" lg="4" controlId={v4()}>
+                            <Form.Group as={Col} sm="5" lg="4" controlId={v4()} className="mb-2">
                                 <Form.Label>Prematuro?</Form.Label>
                                 <Form.Select
+                                    className="rounded-4"
                                     name="is_prem"
                                     onChange={(e) =>
                                         setValues({ ...values, is_prem: e.target.value === "Sim" ? true : false })

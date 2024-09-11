@@ -11,7 +11,7 @@ export interface RegisterBabyModalProps extends ModalProps {
 
 export default function RegisterBabyModal({ onSuccessEdit, ...props }: RegisterBabyModalProps) {
     //HOOKS
-    const { handleOnCreateBaby } = useBaby({ triggerUseEffect: false });
+    const { handleOnCreateBaby } = useBaby({ enableRead: false });
 
     //EVENTOS
     const handleOnSubmitNewBaby = useCallback(

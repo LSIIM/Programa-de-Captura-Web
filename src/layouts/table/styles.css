@@ -8,7 +8,6 @@
 .my-layout-table-header {
     height: var(--layout-table-height-header);
     width: 100%;
-    --layout-table-width-button: max-content;
 }
 .my-layout-table-search {
     width: 25rem;
@@ -19,15 +18,18 @@
 }
 
 .my-layout-table-body {
-    width: 100%;
+    width: 100% !important;
 }
 
 @media (max-width: 576px) {
     .my-layout-table-button {
-        position: fixed;
+        position: fixed !important;
         bottom: 1rem;
         right: 1rem;
         box-shadow: auto;
+    }
+    .my-layout-table-search {
+        width: 100% !important;
     }
 }
 @media (min-width: 576px) {

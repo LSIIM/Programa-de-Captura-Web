@@ -4,7 +4,7 @@ import { tNewBaby } from "../components/forms/formBaby/FormBaby";
 
 let abortController: AbortController | undefined;
 
-export default function useBaby({ triggerUseEffect }: { triggerUseEffect: boolean }) {
+export default function useBaby({ enableRead }: { enableRead: boolean }) {
     //STATES
     const [babys, setBabys] = useState<tBaby[]>([]);
 
@@ -14,29 +14,31 @@ export default function useBaby({ triggerUseEffect }: { triggerUseEffect: boolea
     const [isCreating, setIsCreating] = useState(false);
 
     //EVENTS
-    const handleOnReadBabys = useCallback(async (signal?: AbortSignal) => {
-        try {
-            setIsReading(true);
-            //TODO: Implementar a lógica de carregar dados dos bebês.
-            const babys = await new Promise<tBaby[]>((resolve) => setTimeout(() => resolve(_babys), 500));
-            setBabys(babys);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsReading(false);
-        }
-    }, []);
+    const handleOnReadBabys = useCallback(
+        async (signal?: AbortSignal) => {
+            if (!enableRead) return;
+            try {
+                setIsReading(true);
+                //TODO: Implementar a lógica de carregar dados dos bebês.
+                const babys = await new Promise<tBaby[]>((resolve) => setTimeout(() => resolve(_babys), 500));
+                setBabys(babys);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setIsReading(false);
+            }
+        },
+        [enableRead]
+    );
 
     useEffect(() => {
-        if (!triggerUseEffect) return;
-
         abortController = new AbortController();
         const signal = abortController.signal;
 
         handleOnReadBabys(signal);
 
         return () => abortController?.abort();
-    }, [triggerUseEffect, handleOnReadBabys]);
+    }, [handleOnReadBabys]);
 
     const handleOnUpdateBaby = useCallback(async (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => {
         try {

@@ -1,4 +1,3 @@
-import { Col } from "react-bootstrap";
 import { LayoutTable } from "../layouts";
 import { useCallback, useState } from "react";
 import { BabysTable, RegisterBabyModal } from "../components";
@@ -6,7 +5,7 @@ import { useBaby } from "../hooks";
 
 export default function Babys() {
     //HOOKS
-    const { babys, isReading, handleOnReadBabys } = useBaby({ triggerUseEffect: true });
+    const { babys, isReading, handleOnReadBabys } = useBaby({ enableRead: true });
 
     //STATES
     const [search, setSearch] = useState("");
@@ -34,9 +33,7 @@ export default function Babys() {
                     </LayoutTable.Button>
                 </LayoutTable.Header>
                 <LayoutTable.Body isLoading={isReading}>
-                    <Col sm="12">
-                        <BabysTable babys={filterBabys} />
-                    </Col>
+                    <BabysTable babys={filterBabys} />
                 </LayoutTable.Body>
             </LayoutTable.Root>
 
