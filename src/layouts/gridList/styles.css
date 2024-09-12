@@ -10,6 +10,7 @@
 
 .my-layout-grid-list-header {
     height: var(--layout-grid-list-height-header);
+    width: 100% !important;
 }
 
 .my-layout-grid-list-body {

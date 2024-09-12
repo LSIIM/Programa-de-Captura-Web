@@ -29,7 +29,11 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
                     popper: _popper,
                     hasDoneInitialMeasure: _hasDoneInitialMeasure,
                     ...props
-                }) => <div className="shadow rounded" {...props}>{children}</div>}
+                }) => (
+                    <div className="shadow rounded" {...props}>
+                        {children}
+                    </div>
+                )}
             </Overlay>
         </>
     );

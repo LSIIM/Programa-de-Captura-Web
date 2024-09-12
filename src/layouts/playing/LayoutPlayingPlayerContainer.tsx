@@ -7,5 +7,5 @@ export interface LayoutPlayingPlayerContainerProps {
 }
 
 export default function LayoutPlayingPlayerContainer(props: LayoutPlayingPlayerContainerProps) {
-    return <Stack className="my-layout-playing-player-container d-flex w-100">{props.children}</Stack>;
+    return <Stack className="my-layout-playing-player-container d-flex">{props.children}</Stack>;
 }

@@ -7,9 +7,5 @@ export interface LayoutTableRootProps {
 }
 
 export default function LayoutTableRoot(props: LayoutTableRootProps) {
-    return (
-        <div className="my-layout-table-root d-flex w-100 justify-content-center">
-            <Stack className="my-max-width d-flex w-100">{props.children}</Stack>
-        </div>
-    );
+    return <Stack className="my-layout-table-root d-flex w-100 align-items-center">{props.children}</Stack>;
 }
