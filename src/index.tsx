@@ -2,17 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import Router from "./router";
+import { SystemProvider } from "./contexts";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./custom.scss";
 import "./styles.css";
-import { SystemContextProvider } from "./contexts";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
     <React.StrictMode>
-        <SystemContextProvider>
+        <SystemProvider>
             <Router />
-        </SystemContextProvider>
+        </SystemProvider>
     </React.StrictMode>
 );
 

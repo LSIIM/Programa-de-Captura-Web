@@ -1,13 +1,12 @@
 import { useState } from "react";
 import LayoutPlaying from "../layouts/playing";
-import { useBaby, useRecording } from "../hooks";
+import { useRecording } from "../hooks";
 import { CardRecord } from "../components";
 
 export default function PlayingRecord() {
     //HOOKS
     const { recordings: otherRecordings, isReading: isReadingOtherRecordings } = useRecording({ enableRead: true });
     const { isReading: isReadingRecord } = useRecording({ enableRead: true });
-    const { isReading: isReadingBaby } = useBaby({ enableRead: true });
 
     //STATES
     const [recordReadyToPlay, setRecordReadyToPlay] = useState(false);
@@ -15,13 +14,12 @@ export default function PlayingRecord() {
     //STATES
     const [search, setSearch] = useState("");
 
-    console.log(recordReadyToPlay);
     return (
         <LayoutPlaying.Root>
             <LayoutPlaying.PlayerContainer>
                 <LayoutPlaying.Player
-                    loadingRecord={isReadingRecord || !recordReadyToPlay}
-                    loadingInfo={isReadingBaby}
+                    loadingRecord={!recordReadyToPlay}
+                    loadingInfo={isReadingRecord}
                     onReady={() => setRecordReadyToPlay(true)}
                 >
                     <h5 className="mb-0">Nome do bebê | Projeto X | Movimento Y</h5>

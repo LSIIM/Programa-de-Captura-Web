@@ -19,7 +19,8 @@ import InputBirthBaby from "./inputs/inputBirthBaby/InputBirthBaby";
 import TextLink from "./links/TextLink/TextLink";
 
 //MODALS
-import RegisterBabyModal from "./modals/RegisterBabyModal.tsx/RegisterBabyModal";
+import ManageBabyModal from "./modals/ManageBabyModal/ManageBabyModal";
+import BabyInfoModal from "./modals/BabyInfoModal/BabyInfoModal";
 
 //TABLES
 import BabysTable from "./tables/BabysTable";
@@ -46,7 +47,8 @@ export {
     TextLink,
 
     //MODALS
-    RegisterBabyModal,
+    ManageBabyModal,
+    BabyInfoModal,
 
     //TABLES
     BabysTable,

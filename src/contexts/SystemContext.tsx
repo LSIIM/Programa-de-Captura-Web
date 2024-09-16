@@ -6,7 +6,7 @@ const ATTRIBUTE_THEME = "data-bs-theme";
 
 //TYPES
 export type tLightMode = "light" | "dark";
-export interface SystemContextProviderProps {
+export interface SystemProviderProps {
     children?: ReactNode;
 }
 
@@ -19,7 +19,7 @@ interface SystemContextProps {
 //CONTEXT
 export const SystemContext = createContext<SystemContextProps>({ lightMode: "light", useToggleLightMode: () => {} });
 
-export default function SystemContextProvider(props: SystemContextProviderProps) {
+export default function SystemProvider(props: SystemProviderProps) {
     //STATES
     const [lightMode, setLightMode] = useState<tLightMode>(myStorage.userPreferences.getLightMode());
 

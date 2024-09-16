@@ -26,9 +26,8 @@ export default function FormBaby(props: FormBabyProps) {
                 helpers.setSubmitting(true);
                 await onSubmit(newBaby);
                 helpers.resetForm();
-            } catch (err) {
-                //TODO: Mostrar feedback visual do erro
-                console.error(err);
+            } catch (errMsg) {
+                alert(errMsg);
             } finally {
                 helpers.setSubmitting(false);
             }

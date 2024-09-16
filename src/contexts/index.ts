@@ -1,3 +1,4 @@
-import SystemContextProvider from "./SystemContext";
+import SystemProvider from "./SystemContext";
+import BabyProvider from "./BabyContext";
 
-export { SystemContextProvider };
+export { SystemProvider, BabyProvider };

@@ -1,11 +1,11 @@
 import { LayoutTable } from "../layouts";
-import { useCallback, useState } from "react";
-import { BabysTable, RegisterBabyModal } from "../components";
-import { useBaby } from "../hooks";
+import { useCallback, useContext, useState } from "react";
+import { BabysTable, ManageBabyModal } from "../components";
+import { BabyContext } from "../contexts/BabyContext";
 
 export default function Babys() {
-    //HOOKS
-    const { babys, isReading, handleOnReadBabys } = useBaby({ enableRead: true });
+    //CONTEXTS
+    const { babys, readingBabys } = useContext(BabyContext);
 
     //STATES
     const [search, setSearch] = useState("");
@@ -18,10 +18,6 @@ export default function Babys() {
     //EVENTS
     const handleOnClickRegister = useCallback(() => setShowRegisterBabyModal(true), []);
     const handleOnHideModal = useCallback(() => setShowRegisterBabyModal(false), []);
-    const handleOnSuccessEdit = useCallback(() => {
-        handleOnHideModal();
-        handleOnReadBabys();
-    }, [handleOnHideModal, handleOnReadBabys]);
 
     return (
         <>
@@ -32,15 +28,15 @@ export default function Babys() {
                         Cadastrar
                     </LayoutTable.Button>
                 </LayoutTable.Header>
-                <LayoutTable.Body isLoading={isReading}>
+                <LayoutTable.Body isLoading={readingBabys}>
                     <BabysTable babys={filterBabys} />
                 </LayoutTable.Body>
             </LayoutTable.Root>
 
-            <RegisterBabyModal
+            <ManageBabyModal
+                initialValues={{ name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: false }}
                 show={showRegisterBabyModal}
                 onHide={handleOnHideModal}
-                onSuccessEdit={handleOnSuccessEdit}
             />
         </>
     );
