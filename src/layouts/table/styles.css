@@ -8,6 +8,7 @@
 .my-layout-table-header {
     height: var(--layout-table-height-header);
     width: 100%;
+    max-width: 1200px;
 }
 .my-layout-table-search {
     width: 25rem;
@@ -19,6 +20,7 @@
 
 .my-layout-table-body {
     width: 100% !important;
+    max-width: 1200px;
 }
 
 @media (max-width: 576px) {

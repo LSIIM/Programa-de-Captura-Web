@@ -11,10 +11,12 @@
 .my-layout-grid-list-header {
     height: var(--layout-grid-list-height-header);
     width: 100% !important;
+    max-width: 1200px;
 }
 
 .my-layout-grid-list-body {
     width: 100%;
+    max-width: 1200px;
 }
 
 .my-layout-grid-list-filters {

@@ -45,7 +45,7 @@ export default function CardRecord({ record }: CardRecordProps) {
                                     Reproduzir
                                 </ListGroup.Item>
                                 <ListGroup.Item onClick={handleOnClickPlayProcessedVideo}>
-                                    <i className="bi bi-gear" />
+                                    <i className="bi bi-play-circle-fill" />
                                     Reproduzir processado
                                 </ListGroup.Item>
                                 <ListGroup.Item onClick={handleOnClickProcess}>
