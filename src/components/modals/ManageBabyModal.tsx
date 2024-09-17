@@ -1,19 +1,20 @@
 import { Button, Modal, ModalProps, Spinner } from "react-bootstrap";
-import FormBaby, { tNewBaby } from "../../forms/formBaby/FormBaby";
-import { useCallback, useContext } from "react";
-import { BabyContext } from "../../../contexts/BabyContext";
-import { tBaby, tPartialEntity } from "../../../interfaces";
+import FormBaby, { tNewBaby } from "../forms/formBaby/FormBaby";
+import { useCallback } from "react";
+import { tBaby, tPartialEntity } from "../../interfaces";
+import useBaby from "../../hooks/useBaby";
 
 const FORM_BABY_ID = "form-register-baby";
 
 export interface ManageBabyModalProps extends ModalProps {
     babyId?: number;
     initialValues: tNewBaby;
+    onSuccess?: () => void;
 }
 
-export default function ManageBabyModal({ onHide, initialValues, babyId, ...props }: ManageBabyModalProps) {
-    //CONTEXTS
-    const { createBaby, updateBaby, readBabys, creatingBaby, updatingBaby } = useContext(BabyContext);
+export default function ManageBabyModal({ onHide, onSuccess, initialValues, babyId, ...props }: ManageBabyModalProps) {
+    //HOOKS
+    const { createBaby, updateBaby, isCreating, isUpdating } = useBaby();
 
     //EVENTOS
     const handleOnEdit = useCallback(
@@ -21,14 +22,12 @@ export default function ManageBabyModal({ onHide, initialValues, babyId, ...prop
             try {
                 await updateBaby(baby);
                 alert("Bebê editado com sucesso.");
-                if (onHide) onHide();
-                //Atualiza os bebês caso der tudo certo (Um erro ao buscar não deve parar o reset do Form)
-                readBabys().catch((errMsg) => alert(errMsg));
+                if (onSuccess) onSuccess();
             } catch (errMsg) {
                 throw errMsg; //Necessário para o Form não resetar
             }
         },
-        [updateBaby, readBabys, onHide]
+        [updateBaby, onSuccess]
     );
 
     const handleOnCreate = useCallback(
@@ -36,19 +35,22 @@ export default function ManageBabyModal({ onHide, initialValues, babyId, ...prop
             try {
                 await createBaby(baby);
                 alert("Bebê cadastrado com sucesso.");
-                //Atualiza os bebês caso der tudo certo (Um erro ao buscar não deve parar o reset do Form)
-                readBabys().catch((errMsg) => alert(errMsg));
+                if (onSuccess) onSuccess();
             } catch (errMsg) {
-                throw errMsg;
+                throw errMsg; //Necessário para o form não resetar
             }
         },
-        [createBaby, readBabys]
+        [createBaby, onSuccess]
     );
 
     const handleOnSubmit = useCallback(
-        (baby: tNewBaby) => {
-            if (babyId !== undefined) return handleOnEdit({ id_baby: babyId, ...baby });
-            handleOnCreate(baby);
+        async (baby: tNewBaby) => {
+            try {
+                if (babyId !== undefined) await handleOnEdit({ id_baby: babyId, ...baby });
+                else await handleOnCreate(baby);
+            } catch (err) {
+                throw err; //Necessário para o FORM não resetar.
+            }
         },
         [handleOnEdit, handleOnCreate, babyId]
     );
@@ -66,8 +68,8 @@ export default function ManageBabyModal({ onHide, initialValues, babyId, ...prop
                     Cancelar
                 </Button>
                 <Button type="submit" form={FORM_BABY_ID} className="rounded-pill">
-                    <span className="me-2">{babyId !== undefined ? "Editar" : "Cadastrar"}</span>
-                    {(updatingBaby || creatingBaby) && <Spinner animation="grow" size="sm" />}
+                    <span>{babyId !== undefined ? "Editar" : "Cadastrar"}</span>
+                    {(isUpdating || isCreating) && <Spinner className="ms-2" animation="grow" size="sm" />}
                 </Button>
             </Modal.Footer>
         </Modal>

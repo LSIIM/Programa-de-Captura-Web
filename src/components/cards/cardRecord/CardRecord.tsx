@@ -1,27 +1,23 @@
 import { ListGroup, Stack } from "react-bootstrap";
-import { tRecordings } from "../../../interfaces";
+import { tRecording } from "../../../interfaces";
 import { useCallback } from "react";
 import MenuButton from "../../buttons/menuButton/MenuButton";
-import { useNavigate } from "react-router-dom";
 import { routes } from "../../../router";
 import "./styles.css";
 
 export interface CardRecordProps {
-    record: tRecordings;
+    record: tRecording;
 }
 
 export default function CardRecord({ record }: CardRecordProps) {
-    //HOOKS
-    const navigate = useNavigate();
-
     //EVENTS
     const handleOnClickPlay = useCallback(() => {
-        navigate(routes.playingRecord.replace(":id", record.id_recording.toString()));
-    }, [navigate, record]);
+        window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
+    }, [record]);
 
     const handleOnClickPlayProcessedVideo = useCallback(() => {
-        navigate(routes.playingRecord.replace(":id", record.id_recording.toString()));
-    }, [navigate, record]);
+        window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
+    }, [record]);
 
     const handleOnClickProcess = useCallback(() => {}, []);
 

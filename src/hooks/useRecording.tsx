@@ -1,93 +1,148 @@
-import { useCallback, useEffect, useState } from "react";
-import { tPartialEntity, tRecordings } from "../interfaces";
+import { useCallback, useState } from "react";
+import { tRecording } from "../interfaces";
 
 let abortController: AbortController | undefined;
-
-export default function useRecording({ enableRead }: { enableRead: boolean }) {
+export default function useRecording() {
     //STATES
-    const [recordings, setRecordings] = useState<tRecordings[]>([]);
-
+    const [isFinding, setIsFinding] = useState(false);
     const [isReading, setIsReading] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
+    const [errorToRead, setErrorToRead] = useState(false);
+    const [errorToGet, setErrorToGet] = useState(false);
 
     //EVENTS
-    const handleOnReadRecordings = useCallback(
-        async (signal?: AbortSignal) => {
-            if (!enableRead) return;
-            try {
-                setIsReading(true);
-                //TODO: Implementar a lógica de carregar dados das gravações.
-                const recordings = await new Promise<tRecordings[]>((resolve) =>
-                    setTimeout(() => resolve(_recordings), 500)
-                );
-                setRecordings(recordings);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setIsReading(false);
-            }
-        },
-        [enableRead]
-    );
-
-    useEffect(() => {
+    const readRecordings = useCallback(async () => {
+        //TODO: Implementar o controle de signal
         abortController = new AbortController();
         const signal = abortController.signal;
 
-        handleOnReadRecordings(signal);
-
-        return () => abortController?.abort();
-    }, [handleOnReadRecordings]);
-
-    const handleOnUpdateRecording = useCallback(async (recording: tPartialEntity<tRecordings, "id_recording">) => {
-        try {
-            setIsUpdating(true);
-            //TODO: Realizar lógica de editar gravação
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsUpdating(false);
-        }
+        return new Promise<tRecording[]>(async (resolve, reject) => {
+            try {
+                setIsReading(true);
+                //TODO: Implementar a lógica de carregar dados dos recordings.
+                const recordings = await new Promise<tRecording[]>((resolve) =>
+                    setTimeout(() => resolve(_recordings), 1000)
+                );
+                setErrorToRead(false);
+                resolve(recordings);
+            } catch (err: any) {
+                console.error(err);
+                setErrorToRead(true);
+                reject(err?.message ?? "Erro desconhecido ao buscar recordings");
+            } finally {
+                setIsReading(false);
+            }
+        });
     }, []);
 
-    const handleOnCreateRecording = useCallback(async (recording: any) => {
-        try {
-            setIsCreating(true);
-            //TODO: Realizar lógica de criar a gravação
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsCreating(false);
-        }
+    const getRecording = useCallback(async (id: number) => {
+        //TODO: Implementar o controle de signal
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
+        return new Promise<tRecording>(async (resolve, reject) => {
+            try {
+                setIsFinding(true);
+                //TODO: Implementar a lógica de carregar dados do recording.
+                const recording = await new Promise<tRecording>((resolve, reject) =>
+                    setTimeout(() => {
+                        const recordings = _recordings;
+                        const recording = recordings.find(({ id_recording }) => id_recording === id);
+                        if (recording) resolve(recording);
+                        else reject(new Error("A gravação não foi encontrada."));
+                    }, 1000)
+                );
+                setErrorToGet(false);
+                resolve(recording);
+            } catch (err: any) {
+                console.error(err);
+                setErrorToGet(true);
+                reject(err?.message ?? "Erro desconhecido ao buscar recordings");
+            } finally {
+                setIsFinding(false);
+            }
+        });
     }, []);
 
-    const handleOnDeleteRecording = useCallback(async (id: number) => {
-        try {
-            setIsDeleting(true);
-            //TODO: Realizar lógica de deletar a gravação
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsDeleting(false);
-        }
+    const updateRecording = useCallback(async (recording: any) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                setIsUpdating(true);
+                //TODO: Implementar lógica de editar recording
+                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                resolve();
+            } catch (err: any) {
+                console.error(err);
+                reject(err.message ?? "Erro desconhecido ao editar recording.");
+            } finally {
+                setIsUpdating(false);
+            }
+        });
     }, []);
+
+    const createRecording = useCallback(async (recording: any) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                setIsCreating(true);
+                //TODO: Realizar lógica de criar o recording
+                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                resolve();
+            } catch (err: any) {
+                console.error(err);
+                reject(err?.message ?? "Erro desconhecido ao criar recording.");
+            } finally {
+                setIsCreating(false);
+            }
+        });
+    }, []);
+
+    const deleteRecording = useCallback(async (recordingId: number) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                setIsDeleting(true);
+                //TODO: Realizar lógica de deletar o recording
+                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                resolve();
+            } catch (err: any) {
+                console.error(err);
+                reject(err?.message ?? "Erro desconhecido ao deletar recording.");
+            } finally {
+                setIsDeleting(false);
+            }
+        });
+    }, []);
+
+    const cancelProcess = useCallback(() => abortController?.abort(), []);
 
     return {
-        recordings,
-        handleOnReadRecordings,
-        handleOnUpdateRecording,
-        handleOnCreateRecording,
-        handleOnDeleteRecording,
+        getRecording,
+        createRecording,
+        updateRecording,
+        readRecordings,
+        deleteRecording,
+        cancelProcess,
+        isFinding,
         isReading,
         isCreating,
         isUpdating,
         isDeleting,
+        errorToRead,
+        errorToGet,
     };
 }
 
-const _recordings: tRecordings[] = [
+const _recordings: tRecording[] = [
     {
         id_recording: 0,
         fk_id_baby: 1,

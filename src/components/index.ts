@@ -19,8 +19,11 @@ import InputBirthBaby from "./inputs/inputBirthBaby/InputBirthBaby";
 import TextLink from "./links/TextLink/TextLink";
 
 //MODALS
-import ManageBabyModal from "./modals/ManageBabyModal/ManageBabyModal";
-import BabyInfoModal from "./modals/BabyInfoModal/BabyInfoModal";
+import ManageBabyModal from "./modals/ManageBabyModal";
+import BabyInfoModal from "./modals/BabyInfoModal";
+
+//OFFCANVAS
+import OffcanvasRecordingFilter from "./offcanvas/OffcanvasFilter";
 
 //TABLES
 import BabysTable from "./tables/BabysTable";
@@ -49,6 +52,9 @@ export {
     //MODALS
     ManageBabyModal,
     BabyInfoModal,
+
+    //OFFCANVAS
+    OffcanvasRecordingFilter,
 
     //TABLES
     BabysTable,

@@ -12,7 +12,7 @@ export interface LoggedLayoutProps {
 
 export default function LoggedLayout(props: LoggedLayoutProps) {
     //CONTEXTS
-    const { useToggleLightMode, lightMode } = useContext(SystemContext);
+    const { toggleLightMode, lightMode } = useContext(SystemContext);
 
     //EVENTS
     const handleOnClickLoggout = useCallback(async () => {
@@ -32,7 +32,7 @@ export default function LoggedLayout(props: LoggedLayoutProps) {
                 </div>
                 <div className="my-logged-layout-header-right d-flex p-1 justify-content-end gap-1">
                     <IconButton
-                        onClick={useToggleLightMode}
+                        onClick={toggleLightMode}
                         className="rounded-circle text-dark"
                         bootstrapIconName={lightMode === "light" ? "sun-fill" : "moon-fill"}
                         size="lg"

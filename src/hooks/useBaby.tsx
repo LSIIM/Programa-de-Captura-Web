@@ -1,76 +1,45 @@
-import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
-import { tNewBaby } from "../components/forms/formBaby/FormBaby";
+import { useCallback, useState } from "react";
 import { tBaby, tPartialEntity } from "../interfaces";
-
-//TYPES
-export interface BabyProviderProps {
-    children?: ReactNode;
-}
-
-//CONTEXT PROPS
-interface BabyContextProps {
-    babys: tBaby[];
-    readingBabys: boolean;
-    updatingBaby: boolean;
-    deletingBaby: boolean;
-    creatingBaby: boolean;
-    readBabys: () => Promise<void>;
-    updateBaby: (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => Promise<void>;
-    createBaby: (baby: tNewBaby) => Promise<void>;
-    deleteBaby: (babyId: number) => Promise<void>;
-}
-
-//CONTEXT
-export const BabyContext = createContext<BabyContextProps>({
-    babys: [],
-    readingBabys: false,
-    updatingBaby: false,
-    deletingBaby: false,
-    creatingBaby: false,
-    readBabys: async () => {},
-    updateBaby: async () => {},
-    createBaby: async () => {},
-    deleteBaby: async () => {},
-});
+import { tNewBaby } from "../components/forms/formBaby/FormBaby";
 
 let abortController: AbortController | undefined;
-export default function BabyProvider({ children }: BabyProviderProps) {
+export default function useBaby() {
     //STATES
-    const [babys, setBabys] = useState<tBaby[]>([]);
-    const [readingBabys, setReadingBabys] = useState(false);
-    const [updatingBaby, setUpdatingBaby] = useState(false);
-    const [deletingBaby, setDeletingBaby] = useState(false);
-    const [creatingBaby, setCreatingBaby] = useState(false);
+    const [isReading, setIsReading] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
+    const [errorToRead, setErrorToRead] = useState(false);
 
     //EVENTS
-    const readBabys = useCallback(async () => {
-        //TODO: Implementar o controle de signal
+    const readBabys = useCallback(() => {
         abortController = new AbortController();
-        return new Promise<void>(async (resolve, reject) => {
+        const signal = abortController.signal;
+
+        return new Promise<tBaby[]>(async (resolve, reject) => {
             try {
-                setReadingBabys(true);
+                setIsReading(true);
                 //TODO: Implementar a lógica de carregar dados dos bebês.
                 const babys = await new Promise<tBaby[]>((resolve) => setTimeout(() => resolve(_babys), 1000));
-                setBabys(babys);
-                resolve();
+                setErrorToRead(false);
+                resolve(babys);
             } catch (err: any) {
+                setErrorToRead(true);
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao buscar bebês");
+                reject(err?.message ?? "Erro ao encontrar bebês.");
             } finally {
-                setReadingBabys(false);
+                setIsReading(false);
             }
         });
     }, []);
 
-    useEffect(() => {
-        readBabys().catch(() => {});
-        return () => abortController?.abort();
-    }, [readBabys]);
-
     const updateBaby = useCallback(async (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
         return new Promise<void>(async (resolve, reject) => {
             try {
-                setUpdatingBaby(true);
+                setIsUpdating(true);
                 //TODO: Implementar lógica de editar bebês
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
@@ -78,15 +47,18 @@ export default function BabyProvider({ children }: BabyProviderProps) {
                 console.error(err);
                 reject(err.message ?? "Erro desconhecido ao editar bebê.");
             } finally {
-                setUpdatingBaby(false);
+                setIsUpdating(false);
             }
         });
     }, []);
 
     const createBaby = useCallback(async (baby: tNewBaby) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
         return new Promise<void>(async (resolve, reject) => {
             try {
-                setCreatingBaby(true);
+                setIsCreating(true);
                 //TODO: Realizar lógica de criar o bebê
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
@@ -94,15 +66,18 @@ export default function BabyProvider({ children }: BabyProviderProps) {
                 console.error(err);
                 reject(err?.message ?? "Erro desconhecido ao criar bebê.");
             } finally {
-                setCreatingBaby(false);
+                setIsCreating(false);
             }
         });
     }, []);
 
     const deleteBaby = useCallback(async (babyId: number) => {
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
         return new Promise<void>(async (resolve, reject) => {
             try {
-                setDeletingBaby(true);
+                setIsDeleting(true);
                 //TODO: Realizar lógica de deletar o bebê
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
@@ -110,28 +85,25 @@ export default function BabyProvider({ children }: BabyProviderProps) {
                 console.error(err);
                 reject(err?.message ?? "Erro desconhecido ao deletar bebê.");
             } finally {
-                setDeletingBaby(false);
+                setIsDeleting(false);
             }
         });
     }, []);
 
-    return (
-        <BabyContext.Provider
-            value={{
-                babys,
-                readBabys,
-                createBaby,
-                updateBaby,
-                deleteBaby,
-                deletingBaby,
-                readingBabys,
-                updatingBaby,
-                creatingBaby,
-            }}
-        >
-            {children}
-        </BabyContext.Provider>
-    );
+    const cancelProcess = useCallback(() => abortController?.abort(), []);
+
+    return {
+        readBabys,
+        updateBaby,
+        deleteBaby,
+        createBaby,
+        cancelProcess,
+        isReading,
+        isCreating,
+        isUpdating,
+        isDeleting,
+        errorToRead,
+    };
 }
 
 const _babys: tBaby[] = [

@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
 import { Babys, Login, PlayingRecord, Records } from "./views";
 import { DefaultLayout, LoggedLayout } from "./layouts";
-import { BabyProvider } from "./contexts";
 
 export const routes = {
     login: "/login",
@@ -27,14 +26,7 @@ export default function Router() {
             element: <LoggedLayout children={<Outlet />} />,
             children: [
                 { index: true, element: <Navigate to={routes.listBabys} /> },
-                {
-                    path: routes.listBabys,
-                    element: (
-                        <BabyProvider>
-                            <Babys />
-                        </BabyProvider>
-                    ),
-                },
+                { path: routes.listBabys, element: <Babys /> },
                 { path: routes.listRecords, element: <Records /> },
                 { path: routes.playingRecord, element: <PlayingRecord /> },
             ],

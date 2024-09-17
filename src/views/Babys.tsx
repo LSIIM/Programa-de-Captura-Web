@@ -1,42 +1,74 @@
 import { LayoutTable } from "../layouts";
-import { useCallback, useContext, useState } from "react";
-import { BabysTable, ManageBabyModal } from "../components";
-import { BabyContext } from "../contexts/BabyContext";
+import { useCallback, useEffect, useState } from "react";
+import { BabyInfoModal, BabysTable, ManageBabyModal } from "../components";
+import useBaby from "../hooks/useBaby";
+import { tBaby } from "../interfaces";
 
 export default function Babys() {
-    //CONTEXTS
-    const { babys, readingBabys } = useContext(BabyContext);
+    //HOOKS
+    const { cancelProcess, readBabys, isReading } = useBaby();
 
     //STATES
+    const [babys, setBabys] = useState<tBaby[]>([]);
+    const [babySelected, setBabySelected] = useState<tBaby | null>(null);
+    const [showManageBabyModal, setShowManageBabyModal] = useState(false);
+
     const [search, setSearch] = useState("");
-    const [showRegisterBabyModal, setShowRegisterBabyModal] = useState(false);
 
     //VARIABLES
     const filterBabys =
         search === "" ? babys : babys.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()));
 
     //EVENTS
-    const handleOnClickRegister = useCallback(() => setShowRegisterBabyModal(true), []);
-    const handleOnHideModal = useCallback(() => setShowRegisterBabyModal(false), []);
+    useEffect(() => {
+        //TODO: Melhorar feedback
+        readBabys()
+            .then((babys) => setBabys(babys))
+            .catch((errMsg) => alert(errMsg));
+
+        return () => cancelProcess();
+    }, [readBabys, cancelProcess]);
+
+    const handleOnClickRegisterOrEdit = useCallback(() => setShowManageBabyModal(true), []);
+    const handleOnHideModal = useCallback(() => setShowManageBabyModal(false), []);
+
+    const handleOnSuccessManage = useCallback(() => {
+        readBabys()
+            .then((babys) => setBabys(babys))
+            .catch((errMsg) => alert(errMsg));
+        setBabySelected(null);
+        setShowManageBabyModal(false);
+    }, [readBabys]);
 
     return (
         <>
             <LayoutTable.Root>
                 <LayoutTable.Header>
                     <LayoutTable.Search value={search} onAccept={setSearch} />
-                    <LayoutTable.Button className="rounded-pill shadow" onClick={handleOnClickRegister}>
+                    <LayoutTable.Button className="rounded-pill shadow" onClick={handleOnClickRegisterOrEdit}>
                         Cadastrar
                     </LayoutTable.Button>
                 </LayoutTable.Header>
-                <LayoutTable.Body isLoading={readingBabys}>
-                    <BabysTable babys={filterBabys} />
+                <LayoutTable.Body isLoading={isReading}>
+                    <BabysTable babys={filterBabys} onClickBaby={setBabySelected} />
                 </LayoutTable.Body>
             </LayoutTable.Root>
 
             <ManageBabyModal
-                initialValues={{ name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: false }}
-                show={showRegisterBabyModal}
+                initialValues={
+                    babySelected ?? { name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: false }
+                }
+                babyId={babySelected?.id_baby}
+                show={showManageBabyModal}
                 onHide={handleOnHideModal}
+                onSuccess={handleOnSuccessManage}
+            />
+
+            <BabyInfoModal
+                show={babySelected !== null && !showManageBabyModal}
+                baby={babySelected}
+                onHide={() => setBabySelected(null)}
+                onClickEdit={handleOnClickRegisterOrEdit}
             />
         </>
     );

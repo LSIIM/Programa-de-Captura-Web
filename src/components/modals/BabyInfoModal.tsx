@@ -1,42 +1,36 @@
-import { Button, Col, Modal, ModalProps, Row, Stack } from "react-bootstrap";
-import { tBaby } from "../../../interfaces";
-import { useCallback, useContext, useState } from "react";
-import ManageBabyModal from "../ManageBabyModal/ManageBabyModal";
-import { BabyContext } from "../../../contexts/BabyContext";
+import { Button, Col, Modal, ModalProps, Row, Spinner, Stack } from "react-bootstrap";
+import { tBaby } from "../../interfaces";
+import { useCallback } from "react";
+import useBaby from "../../hooks/useBaby";
 
 export interface BabyInfoModalProps extends ModalProps {
     baby?: tBaby | null;
+    onClickDelete?: () => void;
+    onClickEdit?: () => void;
 }
 
-export default function BabyInfoModal({ baby, onHide, ...rest }: BabyInfoModalProps) {
-    //CONTEXT
-    const { deleteBaby, readBabys } = useContext(BabyContext);
-
-    //STATES
-    const [showEditModal, setShowEditModal] = useState(false);
+export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit, ...rest }: BabyInfoModalProps) {
+    //HOOKS
+    const { deleteBaby, isDeleting } = useBaby();
 
     //EVENTS
-    const handleOnDelete = useCallback(async () => {
+    const handleOnClickDelete = useCallback(async () => {
         if (!baby) return;
-        try {
-            const wantDelete = window.confirm(
-                "Deseja mesmo deletar este bebê? Todos seus dados e vídeos serão perdidos."
-            );
-            if (!wantDelete) return;
+        const canDelete = window.confirm("Tem certeza que deseja deletar o bebê?");
+        if (!canDelete) return;
 
+        try {
             await deleteBaby(baby.id_baby);
-            alert("Bebê deletado!");
+            alert("Bebê deletado");
             if (onHide) onHide();
-            //Atualiza os bebês se tudo der certo (Um erro ao buscar os bebes não deve ser lidado no catch do delete)
-            readBabys().catch((errMsg) => alert(errMsg));
-        } catch (errMsg) {
-            alert(errMsg);
+        } catch (err: any) {
+            alert(err?.message ?? "Erro ao deletar bebê");
         }
-    }, [readBabys, baby, onHide]);
+    }, [baby, onHide, deleteBaby]);
 
     return (
         <>
-            <Modal {...rest} show={baby !== undefined && baby !== null} onHide={onHide}>
+            <Modal {...rest} onHide={onHide}>
                 <Modal.Header closeButton>
                     <h5 className="m-0">Informações do bebê</h5>
                 </Modal.Header>
@@ -68,11 +62,12 @@ export default function BabyInfoModal({ baby, onHide, ...rest }: BabyInfoModalPr
                         </Col>
                         <Col sm="12" className="user-select-none mt-2">
                             <div className="d-flex gap-3 justify-content-center">
-                                <span role="button" className="text-primary" onClick={() => setShowEditModal(true)}>
+                                <span role="button" className="text-primary" onClick={onClickEdit}>
                                     <i className="bi bi-pencil-square" /> Editar
                                 </span>
-                                <span role="button" className="text-danger" onClick={handleOnDelete}>
+                                <span role="button" className="text-danger" onClick={handleOnClickDelete}>
                                     <i className="bi bi-trash3-fill" /> Deletar
+                                    {isDeleting && <Spinner size="sm" className="ms-2" animation="grow" />}
                                 </span>
                             </div>
                         </Col>
@@ -84,21 +79,6 @@ export default function BabyInfoModal({ baby, onHide, ...rest }: BabyInfoModalPr
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            {baby && (
-                <ManageBabyModal
-                    onHide={() => setShowEditModal(false)}
-                    show={showEditModal}
-                    babyId={baby.id_baby}
-                    initialValues={{
-                        name: baby.name,
-                        birth_day: baby.birth_day,
-                        birth_month: baby.birth_month,
-                        birth_year: baby.birth_year,
-                        is_prem: baby.is_prem,
-                    }}
-                />
-            )}
         </>
     );
 }

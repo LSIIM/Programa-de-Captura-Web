@@ -13,11 +13,11 @@ export interface SystemProviderProps {
 //CONTEXT PROPS
 interface SystemContextProps {
     lightMode: tLightMode;
-    useToggleLightMode: () => void;
+    toggleLightMode: () => void;
 }
 
 //CONTEXT
-export const SystemContext = createContext<SystemContextProps>({ lightMode: "light", useToggleLightMode: () => {} });
+export const SystemContext = createContext<SystemContextProps>({ lightMode: "light", toggleLightMode: () => {} });
 
 export default function SystemProvider(props: SystemProviderProps) {
     //STATES
@@ -35,7 +35,7 @@ export default function SystemProvider(props: SystemProviderProps) {
         return () => {};
     }, [handleOnLightMode]);
 
-    const useToggleLightMode = useCallback(() => {
+    const toggleLightMode = useCallback(() => {
         const currentMode = myStorage.userPreferences.getLightMode();
         const newMode: tLightMode = currentMode === "dark" ? "light" : "dark";
 
@@ -45,5 +45,5 @@ export default function SystemProvider(props: SystemProviderProps) {
         setLightMode(newMode);
     }, []);
 
-    return <SystemContext.Provider value={{ lightMode, useToggleLightMode }}>{props.children}</SystemContext.Provider>;
+    return <SystemContext.Provider value={{ lightMode, toggleLightMode }}>{props.children}</SystemContext.Provider>;
 }

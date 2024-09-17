@@ -17,7 +17,7 @@ export type tMovs = {
 };
 
 //RECORDINGS
-export type tRecordings = {
+export type tRecording = {
     id_recording: number;
     ignore: boolean;
     observation: string;
