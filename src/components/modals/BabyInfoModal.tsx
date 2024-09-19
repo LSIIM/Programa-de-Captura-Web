@@ -30,19 +30,25 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
 
     return (
         <>
-            <Modal {...rest} onHide={onHide}>
+            <Modal {...rest} onHide={onHide} centered>
                 <Modal.Header closeButton>
                     <h5 className="m-0">Informações do bebê</h5>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        <Col sm="12" className="mb-2">
+                        <Col sm="7" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Nome do bebê</small>
                                 <span>{baby?.name}</span>
                             </Stack>
                         </Col>
-                        <Col sm="6" className="mb-2">
+                        <Col sm="5" className="mb-2">
+                            <Stack className="d-flex w-100">
+                                <small>Prematuro?</small>
+                                <span>{baby?.is_prem ? "Sim" : "Não"}</span>
+                            </Stack>
+                        </Col>
+                        <Col sm="7" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Data de nascimento</small>
                                 <span>
@@ -54,12 +60,21 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
                                 </span>
                             </Stack>
                         </Col>
-                        <Col sm="6" className="mb-2">
+
+                        <Col sm="5" className="mb-2">
                             <Stack className="d-flex w-100">
-                                <small>Prematuro?</small>
-                                <span>{baby?.is_prem ? "Sim" : "Não"}</span>
+                                <small>Idade gestacional</small>
+                                <span>{baby?.idade_gestacional} meses</span>
                             </Stack>
                         </Col>
+
+                        <Col sm="12" className="mb-2">
+                            <Stack className="d-flex w-100">
+                                <small>Atipicidades</small>
+                                <span>{baby?.atipicidades}</span>
+                            </Stack>
+                        </Col>
+
                         <Col sm="12" className="user-select-none mt-2">
                             <div className="d-flex gap-3 justify-content-center">
                                 <span role="button" className="text-primary" onClick={onClickEdit}>

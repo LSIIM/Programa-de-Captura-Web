@@ -35,7 +35,7 @@
     overflow: hidden;
     border-radius: 1rem;
     height: auto;
-    width: calc(100svw - 2.8rem) !important;
+    width: calc(100svw - 3rem) !important;
     min-width: 23rem;
     aspect-ratio: 16/9;
     min-height: 16rem;

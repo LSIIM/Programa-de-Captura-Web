@@ -21,7 +21,7 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
                 <tr>
                     <th>Nome</th>
                     <th>Data de nascimento</th>
-                    <th>Prematuro</th>
+                    <th>Idade gestacional</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
                                 year: "numeric",
                             })}
                         </td>
-                        <td width={"18%"}>{baby.is_prem ? "Sim" : "Não"}</td>
+                        <td width={"18%"}>{baby.idade_gestacional} meses</td>
                     </tr>
                 ))}
             </tbody>

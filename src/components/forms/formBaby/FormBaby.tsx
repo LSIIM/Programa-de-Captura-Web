@@ -7,7 +7,10 @@ import { tBaby, tPartialEntity } from "../../../interfaces";
 import InputBirthBaby from "../../inputs/inputBirthBaby/InputBirthBaby";
 
 //TYPES
-export type tNewBaby = tPartialEntity<tBaby, "birth_day" | "birth_month" | "birth_year" | "is_prem" | "name">;
+export type tNewBaby = tPartialEntity<
+    tBaby,
+    "birth_day" | "birth_month" | "birth_year" | "is_prem" | "name" | "atipicidades" | "idade_gestacional"
+>;
 
 export interface FormBabyProps {
     initialValues: tNewBaby;
@@ -51,6 +54,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 <Form.Control
                                     className="rounded-4"
                                     name="name"
+                                    required
                                     onChange={handleChange}
                                     value={values.name}
                                     isInvalid={!!errors.name}
@@ -76,7 +80,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">{errors.is_prem}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="12" controlId={v4()}>
+                            <Form.Group as={Col} sm="7" controlId={v4()} className="mb-2">
                                 <Form.Label>Data de nascimento?</Form.Label>
                                 <InputBirthBaby
                                     day={values.birth_day}
@@ -87,6 +91,34 @@ export default function FormBaby(props: FormBabyProps) {
                                     }
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.is_prem}</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col} sm="5" controlId={v4()} className="mb-2">
+                                <Form.Label>Idade gestacional</Form.Label>
+                                <Form.Control
+                                    className="rounded-4"
+                                    type="number"
+                                    required
+                                    min={0}
+                                    value={values.idade_gestacional}
+                                    isInvalid={!!errors.idade_gestacional}
+                                    onChange={(e) =>
+                                        setValues({ ...values, idade_gestacional: Number(e.target.value) })
+                                    }
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.idade_gestacional}</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col} sm="12" controlId={v4()}>
+                                <Form.Label>Atipicidades</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    className="rounded-4"
+                                    required
+                                    rows={3}
+                                    value={values.atipicidades}
+                                    isInvalid={!!errors.atipicidades}
+                                    onChange={(e) => setValues({ ...values, atipicidades: e.target.value })}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.atipicidades}</Form.Control.Feedback>
                             </Form.Group>
                         </Row>
                     </Form>
@@ -102,4 +134,6 @@ export const schemaNewBaby: yup.ObjectSchema<tNewBaby> = yup.object({
     birth_year: yup.number().required("Este campo é requerido."),
     is_prem: yup.boolean().required("Este campo é requerido."),
     name: yup.string().required("Este campo é requerido."),
+    idade_gestacional: yup.number().integer().required("Este campo é requerido.").min(1, "Coloque um valor válido."),
+    atipicidades: yup.string().required("Este campo é requerido."),
 });

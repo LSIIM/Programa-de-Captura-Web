@@ -56,7 +56,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     );
 
     return (
-        <Modal {...props} onHide={onHide}>
+        <Modal {...props} onHide={onHide} centered>
             <Modal.Header closeButton>
                 <h5 className="m-0">{babyId !== undefined ? "Editar Bebê" : "Cadastrar Bebê"}</h5>
             </Modal.Header>

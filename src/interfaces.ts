@@ -8,6 +8,8 @@ export type tBaby = {
     birth_month: number;
     birth_day: number;
     is_prem: boolean;
+    idade_gestacional: number;
+    atipicidades: string;
 };
 
 //MOVS_INFO

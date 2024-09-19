@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, Form, FormGroup, FormSelect, Offcanvas, OffcanvasProps, Spinner, Stack } from "react-bootstrap";
 import { v4 } from "uuid";
 import useBaby from "../../hooks/useBaby";
-import { tBaby } from "../../interfaces";
+import { tBaby, tProject } from "../../interfaces";
+import { useProject } from "../../hooks";
 
 export interface OffcanvasRecordingFilterProps extends OffcanvasProps {
     onApply?: (props: { babyIdSelected: null | number; projectSelected: null | number }) => void;
@@ -17,11 +18,19 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
         isReading: isReadingBabys,
     } = useBaby();
 
+    const {
+        errorToRead: errorToReadProjects,
+        cancelProcess: cancelProjectProcess,
+        readProjects,
+        isReading: isReadingProjects,
+    } = useProject();
+
     //STATES
     const [babys, setBabys] = useState<tBaby[]>([]);
     const [babyIdSelected, setBabyIdSelected] = useState<number | null>(null);
 
-    const [projectSelected] = useState<number | null>(null);
+    const [projects, setProjects] = useState<tProject[]>([]);
+    const [projectIdSelected, setProjectIdSelected] = useState<number | null>(null);
 
     //EVENTS
     useEffect(() => {
@@ -30,8 +39,16 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
             .then((babys) => setBabys(babys))
             .catch((errMsg) => alert(errMsg));
 
-        return () => cancelBabyProcess();
-    }, [readBabys, cancelBabyProcess]);
+        //Carregando projetos
+        readProjects()
+            .then((projects) => setProjects(projects))
+            .catch((errMsg) => alert(errMsg));
+
+        return () => {
+            cancelBabyProcess();
+            cancelProjectProcess();
+        };
+    }, [readBabys, cancelBabyProcess, readProjects, cancelProjectProcess]);
 
     const handleOnChangeBabyIdSelected = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
         const possibleBabyId = Number(event.target.value);
@@ -39,9 +56,15 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
         setBabyIdSelected(possibleBabyId);
     }, []);
 
+    const handleOnChangeProjectIdSelected = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+        const possibleProjectId = Number(event.target.value);
+        if (event.target.value === "" || isNaN(possibleProjectId)) return setProjectIdSelected(null);
+        setProjectIdSelected(possibleProjectId);
+    }, []);
+
     const handleOnApply = useCallback(() => {
-        if (onApply) onApply({ babyIdSelected, projectSelected });
-    }, [onApply, babyIdSelected, projectSelected]);
+        if (onApply) onApply({ babyIdSelected, projectSelected: projectIdSelected });
+    }, [onApply, babyIdSelected, projectIdSelected]);
 
     return (
         <Offcanvas {...rest} placement="end">
@@ -67,10 +90,15 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
                         </FormGroup>
                         <FormGroup controlId={v4()} className="position-relative">
                             <Form.Label className="d-flex align-items-center">
-                                Por projeto {isReadingBabys && <Spinner size="sm" className="ms-2" animation="grow" />}
+                                Por projeto {isReadingProjects && <Spinner size="sm" className="ms-2" animation="grow" />}
                             </Form.Label>
-                            <FormSelect isInvalid={errorToReadBabys} onChange={handleOnChangeBabyIdSelected}>
+                            <FormSelect isInvalid={errorToReadProjects} onChange={handleOnChangeProjectIdSelected}>
                                 <option value="">Todos</option>
+                                {projects.map((project) => (
+                                    <option value={String(project.id_proj)} key={project.id_proj}>
+                                        {project.name_proj}
+                                    </option>
+                                ))}
                             </FormSelect>
                             <Form.Control.Feedback type="invalid">Erro ao buscar projetos.</Form.Control.Feedback>
                         </FormGroup>

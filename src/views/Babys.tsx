@@ -56,7 +56,15 @@ export default function Babys() {
 
             <ManageBabyModal
                 initialValues={
-                    babySelected ?? { name: "", birth_day: 20, birth_month: 2, birth_year: 2015, is_prem: false }
+                    babySelected ?? {
+                        name: "",
+                        birth_day: 20,
+                        birth_month: 2,
+                        birth_year: 2015,
+                        is_prem: false,
+                        atipicidades: "",
+                        idade_gestacional: 0,
+                    }
                 }
                 babyId={babySelected?.id_baby}
                 show={showManageBabyModal}
