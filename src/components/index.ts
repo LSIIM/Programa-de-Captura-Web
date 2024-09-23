@@ -5,6 +5,7 @@ import MenuButton from "./buttons/menuButton/MenuButton";
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
 import CardRecord from "./cards/cardRecord/CardRecord";
+import CardRecordListed from "./cards/cardRecordListed/CardRecordListed";
 
 //FORMS
 import FormLogin from "./forms/formLogin/FormLogin";
@@ -36,6 +37,7 @@ export {
     //CARDS
     CardLogin,
     CardRecord,
+    CardRecordListed,
 
     //FORMS
     FormLogin,

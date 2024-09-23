@@ -2,11 +2,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
-    --layout-table-height-header: 3rem;
 }
 
 .my-layout-table-header {
-    height: var(--layout-table-height-header);
+    height: max-content;
     width: 100%;
     max-width: 1400px;
 }

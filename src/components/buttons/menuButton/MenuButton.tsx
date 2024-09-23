@@ -13,7 +13,7 @@ export default function MenuButton({ children, ...props }: MenuButtonProps) {
 
     return (
         <>
-            <IconButton ref={buttonRef} {...props} onClick={() => setShowMenu(true)} />
+            <IconButton ref={buttonRef} {...props} onClick={(e) => setShowMenu(true)} />
             <Overlay
                 show={showMenu}
                 placement="bottom-end"

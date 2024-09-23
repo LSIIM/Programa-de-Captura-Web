@@ -1,0 +1,15 @@
+.my-card-record {
+    height: max-content;
+}
+
+.my-card-record-listed-thumbnail {
+    width: 35% !important;
+    min-width: 7rem;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 16/9 !important;
+}
+
+.my-card-record-listed-info{
+    width: 75% !important;
+}

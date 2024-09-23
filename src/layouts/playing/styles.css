@@ -50,22 +50,42 @@
     min-height: 16rem;
 }
 
+.my-layout-playing-playlist {
+    overflow: hidden;
+    height: 16rem;
+    width: 100%;
+}
+
+.my-layout-playing-playlist-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.my-layout-playing-playlist-body > * {
+    padding: 0.6rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem;
+}
+
 @media (min-width: 768px) {
     .my-layout-playing-grid {
-        grid-template-columns: calc(100% - 19rem) calc(19rem - 1rem) !important;
+        grid-template-columns: calc(100% - 24rem) calc(24rem - 1rem) !important;
     }
     .react-player {
-        max-height: 75svh !important;
-        aspect-ratio: 16/9 !important;
+        height: 70svh !important;
+        max-height: 26rem;
         width: auto !important;
-        height: 100svh !important;
-        max-width: calc(100svw - 22rem);
+        max-width: calc(100svw - 27rem);
     }
     .my-layout-playing-player-placeholder {
-        max-height: 75svh !important;
-        aspect-ratio: 16/9 !important;
+        height: 70svh !important;
+        max-height: 26rem;
         width: auto !important;
-        height: 100svh !important;
-        max-width: calc(100svw - 22rem);
+        max-width: calc(100svw - 27rem);
+    }
+    .my-layout-playing-playlist {
+        height: 70svh !important;
+        min-height: 16rem;
+        max-height: 26rem;
     }
 }
