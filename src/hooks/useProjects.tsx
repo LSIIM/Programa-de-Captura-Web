@@ -109,5 +109,4 @@ export default function useProject() {
 
 const _projects: tProject[] = [
     { id_proj: 0, name_proj: "Projeto A" },
-    { id_proj: 1, name_proj: "Projeto B" },
 ];

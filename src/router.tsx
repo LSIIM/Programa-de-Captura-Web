@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
-import { Babys, Login, PlayingRecord, Records } from "./views";
+import { Babys, CreateRecord, Login, PlayingRecord, Records } from "./views";
 import { DefaultLayout, LoggedLayout } from "./layouts";
 
 export const routes = {
@@ -8,6 +8,7 @@ export const routes = {
     listBabys: "/sistema/bebes",
     listRecords: "/sistema/gravacoes",
     playingRecord: "/sistema/gravacao/:id",
+    createRecord: "/sistema/gravar",
 };
 
 export default function Router() {
@@ -29,6 +30,7 @@ export default function Router() {
                 { path: routes.listBabys, element: <Babys /> },
                 { path: routes.listRecords, element: <Records /> },
                 { path: routes.playingRecord, element: <PlayingRecord /> },
+                { path: routes.createRecord, element: <CreateRecord /> },
             ],
         },
     ]);

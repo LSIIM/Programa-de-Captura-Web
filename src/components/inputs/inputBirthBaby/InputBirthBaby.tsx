@@ -29,7 +29,7 @@ export default function InputBirthBaby({ day, month, year, onAccept, ...rest }: 
 
     return (
         <FormControl
-            className={"rounded-4 " + rest.className}
+            className={"rounded-pill " + rest.className}
             value={dateStr}
             onChange={handleOnChange}
             as={IMaskInput}

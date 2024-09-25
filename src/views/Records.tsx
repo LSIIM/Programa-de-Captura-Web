@@ -4,10 +4,13 @@ import LayoutGridList from "../layouts/gridList";
 import { Button } from "react-bootstrap";
 import { tRecording } from "../interfaces";
 import { useRecording } from "../hooks";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../router";
 
 export default function Records() {
     //HOOKS
     const { readRecordings, isReading, cancelProcess } = useRecording();
+    const navigate = useNavigate();
 
     //STATES
     const [recordings, setRecordings] = useState<tRecording[]>([]);
@@ -26,6 +29,8 @@ export default function Records() {
         setShowOffcanvasFilter(false);
     }, []);
 
+    const handleOnClickCreate = useCallback(() => navigate(routes.createRecord), [navigate]);
+
     return (
         <>
             <LayoutGridList.Root>
@@ -36,7 +41,9 @@ export default function Records() {
                             Filtros
                         </Button>
                     </LayoutGridList.Filters>
-                    <LayoutGridList.Button className="rounded-pill">Gravar</LayoutGridList.Button>
+                    <LayoutGridList.Button className="rounded-pill" onClick={handleOnClickCreate}>
+                        Gravar
+                    </LayoutGridList.Button>
                 </LayoutGridList.Header>
                 <LayoutGridList.Body isLoading={isReading}>
                     {recordings.map((record) => (

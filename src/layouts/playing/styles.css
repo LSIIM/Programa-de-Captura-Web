@@ -73,19 +73,19 @@
     }
     .react-player {
         height: 70svh !important;
-        max-height: 26rem;
+        max-height: 55rem;
         width: auto !important;
         max-width: calc(100svw - 27rem);
     }
     .my-layout-playing-player-placeholder {
         height: 70svh !important;
-        max-height: 26rem;
+        max-height: 55rem;
         width: auto !important;
         max-width: calc(100svw - 27rem);
     }
     .my-layout-playing-playlist {
         height: 70svh !important;
         min-height: 16rem;
-        max-height: 26rem;
+        max-height: 55rem;
     }
 }

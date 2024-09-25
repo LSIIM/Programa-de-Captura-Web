@@ -28,13 +28,13 @@ export default function InputPassword({ onAccept, value, error, ...rest }: Input
     return (
         <InputGroup className="mb-3">
             <FormControl
-                className={"rounded-start-4 " + rest.className}
+                className={"rounded-start-pill " + rest.className}
                 type={showPassword ? "text" : "password"}
                 onChange={handleOnChange}
                 as={IMaskInput}
                 {...rest}
             />
-            <InputGroup.Text className={rest.className + " rounded-end-4"} role="button" onClick={handleOnToggleShow}>
+            <InputGroup.Text className={rest.className + " rounded-end-pill"} role="button" onClick={handleOnToggleShow}>
                 <i className={showPassword ? "bi bi-eye-fill" : "bi bi-eye-slash-fill"} />
             </InputGroup.Text>
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
