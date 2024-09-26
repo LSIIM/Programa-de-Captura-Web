@@ -1,9 +1,9 @@
 import { Button, Col, Container, Form, FormGroup, FormSelect, Row } from "react-bootstrap";
 import { v4 } from "uuid";
 import { useBaby, useProject } from "../hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { tBaby, tProject } from "../interfaces";
-import { MovimentsButtons } from "../components";
+import { MovimentsButtons, SelectCamsModal } from "../components";
 
 export default function CreateRecord() {
     //HOOKS
@@ -13,6 +13,8 @@ export default function CreateRecord() {
     //STATES
     const [babys, setBabys] = useState<tBaby[]>([]);
     const [projects, setProjects] = useState<tProject[]>([]);
+
+    const [showSelectCamsModal, setShowSelectCamsModal] = useState(false);
 
     //EVENTS
     useEffect(() => {
@@ -29,6 +31,9 @@ export default function CreateRecord() {
             cancelProjectProcess();
         };
     }, [cancelBabyProcess, readBabys, readProjects, cancelProjectProcess]);
+
+    const handleOnClickSelectCams = useCallback(() => setShowSelectCamsModal(true), []);
+    const handleOnHideSelectCamsModal = useCallback(() => setShowSelectCamsModal(false), []);
 
     return (
         <Container fluid className="h-100 pt-3">
@@ -58,7 +63,7 @@ export default function CreateRecord() {
                 </FormGroup>
 
                 <Col className="d-flex align-items-end mb-2">
-                    <Button className="rounded-pill">
+                    <Button className="rounded-pill" onClick={handleOnClickSelectCams}>
                         <i className="bi bi-camera-fill me-2" />
                         Escolher câmeras
                     </Button>
@@ -68,6 +73,8 @@ export default function CreateRecord() {
                     <MovimentsButtons numberOfMoviments={4} />
                 </Col>
             </Row>
+
+            <SelectCamsModal show={showSelectCamsModal} onHide={handleOnHideSelectCamsModal} />
         </Container>
     );
 }

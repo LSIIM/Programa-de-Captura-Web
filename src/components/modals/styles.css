@@ -1,0 +1,8 @@
+.my-select-cams-modal-video {
+    width: 50svw;
+    min-width: 18rem;
+    max-width: 30rem;
+    max-height: 20rem;
+    object-fit: contain;
+    aspect-ratio: 16/9 !important;
+}
