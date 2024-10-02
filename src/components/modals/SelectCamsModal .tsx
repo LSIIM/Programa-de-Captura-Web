@@ -1,46 +1,55 @@
-import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Modal, ModalProps, Row, Stack } from "react-bootstrap";
+import { useCallback, useState } from "react";
 import "./styles.css";
 
-let myStream: MediaStream | undefined;
-export interface SelectCamsModalProps extends ModalProps {}
+export interface SelectCamsModalProps extends ModalProps {
+    videoStreams: MediaStream[];
+}
 
-export default function SelectCamsModal({ onHide, show, ...rest }: SelectCamsModalProps) {
+const PRIMARY_CONFIG = { text: "primária", bgColor: "bg-primary", className: "primary" };
+const SECONDARY_CONFIG = { text: "secundária", bgColor: "bg-secondary", className: "secondary" };
+const DEFAULT_CONFIG = { text: "", bgColor: "", className: "" };
+
+export default function SelectCamsModal({ videoStreams, onHide, show, ...rest }: SelectCamsModalProps) {
     //STATES
-    const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
-    const [videoStreams, setVideoStreams] = useState<MediaStream[]>([]);
+    const [camsSelected, setCamsSelected] = useState<string[]>([]);
 
     //VARIABLES
-    const accessPermition = useCallback(async () => {
-        try {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const videoDevices = devices.filter((device) => device.kind === "videoinput");
-            setCameras(videoDevices);
-
-            const streams = await Promise.all(
-                videoDevices.map((device) =>
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: device.deviceId } })
-                )
-            );
-            setVideoStreams(streams);
-        } catch (err) {
-            console.error(err);
+    const configs = useCallback(() => {
+        switch (camsSelected.length) {
+            case 0:
+                return PRIMARY_CONFIG;
+            case 1:
+                return SECONDARY_CONFIG;
+            default:
+                return DEFAULT_CONFIG;
         }
-    }, []);
+    }, [camsSelected]);
+
+    const configCurrentCam = useCallback(
+        (deviceId?: string) => {
+            switch (true) {
+                case deviceId === camsSelected[0]:
+                    return PRIMARY_CONFIG;
+                case deviceId === camsSelected[1]:
+                    return SECONDARY_CONFIG;
+                default:
+                    return { text: "", bgColor: "", className: "" };
+            }
+        },
+        [camsSelected]
+    );
+
+    const { text, bgColor } = configs();
 
     //EVENTS
-    useEffect(() => {
-        if (show && videoStreams.length < 1) accessPermition();
-        if (!show && videoStreams.length > 0) {
-            videoStreams.forEach((stream) => {
-                stream.getTracks().forEach((track) => {
-                    track.stop();
-                    myStream?.removeTrack(track);
-                });
-            });
-            setVideoStreams([]);
-        }
-    }, [show, videoStreams, accessPermition]);
+    const handleOnClickCam = useCallback((deviceId?: string) => {
+        if (!deviceId) return;
+        setCamsSelected((current) => {
+            if (current.includes(deviceId)) return current.filter((id) => id !== deviceId);
+            return [...current, deviceId];
+        });
+    }, []);
 
     return (
         <>
@@ -50,28 +59,49 @@ export default function SelectCamsModal({ onHide, show, ...rest }: SelectCamsMod
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        {cameras.map((camera, index) => (
-                            <Col key={camera.deviceId}>
-                                <Stack>
-                                    <video
-                                        autoPlay
-                                        playsInline
-                                        ref={(video) => {
-                                            if (video) {
-                                                video.srcObject = videoStreams[index];
-                                            }
-                                        }}
-                                        className="my-select-cams-modal-video rounded-4 bg-secondary"
-                                    />
-                                    {camera.label}
-                                </Stack>
-                            </Col>
-                        ))}
+                        <Col sm="12" className="mb-4">
+                            <h6 className={camsSelected.length > 1 ? "opacity-0" : ""}>
+                                Selecionando a câmera <span className={"p-1 rounded " + bgColor}>{text}</span>
+                            </h6>
+                        </Col>
+                        {videoStreams.map((videoStream, index) => {
+                            const deviceId = videoStream.getVideoTracks()[0]?.getSettings().deviceId;
+                            const { className } = configCurrentCam(deviceId);
+
+                            return (
+                                <Col key={videoStream.id} className="mb-3">
+                                    <Stack
+                                        onClick={() => handleOnClickCam(deviceId)}
+                                        className="d-flex w-100 align-items-center "
+                                    >
+                                        <div
+                                            className={`my-wrapper-video ${className} rounded-4 bg-secondary`}
+                                        >
+                                            <video
+                                                className="w-100 h-100"
+                                                autoPlay
+                                                playsInline
+                                                ref={(video) => {
+                                                    if (video) {
+                                                        video.srcObject = videoStreams[index];
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+
+                                        {videoStream.getVideoTracks()[0]?.label}
+                                    </Stack>
+                                </Col>
+                            );
+                        })}
                     </Row>
                 </Modal.Body>
                 <Modal.Footer className="user-select-none">
                     <Button onClick={onHide} variant="outline-secondary" className="rounded-pill">
                         Fechar
+                    </Button>
+                    <Button onClick={onHide} variant="primary" className="rounded-pill">
+                        Confirmar
                     </Button>
                 </Modal.Footer>
             </Modal>
