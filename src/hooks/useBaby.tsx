@@ -14,7 +14,7 @@ export default function useBaby() {
     //EVENTS
     const readBabys = useCallback(() => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<tBaby[]>(async (resolve, reject) => {
             try {
@@ -35,7 +35,7 @@ export default function useBaby() {
 
     const updateBaby = useCallback(async (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -54,7 +54,7 @@ export default function useBaby() {
 
     const createBaby = useCallback(async (baby: tNewBaby) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -73,7 +73,7 @@ export default function useBaby() {
 
     const deleteBaby = useCallback(async (babyId: number) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {

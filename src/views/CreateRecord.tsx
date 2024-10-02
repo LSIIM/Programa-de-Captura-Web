@@ -1,6 +1,6 @@
-import { Button, Col, Container, Form, FormGroup, FormSelect, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, FormGroup, FormSelect, Row, Spinner } from "react-bootstrap";
 import { v4 } from "uuid";
-import { useBaby, useProject } from "../hooks";
+import { useBaby, useProject, useVideoDevice } from "../hooks";
 import { useCallback, useEffect, useState } from "react";
 import { tBaby, tProject } from "../interfaces";
 import { MovimentsButtons, SelectCamsModal } from "../components";
@@ -9,19 +9,19 @@ export default function CreateRecord() {
     //HOOKS
     const { readBabys, cancelProcess: cancelBabyProcess } = useBaby();
     const { readProjects, cancelProcess: cancelProjectProcess } = useProject();
+    const { getVideoStreams, loadingStreams } = useVideoDevice();
 
     //STATES
     const [babys, setBabys] = useState<tBaby[]>([]);
     const [projects, setProjects] = useState<tProject[]>([]);
 
     const [videoStreams, setVideoStreams] = useState<MediaStream[]>([]);
-    const [hasRecordPermission, setHasRecordPermission] = useState(false);
 
-    const [camsSelected, setCamsSelected] = useState<string[]>([]);
     const [showSelectCamsModal, setShowSelectCamsModal] = useState(false);
 
     //EVENTS
     const removeStreams = useCallback(() => {
+        if (videoStreams.length < 1) return;
         videoStreams.forEach((stream) => {
             stream.getTracks().forEach((track) => {
                 track.stop();
@@ -29,16 +29,6 @@ export default function CreateRecord() {
             });
         });
     }, [videoStreams]);
-
-    const askForPermition = useCallback(async () => {
-        try {
-            const userMedia = await navigator.mediaDevices.getUserMedia({ video: true });
-            userMedia.getVideoTracks().map((track) => track.stop());
-            setHasRecordPermission(true);
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
 
     useEffect(() => {
         readBabys()
@@ -49,33 +39,22 @@ export default function CreateRecord() {
             .then((projects) => setProjects(projects))
             .catch((err) => console.error(err));
 
-        askForPermition();
-
         return () => {
             cancelBabyProcess();
             cancelProjectProcess();
             removeStreams();
         };
-    }, [cancelBabyProcess, readBabys, readProjects, cancelProjectProcess, removeStreams, askForPermition]);
+    }, [cancelBabyProcess, readBabys, readProjects, cancelProjectProcess, removeStreams]);
 
     const findStreams = useCallback(async () => {
-        if (!hasRecordPermission) return alert("Você deve permitir o acesso às câmeras.");
-
         try {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const videoDevices = devices.filter((device) => device.kind === "videoinput");
-            const streams = await Promise.all(
-                videoDevices.map(({ deviceId }) => navigator.mediaDevices.getUserMedia({ video: { deviceId } }))
-            );
+            const streams = await getVideoStreams();
             setVideoStreams(streams);
+            setShowSelectCamsModal(true);
         } catch (err) {
-            alert("Aconteceu um erro ao buscar suas câmeras.");
+            console.error(err);
         }
-    }, [hasRecordPermission]);
-
-    const handleOnClickSelectCams = useCallback(() => {
-        findStreams().then(() => setShowSelectCamsModal(true));
-    }, [findStreams]);
+    }, [getVideoStreams]);
 
     const handleOnHideSelectCamsModal = useCallback(() => {
         removeStreams();
@@ -110,8 +89,12 @@ export default function CreateRecord() {
                 </FormGroup>
 
                 <Col className="d-flex align-items-end mb-2">
-                    <Button className="rounded-pill" onClick={handleOnClickSelectCams}>
-                        <i className="bi bi-camera-fill me-2" />
+                    <Button className="rounded-pill" onClick={findStreams}>
+                        {loadingStreams ? (
+                            <Spinner className="me-2" size="sm" animation="grow" />
+                        ) : (
+                            <i className="bi bi-camera-fill me-2" />
+                        )}
                         Escolher câmeras
                     </Button>
                 </Col>

@@ -16,7 +16,7 @@ export default function useRecording() {
     const readRecordings = useCallback(async () => {
         //TODO: Implementar o controle de signal
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<tRecording[]>(async (resolve, reject) => {
             try {
@@ -40,7 +40,7 @@ export default function useRecording() {
     const getRecording = useCallback(async (id: number) => {
         //TODO: Implementar o controle de signal
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<tRecording>(async (resolve, reject) => {
             try {
@@ -68,7 +68,7 @@ export default function useRecording() {
 
     const updateRecording = useCallback(async (recording: any) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -87,7 +87,7 @@ export default function useRecording() {
 
     const createRecording = useCallback(async (recording: any) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -106,7 +106,7 @@ export default function useRecording() {
 
     const deleteRecording = useCallback(async (recordingId: number) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {

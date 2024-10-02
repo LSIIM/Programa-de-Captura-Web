@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import { tBaby, tPartialEntity, tProject } from "../interfaces";
-import { tNewBaby } from "../components/forms/formBaby/FormBaby";
+import { tPartialEntity, tProject } from "../interfaces";
 
 let abortController: AbortController | undefined;
 export default function useProject() {
@@ -14,7 +13,7 @@ export default function useProject() {
     //EVENTS
     const readProjects = useCallback(() => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<tProject[]>(async (resolve, reject) => {
             try {
@@ -36,7 +35,7 @@ export default function useProject() {
     //TODO: Mudar o type any para o certo
     const updateProject = useCallback(async (project: any & tPartialEntity<tProject, "id_proj">) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -55,7 +54,7 @@ export default function useProject() {
 
     const createProject = useCallback(async (project: any) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -74,7 +73,7 @@ export default function useProject() {
 
     const deleteProject = useCallback(async (babyId: number) => {
         abortController = new AbortController();
-        const signal = abortController.signal;
+        //const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -107,6 +106,4 @@ export default function useProject() {
     };
 }
 
-const _projects: tProject[] = [
-    { id_proj: 0, name_proj: "Projeto A" },
-];
+const _projects: tProject[] = [{ id_proj: 0, name_proj: "Projeto A" }];
