@@ -26,11 +26,11 @@ export default function useVideoDevice() {
                 ({ kind, deviceId }) => kind === "videoinput" && deviceId !== deviceIdDefault
             );
 
-            const _streams = videoDevices.map(({ deviceId }) =>
+            const _otherStreams = videoDevices.map(({ deviceId }) =>
                 navigator.mediaDevices.getUserMedia({ audio: false, video: { deviceId: { exact: deviceId } } })
             );
-            const streams = await Promise.all([defaultStream, ..._streams]);
-            return streams;
+            const otherStreams = await Promise.all(_otherStreams);
+            return [defaultStream, ...otherStreams];
         } catch (err: any) {
             switch (err?.code) {
                 case 0:

@@ -23,7 +23,7 @@ import TextLink from "./links/TextLink/TextLink";
 //MODALS
 import ManageBabyModal from "./modals/ManageBabyModal";
 import BabyInfoModal from "./modals/BabyInfoModal";
-import SelectCamsModal from "./modals/SelectCamsModal ";
+import SelectCamsPSModal from "./modals/SelectCamsPSModal";
 
 //OFFCANVAS
 import OffcanvasRecordingFilter from "./offcanvas/OffcanvasFilter";
@@ -57,7 +57,7 @@ export {
     //MODALS
     ManageBabyModal,
     BabyInfoModal,
-    SelectCamsModal,
+    SelectCamsPSModal as SelectCamsModal,
 
     //OFFCANVAS
     OffcanvasRecordingFilter,

@@ -70,6 +70,14 @@ $danger: #ff6b6b;
         color: $info !important;
     }
 
+    //BORDERS
+    .border-primary {
+        border-color: $primary !important;
+    }
+    .border-secondary {
+        border-color: $secondary !important;
+    }
+
     //BUTTONS
     .btn-transparent {
         background-color: transparent !important;
@@ -150,22 +158,6 @@ $danger: #ff6b6b;
     .my-menu-list > *:active {
         background-color: rgba($dark, 15%);
     }
-
-    //VIDEO
-    .my-wrapper-video.primary {
-        border: 0.3rem solid $primary;
-    }
-    .my-wrapper-video.primary::after {
-        content: "Primária";
-        background-color: $primary;
-    }
-    .my-wrapper-video.secondary {
-        border: 0.3rem solid lighten($secondary, 15%);
-    }
-    .my-wrapper-video.secondary::after {
-        content: "Secundária";
-        background-color: lighten($secondary, 15%);
-    }
 }
 
 [data-bs-theme="dark"] {
@@ -205,6 +197,14 @@ $danger: #ff6b6b;
     }
     .text-danger {
         color: lighten($danger, 5%) !important;
+    }
+
+    //BORDERS
+    .border-primary {
+        border-color: $primary-dark !important;
+    }
+    .border-secondary {
+        border-color: darken($secondary, 10%) !important;
     }
 
     //BUTTONS
@@ -284,22 +284,6 @@ $danger: #ff6b6b;
     .my-menu-list > *:active {
         background-color: rgba($light, 15%);
     }
-
-    //VIDEO
-    .my-wrapper-video.primary {
-        border: 0.3rem solid $primary-dark;
-    }
-    .my-wrapper-video.primary::after {
-        content: "Primária";
-        background-color: $primary-dark;
-    }
-    .my-wrapper-video.secondary {
-        border: 0.3rem solid darken($secondary, 15%);
-    }
-    .my-wrapper-video.secondary::after {
-        content: "Secundária";
-        background-color: darken($secondary, 15%);
-    }
 }
 
 //PARA TODOS OS TEMAS
@@ -340,30 +324,4 @@ $danger: #ff6b6b;
 .my-menu-list > *:hover {
     cursor: pointer;
     user-select: none;
-}
-
-//VIDEO
-//WRAPPER VIDEO
-.my-wrapper-video {
-    position: relative;
-    width: 50svw;
-    min-width: 18rem;
-    max-width: 30rem;
-    max-height: 20rem;
-    object-fit: contain;
-    aspect-ratio: 16/9 !important;
-    cursor: pointer;
-    transition: all 230ms;
-}
-.my-wrapper-video::after {
-    position: absolute;
-    z-index: 1;
-    left: 2rem;
-    top: -1rem;
-    padding-left: 0.2rem;
-    padding-right: 0.2rem;
-    border-radius: 0.3rem;
-}
-.my-wrapper-video:hover {
-    transform: scale(1.02);
 }

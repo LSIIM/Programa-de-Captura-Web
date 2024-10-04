@@ -1,0 +1,37 @@
+.my-layout-recording {
+    height: 100%;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.my-layout-recording-video-div {
+    position: absolute;
+    overflow: hidden;
+    width: 20svw;
+    height: max-content;
+    aspect-ratio: 16/9 !important;
+    min-width: 12rem;
+    border-radius: 1rem;
+    background-color: black;
+    margin-left: 1rem;
+    right: 2rem;
+    bottom: 2rem;
+    transition: transform 150ms;
+    z-index: 10 !important;
+}
+.my-layout-recording-video-div:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+}
+.my-layout-recording-video-div.selected {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin-left: 0px !important;
+    right: 0rem !important;
+    bottom: 0rem !important;
+    min-height: 15rem;
+    transform: none !important;
+    cursor: auto !important;
+    z-index: 1 !important;
+}

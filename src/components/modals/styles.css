@@ -1,0 +1,15 @@
+/*SelectCamsPSModal*/
+.my-wrapper-video {
+    width: 50svw;
+    min-width: 18rem;
+    max-width: 30rem;
+    max-height: 20rem;
+    object-fit: contain;
+    aspect-ratio: 16/9 !important;
+    cursor: pointer;
+    transition: all 230ms;
+    overflow: hidden;
+}
+.my-wrapper-video:hover {
+    transform: scale(1.016);
+}

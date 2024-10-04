@@ -3,7 +3,8 @@ import { v4 } from "uuid";
 import { useBaby, useProject, useVideoDevice } from "../hooks";
 import { useCallback, useEffect, useState } from "react";
 import { tBaby, tProject } from "../interfaces";
-import { MovimentsButtons, SelectCamsModal } from "../components";
+import { SelectCamsModal } from "../components";
+import { LayoutRecording } from "../layouts";
 
 export default function CreateRecord() {
     //HOOKS
@@ -16,6 +17,7 @@ export default function CreateRecord() {
     const [projects, setProjects] = useState<tProject[]>([]);
 
     const [videoStreams, setVideoStreams] = useState<MediaStream[]>([]);
+    const [selectedVideoStreams, setSelectedVideoStreams] = useState<{ stream: MediaStream; label: string }[]>([]);
 
     const [showSelectCamsModal, setShowSelectCamsModal] = useState(false);
 
@@ -62,8 +64,8 @@ export default function CreateRecord() {
     }, [removeStreams]);
 
     return (
-        <Container fluid className="h-100 pt-3">
-            <Row>
+        <Container fluid className="h-100">
+            <Row className="h-100">
                 <FormGroup sm="6" md="4" lg="3" xl="2" as={Col} controlId={v4()} className="mb-2">
                     <Form.Label>Bebê</Form.Label>
                     <FormSelect className="rounded-pill">
@@ -99,8 +101,8 @@ export default function CreateRecord() {
                     </Button>
                 </Col>
 
-                <Col sm="12" className="border-top mt-2 pt-2">
-                    <MovimentsButtons numberOfMoviments={4} />
+                <Col sm="12" className="h-100 p-0 z-1 mb-2 border-top">
+                    <LayoutRecording videos={selectedVideoStreams} />
                 </Col>
             </Row>
 
@@ -108,6 +110,10 @@ export default function CreateRecord() {
                 show={showSelectCamsModal}
                 onHide={handleOnHideSelectCamsModal}
                 videoStreams={videoStreams}
+                onConfirm={(selected) => {
+                    setSelectedVideoStreams(selected);
+                    setShowSelectCamsModal(false);
+                }}
             />
         </Container>
     );
