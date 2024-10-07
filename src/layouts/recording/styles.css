@@ -18,9 +18,15 @@
     bottom: 2rem;
     transition: transform 150ms;
     z-index: 10 !important;
+    animation-name: recording-video-fadeup;
+    animation-duration: 300ms;
 }
 .my-layout-recording-video-div:hover {
     transform: scale(1.01);
+    cursor: pointer;
+}
+.my-layout-recording-video-div:active {
+    transform: scale(0.99);
     cursor: pointer;
 }
 .my-layout-recording-video-div.selected {
@@ -31,7 +37,29 @@
     right: 0rem !important;
     bottom: 0rem !important;
     min-height: 15rem;
-    transform: none !important;
     cursor: auto !important;
     z-index: 1 !important;
+    animation-name: recording-video-growup;
+    animation-duration: 300ms;
+}
+.my-layout-recording-video-div.selected:hover {
+    transform: scale(1);
+}
+
+@keyframes recording-video-growup {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes recording-video-fadeup {
+    from {
+        transform: translateY(100svh);
+    }
+    to {
+        transform: translateY(0px);
+    }
 }

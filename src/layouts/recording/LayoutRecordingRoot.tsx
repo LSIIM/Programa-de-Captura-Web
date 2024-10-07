@@ -30,7 +30,12 @@ export default function LayoutRecording({ videos }: LayoutRecordingProps) {
                     }`}
                     onClick={currentStreamId !== stream.id ? () => setCurrentStreamId(stream.id) : undefined}
                 >
-                    <span className="my-layout-recording-span position-absolute bottom-0 mb-2 ms-3">{label}</span>
+                    {currentStreamId !== stream.id && (
+                        <i className="bi bi-box-arrow-in-up-left text-white bg-black ps-1 pe-1 rounded bg-opacity-50 position-absolute top-0 end-0 m-2" />
+                    )}
+                    <span className="my-layout-recording-span position-absolute bottom-0 mb-2 ms-3 text-white bg-black ps-1 pe-1 rounded bg-opacity-50">
+                        {label}
+                    </span>
                     <video
                         className="w-100 h-100"
                         autoPlay
