@@ -2,6 +2,7 @@
 import IconButton from "./buttons/iconButton/IconButton";
 import MenuButton from "./buttons/menuButton/MenuButton";
 import MovimentsButtons from "./buttons/movimentsButtons/MovimentsButtons";
+import ControlRecordingButton from "./buttons/controlVideoButtons/ControlRecordingButton";
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
@@ -36,6 +37,7 @@ export {
     IconButton,
     MenuButton,
     MovimentsButtons,
+    ControlRecordingButton,
 
     //CARDS
     CardLogin,
@@ -57,7 +59,7 @@ export {
     //MODALS
     ManageBabyModal,
     BabyInfoModal,
-    SelectCamsPSModal as SelectCamsModal,
+    SelectCamsPSModal,
 
     //OFFCANVAS
     OffcanvasRecordingFilter,

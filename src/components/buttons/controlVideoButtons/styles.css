@@ -1,0 +1,19 @@
+.my-control-recording-button {
+    height: 2.7rem;
+    width: 2.7rem;
+    transition: width 300ms;
+}
+.my-control-recording-button.recording {
+    width: 7rem;
+}
+
+.my-control-recording-button-timer {
+    overflow: hidden;
+    width: 0px;
+    margin: 0px;
+    translate: width 300ms margin 300ms;
+}
+.my-control-recording-button-timer.recording {
+    width: 4rem !important;
+    margin-left: 0.5rem !important;
+}

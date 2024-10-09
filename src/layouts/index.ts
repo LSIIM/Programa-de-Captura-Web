@@ -1,6 +1,7 @@
 import LoggedLayout from "./logged/LoggedLayout";
 import DefaultLayout from "./default/DefaultLayout";
 import LayoutTable from "./table";
-import LayoutRecording from "./recording/LayoutRecordingRoot";
+import LayoutRecordingRoo from "./recording/LayoutRecordingRoo";
+import LayoutRecording from "./recording/LayoutReacording";
 
-export { LoggedLayout, DefaultLayout, LayoutTable, LayoutRecording };
+export { LoggedLayout, DefaultLayout, LayoutTable, LayoutRecordingRoo, LayoutRecording };

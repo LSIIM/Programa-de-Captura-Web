@@ -1,55 +1,57 @@
 import { useCallback, useState } from "react";
 import { Button } from "react-bootstrap";
+import { tMovs } from "../../../interfaces";
 import "./styles.css";
 
 export interface MovimentsButtonsProps {
-    numberOfMoviments: number;
-    movimentsDoned?: number[];
-    onClick?: (mov: number) => {};
+    moviments: tMovs[];
+    donedMovimentsIds?: number[];
+    currentMovimentId?: number;
+    setCurrentMovimentId?: (id: number) => void;
 }
 
-export default function MovimentsButtons({ numberOfMoviments, onClick, ...props }: MovimentsButtonsProps) {
+export default function MovimentsButtons({
+    moviments,
+    setCurrentMovimentId,
+    currentMovimentId,
+    ...props
+}: MovimentsButtonsProps) {
     //STATES
-    const [movimentSelected, setMovimentSelected] = useState(1);
     const [showMoviments, setShowMoviments] = useState(false);
-
-    //VARIABLES
-    const returnMoviments = useCallback((): number[] => {
-        return Array.from({ length: numberOfMoviments }, (_, i) => i + 1);
-    }, [numberOfMoviments]);
 
     //EVENTS
     const handleOnSelectMoviment = useCallback(
         (mov: number) => {
-            if (onClick) onClick(mov);
-            setMovimentSelected(mov);
+            if (setCurrentMovimentId) setCurrentMovimentId(mov);
         },
-        [onClick]
+        [setCurrentMovimentId]
     );
 
     return (
-        <div className={`my-moviments-button-root d-flex gap-2 ${!showMoviments ? "closed" : ""}`}>
+        <div className={`my-moviments-button-root d-flex gap-2 p-1 ${!showMoviments ? "closed" : ""}`}>
             <Button
                 className={`my-open-moviments-button rounded-circle shadow-sm`}
                 onClick={() => setShowMoviments((current) => !current)}
             >
                 <i className="bi bi-chevron-double-up fs-6" />
             </Button>
-            {returnMoviments().map((mov) => (
+            {moviments.map((mov) => (
                 <Button
-                    onClick={() => handleOnSelectMoviment(mov)}
-                    key={mov}
+                    onClick={() => handleOnSelectMoviment(mov.id_mov)}
+                    key={mov.id_mov}
                     variant={
-                        movimentSelected === mov
-                            ? "primary"
-                            : props.movimentsDoned?.includes(mov)
+                        currentMovimentId === mov.id_mov
+                            ? props.donedMovimentsIds?.includes(mov.id_mov)
+                                ? "success-dark"
+                                : "primary-dark"
+                            : props.donedMovimentsIds?.includes(mov.id_mov)
                             ? "success"
-                            : "outline-primary"
+                            : "primary"
                     }
                     className={`my-moviment-button ps-2 pe-2 p-1 rounded-pill shadow-sm`}
                     size="sm"
                 >
-                    Movimento {mov}
+                    {mov.description}
                 </Button>
             ))}
         </div>

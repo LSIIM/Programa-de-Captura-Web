@@ -1,10 +1,11 @@
 import { Button, Col, Modal, ModalProps, Row, Stack } from "react-bootstrap";
 import { useCallback, useState } from "react";
 import "./styles.css";
+import { tStreamLabel } from "../../layouts/recording/LayoutRecordingBody";
 
 export interface SelectCamsPSModalProps extends ModalProps {
     videoStreams: MediaStream[];
-    onConfirm: (streams: { stream: MediaStream; label: string }[]) => void;
+    onConfirm: (streams: tStreamLabel[]) => void;
 }
 
 export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfirm, ...rest }: SelectCamsPSModalProps) {
@@ -30,6 +31,8 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
 
         const streams = camsSelected.map((camSelected) => videoStreams.find(({ id }) => id === camSelected));
         if (streams.some((stream) => stream === undefined)) return alert("Algo deu errado!");
+
+        setCamsSelected([]);
         onConfirm(
             streams.map((stream, index) => ({
                 stream: stream as MediaStream,

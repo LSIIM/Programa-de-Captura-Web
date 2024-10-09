@@ -1,65 +1,38 @@
-.my-layout-recording {
-    height: 100%;
-    gap: 1rem;
-    overflow: hidden;
-}
-
-.my-layout-recording-video-div {
+.my-layout-recording-body-div-video {
     position: absolute;
-    overflow: hidden;
-    width: 20svw;
-    height: max-content;
-    aspect-ratio: 16/9 !important;
-    min-width: 12rem;
-    border-radius: 1rem;
+    z-index: 1;
     background-color: black;
-    margin-left: 1rem;
-    right: 2rem;
-    bottom: 2rem;
-    transition: transform 150ms;
-    z-index: 10 !important;
-    animation-name: recording-video-fadeup;
-    animation-duration: 300ms;
+    width: 20svw !important;
+    aspect-ratio: 16/9 !important;
+    bottom: 0px;
+    right: 0px;
+    min-width: 13rem;
+    max-width: 20rem;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+    cursor: pointer;
+    transition: transform 200ms;
 }
-.my-layout-recording-video-div:hover {
+.my-layout-recording-body-div-video:hover {
     transform: scale(1.01);
-    cursor: pointer;
 }
-.my-layout-recording-video-div:active {
+.my-layout-recording-body-div-video:active {
     transform: scale(0.99);
-    cursor: pointer;
 }
-.my-layout-recording-video-div.selected {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin-left: 0px !important;
-    right: 0rem !important;
-    bottom: 0rem !important;
+
+.my-layout-recording-body-div-video-selected {
+    height: 100%;
+    width: 100%;
     min-height: 15rem;
-    cursor: auto !important;
-    z-index: 1 !important;
-    animation-name: recording-video-growup;
-    animation-duration: 300ms;
-}
-.my-layout-recording-video-div.selected:hover {
-    transform: scale(1);
+    object-fit: cover;
+    background-color: black;
 }
 
-@keyframes recording-video-growup {
-    from {
-        opacity: 0.5;
-    }
-    to {
-        opacity: 1;
-    }
+.my-layout-recording-body-play-button {
+    transition: transform 300ms;
+    transform: translate(calc(50svw - 1.85rem));
+    margin-bottom: 2rem;
 }
-
-@keyframes recording-video-fadeup {
-    from {
-        transform: translateY(100svh);
-    }
-    to {
-        transform: translateY(0px);
-    }
+.my-layout-recording-body-play-button.recording {
+    transform: translate(calc(50svw - 3.5rem));
 }
