@@ -17,7 +17,6 @@
     right: 2rem;
     bottom: 2rem;
     transition: transform 150ms;
-    z-index: 10 !important;
     animation-name: recording-video-fadeup;
     animation-duration: 300ms;
 }

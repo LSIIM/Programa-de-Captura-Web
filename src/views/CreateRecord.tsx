@@ -2,7 +2,7 @@ import { Button, Col, Container, Form, FormGroup, FormSelect, Row, Spinner } fro
 import { v4 } from "uuid";
 import { useBaby, useProject, useVideoDevice } from "../hooks";
 import { useCallback, useEffect, useState } from "react";
-import { tBaby, tProject } from "../interfaces";
+import { tBaby, tMovs, tProject } from "../interfaces";
 import { SelectCamsModal } from "../components";
 import { LayoutRecording } from "../layouts";
 
@@ -102,7 +102,7 @@ export default function CreateRecord() {
                 </Col>
 
                 <Col sm="12" className="h-100 p-0 z-1 mb-2 border-top">
-                    <LayoutRecording videos={selectedVideoStreams} />
+                    <LayoutRecording videos={selectedVideoStreams} moviments={moviments} />
                 </Col>
             </Row>
 
@@ -118,3 +118,10 @@ export default function CreateRecord() {
         </Container>
     );
 }
+
+const moviments: tMovs[] = [
+    { id_mov: 0, description: "Movimento 1" },
+    { id_mov: 1, description: "Movimento 2" },
+    { id_mov: 2, description: "Movimento 3" },
+    { id_mov: 3, description: "Movimento 4" },
+];

@@ -30,6 +30,8 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
 
         const streams = camsSelected.map((camSelected) => videoStreams.find(({ id }) => id === camSelected));
         if (streams.some((stream) => stream === undefined)) return alert("Algo deu errado!");
+
+        setCamsSelected([]);
         onConfirm(
             streams.map((stream, index) => ({
                 stream: stream as MediaStream,

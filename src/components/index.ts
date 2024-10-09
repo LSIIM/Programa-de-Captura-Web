@@ -2,6 +2,7 @@
 import IconButton from "./buttons/iconButton/IconButton";
 import MenuButton from "./buttons/menuButton/MenuButton";
 import MovimentsButtons from "./buttons/movimentsButtons/MovimentsButtons";
+import ControlVideoButtons from "./buttons/controlVideoButtons/ControlVideoButtons";
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
@@ -36,6 +37,7 @@ export {
     IconButton,
     MenuButton,
     MovimentsButtons,
+    ControlVideoButtons,
 
     //CARDS
     CardLogin,
