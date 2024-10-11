@@ -25,13 +25,20 @@ export default function useVideoDevice() {
             const videoDevices = devices.filter(
                 ({ kind, deviceId }) => kind === "videoinput" && deviceId !== deviceIdDefault
             );
+            console.log("Pegou todos os devices:");
+            devices.map((device) => console.log(device));
 
             const _otherStreams = videoDevices.map(({ deviceId }) =>
-                navigator.mediaDevices.getUserMedia({ audio: false, video: { deviceId: { exact: deviceId } } })
+                navigator.mediaDevices
+                    .getUserMedia({ audio: false, video: { deviceId: { exact: deviceId } } })
+                    .catch(() => undefined)
             );
             const otherStreams = await Promise.all(_otherStreams);
-            return [defaultStream, ...otherStreams];
+            const filteredOtherStreams = otherStreams.filter((stream) => stream !== undefined) as MediaStream[];
+            return [defaultStream, ...filteredOtherStreams];
         } catch (err: any) {
+            console.log("Entrou no catch:");
+            console.log(err);
             switch (err?.code) {
                 case 0:
                     alert("Não foi possível acessar todas suas câmeras. Outros programas podem estar usando-as.");
