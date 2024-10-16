@@ -32,6 +32,9 @@ import OffcanvasRecordingFilter from "./offcanvas/OffcanvasFilter";
 //TABLES
 import BabysTable from "./tables/BabysTable";
 
+//TOASTS
+import Alert from "./toasts/Alert";
+
 export {
     //BUTTONS
     IconButton,
@@ -66,4 +69,7 @@ export {
 
     //TABLES
     BabysTable,
+
+    //TOASTS
+    Alert,
 };

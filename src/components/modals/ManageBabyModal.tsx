@@ -1,8 +1,9 @@
 import { Button, Modal, ModalProps, Spinner } from "react-bootstrap";
 import FormBaby, { tNewBaby } from "../forms/formBaby/FormBaby";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { tBaby, tPartialEntity } from "../../interfaces";
 import useBaby from "../../hooks/useBaby";
+import { SystemContext } from "../../contexts/SystemContext";
 
 const FORM_BABY_ID = "form-register-baby";
 
@@ -13,40 +14,43 @@ export interface ManageBabyModalProps extends ModalProps {
 }
 
 export default function ManageBabyModal({ onHide, onSuccess, initialValues, babyId, ...props }: ManageBabyModalProps) {
+    //CONTEXT
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { createBaby, updateBaby, isCreating, isUpdating } = useBaby();
 
     //EVENTOS
     const handleOnEdit = useCallback(
-        async (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => {
+        async ({ id: id_baby, ...data }: tNewBaby & tPartialEntity<tBaby, "id">) => {
             try {
-                await updateBaby(baby);
-                alert("Bebê editado com sucesso.");
+                await updateBaby(id_baby, data);
+                showAlert("Bebê editado com sucesso.");
                 if (onSuccess) onSuccess();
-            } catch (errMsg) {
-                throw errMsg; //Necessário para o Form não resetar
+            } catch (err) {
+                throw err; //Necessário para o Form não resetar
             }
         },
-        [updateBaby, onSuccess]
+        [updateBaby, onSuccess, showAlert]
     );
 
     const handleOnCreate = useCallback(
         async (baby: tNewBaby) => {
             try {
                 await createBaby(baby);
-                alert("Bebê cadastrado com sucesso.");
+                showAlert("Bebê cadastrado com sucesso.");
                 if (onSuccess) onSuccess();
-            } catch (errMsg) {
-                throw errMsg; //Necessário para o form não resetar
+            } catch (err) {
+                throw err; //Necessário para o form não resetar
             }
         },
-        [createBaby, onSuccess]
+        [createBaby, onSuccess, showAlert]
     );
 
     const handleOnSubmit = useCallback(
         async (baby: tNewBaby) => {
             try {
-                if (babyId !== undefined) await handleOnEdit({ id_baby: babyId, ...baby });
+                if (babyId !== undefined) await handleOnEdit({ id: babyId, ...baby });
                 else await handleOnCreate(baby);
             } catch (err) {
                 throw err; //Necessário para o FORM não resetar.

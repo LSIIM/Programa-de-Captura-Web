@@ -20,7 +20,7 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
         if (!canDelete) return;
 
         try {
-            await deleteBaby(baby.id_baby);
+            await deleteBaby(baby.id);
             alert("Bebê deletado");
             if (onHide) onHide();
         } catch (err: any) {
@@ -45,33 +45,27 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
                         <Col sm="5" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Prematuro?</small>
-                                <span>{baby?.is_prem ? "Sim" : "Não"}</span>
+                                <span>{baby?.isPremature ? "Sim" : "Não"}</span>
                             </Stack>
                         </Col>
                         <Col sm="7" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Data de nascimento</small>
-                                <span>
-                                    {new Date(
-                                        baby?.birth_year ?? 0,
-                                        baby?.birth_month ?? 0,
-                                        baby?.birth_day ?? 0
-                                    ).toLocaleDateString("pt-Br")}
-                                </span>
+                                <span>{baby?.birthDate?.toLocaleDateString("pt-Br")}</span>
                             </Stack>
                         </Col>
 
                         <Col sm="5" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Idade gestacional</small>
-                                <span>{baby?.idade_gestacional} meses</span>
+                                <span>{baby?.gestationalAge} meses</span>
                             </Stack>
                         </Col>
 
                         <Col sm="12" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Atipicidades</small>
-                                <span>{baby?.atipicidades}</span>
+                                <span>{baby?.atipicidade}</span>
                             </Stack>
                         </Col>
 

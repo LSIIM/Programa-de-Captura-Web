@@ -70,7 +70,7 @@ export default function CreateRecord() {
     const handleOnChangeSelectBaby = useCallback(
         (_babyId: string) => {
             const babyId = Number(_babyId);
-            const selectedBaby = babys.find((baby) => baby.id_baby === babyId);
+            const selectedBaby = babys.find((baby) => baby.id === babyId);
             setSelectedBaby(selectedBaby ?? null);
         },
         [babys]
@@ -92,12 +92,12 @@ export default function CreateRecord() {
                         <Form.Label>Bebê</Form.Label>
                         <FormSelect
                             className="rounded-pill"
-                            value={selectedBaby?.id_baby ?? ""}
+                            value={selectedBaby?.id ?? ""}
                             onChange={(e) => handleOnChangeSelectBaby(e.target.value)}
                         >
                             <option value="">--- Selecionar bebê ---</option>
                             {babys.map((baby) => (
-                                <option key={baby.id_baby} value={baby.id_baby}>
+                                <option key={baby.id} value={baby.id}>
                                     {baby.name}
                                 </option>
                             ))}

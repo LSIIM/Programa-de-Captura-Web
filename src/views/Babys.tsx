@@ -20,25 +20,35 @@ export default function Babys() {
         search === "" ? babys : babys.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()));
 
     //EVENTS
-    useEffect(() => {
-        //TODO: Melhorar feedback
-        readBabys()
-            .then((babys) => setBabys(babys))
-            .catch((errMsg) => alert(errMsg));
+    const paginateBaby = useCallback(
+        async (page?: number, name?: string) => {
+            try {
+                const incomingBabys = await readBabys({ page, where: { name } });
 
+                if (!page) setBabys(incomingBabys);
+                else setBabys((current) => ({ ...current, ...incomingBabys }));
+
+                return incomingBabys.length;
+            } catch (_) {
+                return;
+            }
+        },
+        [readBabys]
+    );
+
+    useEffect(() => {
+        paginateBaby();
         return () => cancelProcess();
-    }, [readBabys, cancelProcess]);
+    }, [paginateBaby, cancelProcess]);
 
     const handleOnClickRegisterOrEdit = useCallback(() => setShowManageBabyModal(true), []);
     const handleOnHideModal = useCallback(() => setShowManageBabyModal(false), []);
 
     const handleOnSuccessManage = useCallback(() => {
-        readBabys()
-            .then((babys) => setBabys(babys))
-            .catch((errMsg) => alert(errMsg));
+        paginateBaby();
         setBabySelected(null);
         setShowManageBabyModal(false);
-    }, [readBabys]);
+    }, [paginateBaby]);
 
     return (
         <>
@@ -58,15 +68,13 @@ export default function Babys() {
                 initialValues={
                     babySelected ?? {
                         name: "",
-                        birth_day: 20,
-                        birth_month: 2,
-                        birth_year: 2015,
-                        is_prem: false,
-                        atipicidades: "",
-                        idade_gestacional: 0,
+                        birthDate: new Date(),
+                        isPremature: false,
+                        atipicidade: "",
+                        gestationalAge: 0,
                     }
                 }
-                babyId={babySelected?.id_baby}
+                babyId={babySelected?.id}
                 show={showManageBabyModal}
                 onHide={handleOnHideModal}
                 onSuccess={handleOnSuccessManage}

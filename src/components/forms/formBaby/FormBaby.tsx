@@ -1,16 +1,12 @@
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useCallback } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, FormControl, Row } from "react-bootstrap";
 import { v4 } from "uuid";
 import { tBaby, tPartialEntity } from "../../../interfaces";
-import InputBirthBaby from "../../inputs/inputBirthBaby/InputBirthBaby";
 
 //TYPES
-export type tNewBaby = tPartialEntity<
-    tBaby,
-    "birth_day" | "birth_month" | "birth_year" | "is_prem" | "name" | "atipicidades" | "idade_gestacional"
->;
+export type tNewBaby = tPartialEntity<tBaby, "birthDate" | "isPremature" | "name" | "atipicidade" | "gestationalAge">;
 
 export interface FormBabyProps {
     initialValues: tNewBaby;
@@ -29,8 +25,8 @@ export default function FormBaby(props: FormBabyProps) {
                 helpers.setSubmitting(true);
                 await onSubmit(newBaby);
                 helpers.resetForm();
-            } catch (errMsg) {
-                alert(errMsg);
+            } catch (err) {
+                console.error(err);
             } finally {
                 helpers.setSubmitting(false);
             }
@@ -67,10 +63,10 @@ export default function FormBaby(props: FormBabyProps) {
                                     className="rounded-pill"
                                     name="is_prem"
                                     onChange={(e) =>
-                                        setValues({ ...values, is_prem: e.target.value === "Sim" ? true : false })
+                                        setValues({ ...values, isPremature: e.target.value === "Sim" ? true : false })
                                     }
-                                    value={values.is_prem ? "Sim" : "Não"}
-                                    isInvalid={!!errors.is_prem}
+                                    value={values.isPremature ? "Sim" : "Não"}
+                                    isInvalid={!!errors.isPremature}
                                 >
                                     {["Sim", "Não"].map((option) => (
                                         <option key={option} value={option}>
@@ -78,19 +74,17 @@ export default function FormBaby(props: FormBabyProps) {
                                         </option>
                                     ))}
                                 </Form.Select>
-                                <Form.Control.Feedback type="invalid">{errors.is_prem}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.isPremature}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} sm="7" controlId={v4()} className="mb-2">
                                 <Form.Label>Data de nascimento?</Form.Label>
-                                <InputBirthBaby
-                                    day={values.birth_day}
-                                    month={values.birth_month}
-                                    year={values.birth_year}
-                                    onAccept={(birth_day, birth_month, birth_year) =>
-                                        setValues({ ...values, birth_day, birth_month, birth_year })
-                                    }
+                                <FormControl
+                                    className={"rounded-pill"}
+                                    value={values.birthDate.toString()}
+                                    onChange={(e) => setValues({ ...values, birthDate: new Date(e.target.value) })}
+                                    type="date"
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.is_prem}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.isPremature}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} sm="5" controlId={v4()} className="mb-2">
                                 <Form.Label>Idade gestacional</Form.Label>
@@ -99,13 +93,11 @@ export default function FormBaby(props: FormBabyProps) {
                                     type="number"
                                     required
                                     min={0}
-                                    value={values.idade_gestacional}
-                                    isInvalid={!!errors.idade_gestacional}
-                                    onChange={(e) =>
-                                        setValues({ ...values, idade_gestacional: Number(e.target.value) })
-                                    }
+                                    value={values.gestationalAge}
+                                    isInvalid={!!errors.gestationalAge}
+                                    onChange={(e) => setValues({ ...values, gestationalAge: Number(e.target.value) })}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.idade_gestacional}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.gestationalAge}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} sm="12" controlId={v4()}>
                                 <Form.Label>Atipicidades</Form.Label>
@@ -114,11 +106,11 @@ export default function FormBaby(props: FormBabyProps) {
                                     className="rounded-4"
                                     required
                                     rows={3}
-                                    value={values.atipicidades}
-                                    isInvalid={!!errors.atipicidades}
-                                    onChange={(e) => setValues({ ...values, atipicidades: e.target.value })}
+                                    value={values.atipicidade}
+                                    isInvalid={!!errors.atipicidade}
+                                    onChange={(e) => setValues({ ...values, atipicidade: e.target.value })}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.atipicidades}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.atipicidade}</Form.Control.Feedback>
                             </Form.Group>
                         </Row>
                     </Form>
@@ -129,11 +121,9 @@ export default function FormBaby(props: FormBabyProps) {
 }
 
 export const schemaNewBaby: yup.ObjectSchema<tNewBaby> = yup.object({
-    birth_day: yup.number().required("Este campo é requerido."),
-    birth_month: yup.number().required("Este campo é requerido."),
-    birth_year: yup.number().required("Este campo é requerido."),
-    is_prem: yup.boolean().required("Este campo é requerido."),
+    birthDate: yup.date().required("Este campo é requerido."),
+    isPremature: yup.boolean().required("Este campo é requerido."),
     name: yup.string().required("Este campo é requerido."),
-    idade_gestacional: yup.number().integer().required("Este campo é requerido.").min(1, "Coloque um valor válido."),
-    atipicidades: yup.string().required("Este campo é requerido."),
+    gestationalAge: yup.number().integer().required("Este campo é requerido.").min(1, "Coloque um valor válido."),
+    atipicidade: yup.string().required("Este campo é requerido."),
 });

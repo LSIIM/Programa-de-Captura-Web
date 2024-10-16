@@ -13,7 +13,7 @@ root.render(
         <SystemProvider>
             <Router />
         </SystemProvider>
-        <div className="position-fixed end-0 bottom-0 me-2 opacity-50 small">
+        <div className="position-fixed start-0 bottom-0 ms-2 opacity-50 small">
             <span className="font-monospace">v{process.env.REACT_APP_VERSION}</span>
         </div>
     </React.StrictMode>

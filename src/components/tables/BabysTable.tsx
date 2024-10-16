@@ -26,7 +26,7 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
             </thead>
             <tbody>
                 {babys.map((baby) => (
-                    <tr key={baby.id_baby}>
+                    <tr key={baby.id}>
                         <td width={"35%"}>
                             <span
                                 onClick={() => handleOnClickBaby(baby)}
@@ -36,13 +36,13 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
                             </span>
                         </td>
                         <td>
-                            {new Date(baby.birth_year, baby.birth_month, baby.birth_day).toLocaleDateString("pt-Br", {
+                            {baby.birthDate.toLocaleDateString("pt-Br", {
                                 day: "2-digit",
                                 month: "short",
                                 year: "numeric",
                             })}
                         </td>
-                        <td width={"18%"}>{baby.idade_gestacional} meses</td>
+                        <td width={"18%"}>{baby.gestationalAge} meses</td>
                     </tr>
                 ))}
             </tbody>

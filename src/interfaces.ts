@@ -2,14 +2,12 @@
 
 //BABYS_INFO
 export type tBaby = {
-    id_baby: number;
+    id: number;
     name: string;
-    birth_year: number;
-    birth_month: number;
-    birth_day: number;
-    is_prem: boolean;
-    idade_gestacional: number;
-    atipicidades: string;
+    birthDate: Date;
+    isPremature: boolean;
+    gestationalAge: number;
+    atipicidade: string;
 };
 
 //MOVS_INFO

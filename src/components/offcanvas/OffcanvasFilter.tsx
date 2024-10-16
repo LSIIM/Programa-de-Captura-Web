@@ -81,7 +81,7 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
                             <FormSelect isInvalid={errorToReadBabys} onChange={handleOnChangeBabyIdSelected}>
                                 <option value="">Todos</option>
                                 {babys.map((baby) => (
-                                    <option value={String(baby.id_baby)} key={baby.id_baby}>
+                                    <option value={String(baby.id)} key={baby.id}>
                                         {baby.name}
                                     </option>
                                 ))}

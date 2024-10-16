@@ -1,9 +1,15 @@
-import { useCallback, useState } from "react";
-import { tBaby, tPartialEntity } from "../interfaces";
+import { useCallback, useContext, useState } from "react";
+import { tBaby } from "../interfaces";
 import { tNewBaby } from "../components/forms/formBaby/FormBaby";
+import api, { tBabyQuery } from "../services/api";
+import utils from "../utils";
+import { SystemContext } from "../contexts/SystemContext";
 
 let abortController: AbortController | undefined;
 export default function useBaby() {
+    //CONTEXT
+    const { showAlert } = useContext(SystemContext);
+
     //STATES
     const [isReading, setIsReading] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
@@ -12,83 +18,90 @@ export default function useBaby() {
     const [errorToRead, setErrorToRead] = useState(false);
 
     //EVENTS
-    const readBabys = useCallback(() => {
-        abortController = new AbortController();
-        //const signal = abortController.signal;
+    const readBabys = useCallback(
+        (params?: tBabyQuery) => {
+            abortController = new AbortController();
+            const signal = abortController.signal;
 
-        return new Promise<tBaby[]>(async (resolve, reject) => {
-            try {
-                setIsReading(true);
-                //TODO: Implementar a lógica de carregar dados dos bebês.
-                const babys = await new Promise<tBaby[]>((resolve) => setTimeout(() => resolve(_babys), 1000));
-                setErrorToRead(false);
-                resolve(babys);
-            } catch (err: any) {
-                setErrorToRead(true);
-                console.error(err);
-                reject(err?.message ?? "Erro ao encontrar bebês.");
-            } finally {
-                setIsReading(false);
-            }
-        });
-    }, []);
+            return new Promise<tBaby[]>(async (resolve, reject) => {
+                try {
+                    setIsReading(true);
+                    const res = await api.getBabys(params, signal);
+                    setErrorToRead(false);
+                    resolve(res.data);
+                } catch (err: any) {
+                    if (utils.canIgnoreThisError(err)) return;
+                    showAlert(utils.getMessageError(err));
+                    setErrorToRead(true);
+                    console.error(err);
+                    reject(err);
+                } finally {
+                    setIsReading(false);
+                }
+            });
+        },
+        [showAlert]
+    );
 
-    const updateBaby = useCallback(async (baby: tNewBaby & tPartialEntity<tBaby, "id_baby">) => {
+    const updateBaby = useCallback(async (id: number, data: tNewBaby) => {
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
                 setIsUpdating(true);
-                //TODO: Implementar lógica de editar bebês
-                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                await api.updateBaby(id, data, signal);
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
+                showAlert(utils.getMessageError(err));
                 console.error(err);
-                reject(err.message ?? "Erro desconhecido ao editar bebê.");
+                reject(err);
             } finally {
                 setIsUpdating(false);
             }
         });
-    }, []);
+    }, [showAlert]);
 
     const createBaby = useCallback(async (baby: tNewBaby) => {
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
                 setIsCreating(true);
-                //TODO: Realizar lógica de criar o bebê
-                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                await api.createBaby(baby, signal);
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
+                showAlert(utils.getMessageError(err));
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao criar bebê.");
+                reject(err);
             } finally {
                 setIsCreating(false);
             }
         });
-    }, []);
+    }, [showAlert]);
 
     const deleteBaby = useCallback(async (babyId: number) => {
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
                 setIsDeleting(true);
-                //TODO: Realizar lógica de deletar o bebê
-                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                await api.deleteBaby(babyId, signal);
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
+                showAlert(utils.getMessageError(err));
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao deletar bebê.");
+                reject(err);
             } finally {
                 setIsDeleting(false);
             }
         });
-    }, []);
+    }, [showAlert]);
 
     const cancelProcess = useCallback(() => abortController?.abort(), []);
 
@@ -105,107 +118,3 @@ export default function useBaby() {
         errorToRead,
     };
 }
-
-const _babys: tBaby[] = [
-    {
-        id_baby: 0,
-        name: "Baby A",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus.",
-    },
-    {
-        id_baby: 1,
-        name: "Baby B",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 2,
-        name: "Baby C",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 3,
-        name: "Baby D",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 4,
-        name: "Baby E",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 5,
-        name: "Baby F",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 6,
-        name: "Baby G",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 7,
-        name: "Baby H",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 8,
-        name: "Baby I",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-    {
-        id_baby: 9,
-        name: "Baby J",
-        birth_day: 1,
-        birth_month: 0,
-        birth_year: 2000,
-        is_prem: false,
-        idade_gestacional: 9,
-        atipicidades: "",
-    },
-];
