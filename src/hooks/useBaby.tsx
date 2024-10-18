@@ -43,65 +43,74 @@ export default function useBaby() {
         [showAlert]
     );
 
-    const updateBaby = useCallback(async (id: number, data: tNewBaby) => {
-        abortController = new AbortController();
-        const signal = abortController.signal;
+    const updateBaby = useCallback(
+        async (id: number, data: tNewBaby) => {
+            abortController = new AbortController();
+            const signal = abortController.signal;
 
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                setIsUpdating(true);
-                await api.updateBaby(id, data, signal);
-                resolve();
-            } catch (err: any) {
-                if (utils.canIgnoreThisError(err)) return;
-                showAlert(utils.getMessageError(err));
-                console.error(err);
-                reject(err);
-            } finally {
-                setIsUpdating(false);
-            }
-        });
-    }, [showAlert]);
+            return new Promise<void>(async (resolve, reject) => {
+                try {
+                    setIsUpdating(true);
+                    await api.updateBaby(id, data, signal);
+                    resolve();
+                } catch (err: any) {
+                    if (utils.canIgnoreThisError(err)) return;
+                    showAlert(utils.getMessageError(err));
+                    console.error(err);
+                    reject(err);
+                } finally {
+                    setIsUpdating(false);
+                }
+            });
+        },
+        [showAlert]
+    );
 
-    const createBaby = useCallback(async (baby: tNewBaby) => {
-        abortController = new AbortController();
-        const signal = abortController.signal;
+    const createBaby = useCallback(
+        async (baby: tNewBaby) => {
+            abortController = new AbortController();
+            const signal = abortController.signal;
 
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                setIsCreating(true);
-                await api.createBaby(baby, signal);
-                resolve();
-            } catch (err: any) {
-                if (utils.canIgnoreThisError(err)) return;
-                showAlert(utils.getMessageError(err));
-                console.error(err);
-                reject(err);
-            } finally {
-                setIsCreating(false);
-            }
-        });
-    }, [showAlert]);
+            return new Promise<void>(async (resolve, reject) => {
+                try {
+                    setIsCreating(true);
+                    await api.createBaby([baby], signal);
+                    resolve();
+                } catch (err: any) {
+                    if (utils.canIgnoreThisError(err)) return;
+                    showAlert(utils.getMessageError(err));
+                    console.error(err);
+                    reject(err);
+                } finally {
+                    setIsCreating(false);
+                }
+            });
+        },
+        [showAlert]
+    );
 
-    const deleteBaby = useCallback(async (babyId: number) => {
-        abortController = new AbortController();
-        const signal = abortController.signal;
+    const deleteBaby = useCallback(
+        async (babyId: number) => {
+            abortController = new AbortController();
+            const signal = abortController.signal;
 
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                setIsDeleting(true);
-                await api.deleteBaby(babyId, signal);
-                resolve();
-            } catch (err: any) {
-                if (utils.canIgnoreThisError(err)) return;
-                showAlert(utils.getMessageError(err));
-                console.error(err);
-                reject(err);
-            } finally {
-                setIsDeleting(false);
-            }
-        });
-    }, [showAlert]);
+            return new Promise<void>(async (resolve, reject) => {
+                try {
+                    setIsDeleting(true);
+                    await api.deleteBaby(babyId, signal);
+                    resolve();
+                } catch (err: any) {
+                    if (utils.canIgnoreThisError(err)) return;
+                    showAlert(utils.getMessageError(err));
+                    console.error(err);
+                    reject(err);
+                } finally {
+                    setIsDeleting(false);
+                }
+            });
+        },
+        [showAlert]
+    );
 
     const cancelProcess = useCallback(() => abortController?.abort(), []);
 

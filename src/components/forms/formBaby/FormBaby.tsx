@@ -1,9 +1,10 @@
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useCallback } from "react";
-import { Col, Form, FormControl, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import { v4 } from "uuid";
 import { tBaby, tPartialEntity } from "../../../interfaces";
+import { InputDate } from "../..";
 
 //TYPES
 export type tNewBaby = tPartialEntity<tBaby, "birthDate" | "isPremature" | "name" | "atipicidade" | "gestationalAge">;
@@ -78,10 +79,10 @@ export default function FormBaby(props: FormBabyProps) {
                             </Form.Group>
                             <Form.Group as={Col} sm="7" controlId={v4()} className="mb-2">
                                 <Form.Label>Data de nascimento?</Form.Label>
-                                <FormControl
+                                <InputDate
                                     className={"rounded-pill"}
-                                    value={values.birthDate.toString()}
-                                    onChange={(e) => setValues({ ...values, birthDate: new Date(e.target.value) })}
+                                    dateValue={values.birthDate}
+                                    onAccept={(birthDate) => setValues({ ...values, birthDate })}
                                     type="date"
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.isPremature}</Form.Control.Feedback>

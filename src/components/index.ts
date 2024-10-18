@@ -16,7 +16,7 @@ import FormBaby from "./forms/formBaby/FormBaby";
 //INPUTS
 import InputPassword from "./inputs/inputPassword/InputPassword";
 import InputSearch from "./inputs/inputSearch/InputSearch";
-import InputBirthBaby from "./inputs/inputBirthBaby/InputBirthBaby";
+import InputDate from "./inputs/inputDate/InputDate";
 
 //LINK
 import TextLink from "./links/TextLink/TextLink";
@@ -54,7 +54,7 @@ export {
     //INPUTS
     InputPassword,
     InputSearch,
-    InputBirthBaby,
+    InputDate,
 
     //LINK
     TextLink,
