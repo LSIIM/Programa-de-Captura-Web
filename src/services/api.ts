@@ -14,6 +14,23 @@ export type tQuery<WhereObj extends object, SortKeys extends string> = {
 export type tBabyQuery = tQuery<{ name?: string }, "name" | "birthDate" | "gestacionalAge">;
 export type tProjectQuery = tQuery<{}, "">;
 
+//Verifica strings em formato de datas
+const formatoDeData = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/;
+function ehUmaData(value: any): boolean {
+    return value && typeof value === "string" && formatoDeData.test(value);
+}
+
+//Lida com as datas vindas em formato de string da API e as transforma em data para o resto da aplição.
+function handleDatas(dados: any) {
+    if (dados === null || dados === undefined || typeof dados !== "object") return dados;
+
+    for (const key of Object.keys(dados)) {
+        const valor = dados[key];
+        if (ehUmaData(valor)) dados[key] = new Date(valor);
+        else if (typeof valor === "object") handleDatas(valor);
+    }
+}
+
 const instance = axios.create({
     baseURL: process.env.REACT_APP_API + "/v1",
     timeout: 10_000, // Milliseconds
@@ -34,6 +51,7 @@ instance.interceptors.request.use(
 // Add a response interceptor
 instance.interceptors.response.use(
     function (response) {
+        handleDatas(response.data);
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
         return response;

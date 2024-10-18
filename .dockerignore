@@ -1,0 +1,12 @@
+node_modules
+
+.dockerignore
+.env.example
+.prettierrc.json
+
+Dockerfile
+docker-compose.yml
+
+README.md
+
+yarn.lock
