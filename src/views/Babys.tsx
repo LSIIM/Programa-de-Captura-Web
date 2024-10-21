@@ -25,8 +25,8 @@ export default function Babys() {
             try {
                 const incomingBabys = await readBabys({ page, where: { name } });
 
-                if (!page) setBabys(incomingBabys);
-                else setBabys((current) => ({ ...current, ...incomingBabys }));
+                if (page === undefined) setBabys(incomingBabys);
+                else setBabys((current) => [...current, ...incomingBabys]);
 
                 return incomingBabys.length;
             } catch (_) {
