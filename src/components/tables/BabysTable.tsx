@@ -15,6 +15,8 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
         [onClickBaby]
     );
 
+    console.log(babys);
+
     return (
         <table className="w-100 my-table rounded-4">
             <thead>
