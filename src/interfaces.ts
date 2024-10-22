@@ -41,8 +41,10 @@ export type tCam = {
 
 //PROJECT
 export type tProject = {
-    id_proj: number;
-    name_proj: string;
+    id: number;
+    projectName: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 //Tipo auxiliar para obter tipos parciais de tipos existentes

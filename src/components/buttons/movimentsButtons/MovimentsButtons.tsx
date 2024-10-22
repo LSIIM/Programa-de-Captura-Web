@@ -42,11 +42,11 @@ export default function MovimentsButtons({
                     variant={
                         currentMovimentId === mov.id_mov
                             ? props.donedMovimentsIds?.includes(mov.id_mov)
-                                ? "success-dark"
-                                : "primary-dark"
+                                ? "primary-dark"
+                                : "secondary-dark"
                             : props.donedMovimentsIds?.includes(mov.id_mov)
-                            ? "success"
-                            : "primary"
+                            ? "primary"
+                            : "secondary"
                     }
                     className={`my-moviment-button ps-2 pe-2 p-1 rounded-pill shadow-sm`}
                     size="sm"

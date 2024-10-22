@@ -1,13 +1,17 @@
 import { Col, Form, FormGroup, FormSelect } from "react-bootstrap";
 import { v4 } from "uuid";
 import { useBaby, useProject } from "../hooks";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { tBaby, tMovs, tProject } from "../interfaces";
 import { LayoutRecording } from "../layouts";
 import { SelectCamsPSModal } from "../components";
 import { tStreamLabel } from "../layouts/recording/LayoutRecordingBody";
+import { SystemContext } from "../contexts/SystemContext";
 
 export default function CreateRecord() {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { readBabys, cancelProcess: cancelBabyProcess } = useBaby();
     const { readProjects, cancelProcess: cancelProjectProcess } = useProject();
@@ -53,9 +57,9 @@ export default function CreateRecord() {
 
     const handleOnCanFindStreams = useCallback(() => {
         if (selectedProject && selectedBaby) return true;
-        alert("Antes de escolher as câmeras selecione um bebê e um projeto.");
+        showAlert("Antes de escolher as câmeras selecione um bebê e um projeto.");
         return false;
-    }, [selectedProject, selectedBaby]);
+    }, [selectedProject, selectedBaby, showAlert]);
 
     const handleOnFindStreams = useCallback((streams: MediaStream[]) => {
         setStreams(streams);
@@ -78,7 +82,7 @@ export default function CreateRecord() {
     const handleOnChangeSelectProject = useCallback(
         (_projectId: string) => {
             const projectId = Number(_projectId);
-            const selectedProject = projects.find((project) => project.id_proj === projectId);
+            const selectedProject = projects.find((project) => project.id === projectId);
             setSelectedProject(selectedProject ?? null);
         },
         [projects]
@@ -108,13 +112,13 @@ export default function CreateRecord() {
                         <Form.Label>Projeto</Form.Label>
                         <FormSelect
                             className="rounded-pill"
-                            value={selectedProject?.id_proj ?? ""}
+                            value={selectedProject?.id ?? ""}
                             onChange={(e) => handleOnChangeSelectProject(e.target.value)}
                         >
                             <option value="">--- Selecionar projeto ---</option>
                             {projects.map((project) => (
-                                <option key={project.id_proj} value={project.id_proj}>
-                                    {project.name_proj}
+                                <option key={project.id} value={project.id}>
+                                    {project.projectName}
                                 </option>
                             ))}
                         </FormSelect>
@@ -127,17 +131,15 @@ export default function CreateRecord() {
                 <LayoutRecording.Body streamsLabel={selectedStreamsLabel} moviments={moviments} />
             </LayoutRecording.Root>
 
-            {selectedProject?.name_proj === "Projeto A" && (
-                <SelectCamsPSModal
-                    show={showSelectCamsModal}
-                    onHide={handleOnHideSelectCamsModal}
-                    videoStreams={streams}
-                    onConfirm={(selected) => {
-                        setSelectedStreamsLabel(selected);
-                        setShowSelectCamsModal(false);
-                    }}
-                />
-            )}
+            <SelectCamsPSModal
+                show={showSelectCamsModal}
+                onHide={handleOnHideSelectCamsModal}
+                videoStreams={streams}
+                onConfirm={(selected) => {
+                    setSelectedStreamsLabel(selected);
+                    setShowSelectCamsModal(false);
+                }}
+            />
         </>
     );
 }

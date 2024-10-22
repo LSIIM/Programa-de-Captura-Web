@@ -1,32 +1,32 @@
-$primary: #e08d79;
-$primary-25: rgba(#e08d79, 0.25);
-$primary-50: rgba(#e08d79, 0.5);
-$primary-75: rgba(#e08d79, 0.75);
+$primary: #95daac;
+$primary-25: rgba(#95daac, 0.25);
+$primary-50: rgba(#95daac, 0.5);
+$primary-75: rgba(#95daac, 0.75);
 
-$primary-dark: #a54027;
-$primary-dark-25: rgba(#a54027, 0.25);
-$primary-dark-50: rgba(#a54027, 0.5);
-$primary-dark-75: rgba(#a54027, 0.75);
+$primary-dark: #2f4b39;
+$primary-dark-25: rgba(#2f4b39, 0.25);
+$primary-dark-50: rgba(#2f4b39, 0.5);
+$primary-dark-75: rgba(#2f4b39, 0.75);
 
-$secondary: #818d92;
-$secondary-25: rgba(#818d92, 0.25);
-$secondary-50: rgba(#818d92, 0.5);
-$secondary-75: rgba(#818d92, 0.75);
+$secondary: #bbc2c9;
+$secondary-25: rgba(#bbc2c9, 0.25);
+$secondary-50: rgba(#bbc2c9, 0.5);
+$secondary-75: rgba(#bbc2c9, 0.75);
 
-$dark: #363537;
-$dark-25: rgba(#363537, 0.25);
-$dark-50: rgba(#363537, 0.5);
-$dark-75: rgba(#363537, 0.75);
+$dark: #101913;
+$dark-25: rgba(#101913, 0.25);
+$dark-50: rgba(#101913, 0.5);
+$dark-75: rgba(#101913, 0.75);
 
-$light: #fff8eb;
-$light-25: rgba(#fff8eb, 0.25);
-$light-50: rgba(#fff8eb, 0.5);
-$light-75: rgba(#fff8eb, 0.75);
+$light: #f2f7f4;
+$light-25: rgba(#f2f7f4, 0.25);
+$light-50: rgba(#f2f7f4, 0.5);
+$light-75: rgba(#f2f7f4, 0.75);
 
-$info: #385f71;
-$info-25: rgba(#385f71, 0.25);
-$info-50: rgba(#385f71, 0.5);
-$info-75: rgba(#385f71, 0.75);
+$info: #365945;
+$info-25: rgba(#365945, 0.25);
+$info-50: rgba(#365945, 0.5);
+$info-75: rgba(#365945, 0.75);
 
 $success: #9ee493;
 $warning: #ffd449;
@@ -37,11 +37,15 @@ $danger: #ff6b6b;
 [data-bs-theme="light"] {
     // BACKGROUNDS
     .bg-primary {
-        background-color: $primary !important;
+        background-color: darken($primary, 10%) !important;
+        color: $dark !important;
+    }
+    .bg-primary-light {
+        background-color: lighten($primary, 10%) !important;
         color: $dark !important;
     }
     .bg-secondary {
-        background-color: lighten($secondary, 33%) !important;
+        background-color: lighten($secondary, 20%) !important;
         color: $dark !important;
     }
     .bg-light {
@@ -91,7 +95,7 @@ $danger: #ff6b6b;
     .btn-primary {
         background-color: $primary !important;
         color: $dark !important;
-        border-color: lighten($primary, 3%) !important;
+        border-color: lighten($primary, 5%) !important;
         &:hover {
             background-color: darken($primary, 10%) !important;
         }
@@ -100,14 +104,14 @@ $danger: #ff6b6b;
         }
     }
     .btn-primary-dark {
-        background-color: darken($primary, 15%) !important;
-        border-color: $primary !important;
+        background-color: darken($primary, 25%) !important;
+        border-color: darken($primary, 30%) !important;
         color: $dark !important;
         &:hover {
-            background-color: darken($primary, 20%) !important;
+            background-color: darken($primary, 35%) !important;
         }
         &:active {
-            background-color: darken($primary, 25%) !important;
+            background-color: darken($primary, 40%) !important;
         }
     }
     .btn-success-dark {
@@ -119,6 +123,17 @@ $danger: #ff6b6b;
         }
         &:active {
             background-color: darken($success, 25%) !important;
+        }
+    }
+    .btn-secondary-dark {
+        background-color: darken($secondary, 20%) !important;
+        border-color: darken($secondary, 25%) !important;
+        color: $dark !important;
+        &:hover {
+            background-color: darken($secondary, 30%) !important;
+        }
+        &:active {
+            background-color: darken($secondary, 35%) !important;
         }
     }
     .btn-outline-secondary {
@@ -141,8 +156,8 @@ $danger: #ff6b6b;
     }
 
     //LINKS
-    .my-link-dark {
-        color: $dark !important;
+    .my-link {
+        color: darken($secondary, 30%) !important;
         scale: 1 !important;
         transition: scale 150ms !important;
         &:hover {
@@ -152,22 +167,22 @@ $danger: #ff6b6b;
             scale: 0.95 !important;
         }
     }
-    .my-link-dark.my-link-active {
-        color: $info !important;
+    .my-link.my-link-active {
+        color: $dark !important;
     }
 
     //TABLES
     .my-table {
-        background: lighten($secondary, 33%);
+        background: $secondary-50;
     }
     .my-table > tbody > tr:nth-child(odd) {
-        background-color: lighten($secondary, 40%);
+        background-color: lighten($secondary-50, 50%);
     }
     .my-table > tbody > tr:nth-child(odd):hover {
-        background-color: lighten($secondary-25, 42%);
+        background-color: darken($secondary-50, 10%);
     }
     .my-table > tbody > tr:nth-child(even):hover {
-        background-color: lighten($secondary-25, 42%);
+        background-color: darken($secondary-50, 10%);
     }
 
     //MENU LIST
@@ -187,6 +202,10 @@ $danger: #ff6b6b;
     .bg-primary {
         background-color: $primary-dark !important;
         color: $light !important;
+    }
+    .bg-primary-light {
+        background-color: lighten($primary-dark, 10%) !important;
+        color: $dark !important;
     }
     .bg-secondary {
         background-color: darken($secondary, 25%) !important;
@@ -241,35 +260,57 @@ $danger: #ff6b6b;
     }
     .btn-primary {
         background-color: $primary-dark !important;
-        border-color: lighten($primary-dark, 3%) !important;
+        border-color: lighten($primary-dark, 5%) !important;
         color: $light !important;
         &:hover {
-            background-color: darken($primary-dark, 10%) !important;
+            background-color: darken($primary-dark, 5%) !important;
         }
         &:active {
-            background-color: darken($primary-dark, 15%) !important;
+            background-color: darken($primary-dark, 10%) !important;
         }
     }
     .btn-primary-dark {
-        background-color: darken($primary-dark, 15%) !important;
-        border-color: $primary-dark !important;
+        background-color: darken($primary-dark, 8%) !important;
+        border-color: darken($primary-dark, 13%) !important;
         color: $light !important;
         &:hover {
-            background-color: darken($primary-dark, 20%) !important;
+            background-color: darken($primary-dark, 13%) !important;
         }
         &:active {
-            background-color: darken($primary-dark, 25%) !important;
+            background-color: darken($primary-dark, 18%) !important;
         }
     }
     .btn-success-dark {
-        background-color: darken($success, 15%) !important;
-        border-color: darken($success, 10%) !important;
-        color: $dark !important;
+        background-color: darken($success, 45%) !important;
+        border-color: darken($success, 50%) !important;
+        color: $light !important;
         &:hover {
-            background-color: darken($success, 20%) !important;
+            background-color: darken($success, 50%) !important;
         }
         &:active {
-            background-color: darken($success, 25%) !important;
+            background-color: darken($success, 55%) !important;
+        }
+    }
+    .btn-secondary {
+        background-color: darken($secondary, 20%) !important;
+        border-color: darken($secondary, 25%) !important;
+        color: $light !important;
+        &:hover {
+            background-color: darken($secondary, 25%) !important;
+        }
+        &:active {
+            background-color: darken($secondary, 30%) !important;
+        }
+    }
+    .btn-secondary-dark {
+        background-color: darken($secondary, 40%) !important;
+        border-color: darken($secondary, 45%) !important;
+        color: $light !important;
+        &:hover {
+            background-color: darken($secondary, 45%) !important;
+        }
+        &:active {
+            background-color: darken($secondary, 50%) !important;
         }
     }
     .btn-outline-secondary {
@@ -292,8 +333,8 @@ $danger: #ff6b6b;
     }
 
     //LINKS
-    .my-link-dark {
-        color: $light !important;
+    .my-link {
+        color: $secondary !important;
         scale: 1 !important;
         transition: scale 150ms !important;
         &:hover {
@@ -303,18 +344,21 @@ $danger: #ff6b6b;
             scale: 0.95 !important;
         }
     }
-    .my-link-dark.my-link-active {
-        color: #{lighten($info, 40%)} !important;
+    .my-link.my-link-active {
+        color: $light !important;
     }
 
     //TABLES
     .my-table {
-        background-color: darken($secondary, 25%);
+        background: $secondary-25;
     }
     .my-table > tbody > tr:nth-child(odd) {
-        background-color: $secondary-25;
+        background-color: lighten($secondary-25, 2%);
     }
-    .my-table > tbody > tr:hover {
+    .my-table > tbody > tr:nth-child(odd):hover {
+        background-color: darken($secondary-25, 10%);
+    }
+    .my-table > tbody > tr:nth-child(even):hover {
         background-color: darken($secondary-25, 10%);
     }
 

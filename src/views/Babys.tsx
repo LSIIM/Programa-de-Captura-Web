@@ -16,7 +16,7 @@ export default function Babys() {
     const [search, setSearch] = useState("");
 
     //VARIABLES
-    const filterBabys =
+    const filteredBabys =
         search === "" ? babys : babys.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()));
 
     //EVENTS
@@ -26,7 +26,7 @@ export default function Babys() {
                 const incomingBabys = await readBabys({ page, where: { name } });
 
                 if (page === undefined) setBabys(incomingBabys);
-                else setBabys((current) => [...current, ...incomingBabys]);
+                else setBabys((current) => ({...current, ...incomingBabys}));
 
                 return incomingBabys.length;
             } catch (_) {
@@ -60,7 +60,7 @@ export default function Babys() {
                     </LayoutTable.Button>
                 </LayoutTable.Header>
                 <LayoutTable.Body isLoading={isReading}>
-                    <BabysTable babys={filterBabys} onClickBaby={setBabySelected} />
+                    <BabysTable babys={filteredBabys} onClickBaby={setBabySelected} />
                 </LayoutTable.Body>
             </LayoutTable.Root>
 

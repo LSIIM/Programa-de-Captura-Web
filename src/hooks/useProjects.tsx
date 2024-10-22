@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { tPartialEntity, tProject } from "../interfaces";
+import api, { tProjectQuery } from "../services/api";
 
 let abortController: AbortController | undefined;
 export default function useProject() {
@@ -11,7 +12,7 @@ export default function useProject() {
     const [errorToRead, setErrorToRead] = useState(false);
 
     //EVENTS
-    const readProjects = useCallback(() => {
+    const readProjects = useCallback((params?: tProjectQuery, signal?: AbortSignal) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
 
@@ -19,9 +20,9 @@ export default function useProject() {
             try {
                 setIsReading(true);
                 //TODO: Implementar a lógica de carregar dados dos projetos.
-                const projects = await new Promise<tProject[]>((resolve) => setTimeout(() => resolve(_projects), 1000));
+                const res = await api.getProjects(params, signal);
                 setErrorToRead(false);
-                resolve(projects);
+                resolve(res.data);
             } catch (err: any) {
                 setErrorToRead(true);
                 console.error(err);
@@ -33,7 +34,7 @@ export default function useProject() {
     }, []);
 
     //TODO: Mudar o type any para o certo
-    const updateProject = useCallback(async (project: any & tPartialEntity<tProject, "id_proj">) => {
+    const updateProject = useCallback(async (project: any & tPartialEntity<tProject, "id">) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
 
@@ -105,5 +106,3 @@ export default function useProject() {
         errorToRead,
     };
 }
-
-const _projects: tProject[] = [{ id_proj: 0, name_proj: "Projeto A" }];

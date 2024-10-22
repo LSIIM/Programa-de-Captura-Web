@@ -3,19 +3,22 @@ import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 
 export interface ControlRecordinButtonProps {
+    isAllDone: boolean;
     isRecording: boolean;
     isSave: boolean;
     onClickInit?: () => void;
     onClickDone?: () => void;
     onClickRemake?: () => void;
+    onClickSaveAll?: () => Promise<void> | void;
 }
 
 export default function ControlRecordingButton(props: ControlRecordinButtonProps) {
     //STATES
+    const [isSavingAll, setIsSavingAll] = useState(false);
     const [timer, setTimer] = useState(0);
 
     //VARIAVEIS
-    const { isRecording, onClickInit, onClickDone, onClickRemake, isSave } = props;
+    const { isRecording, onClickInit, onClickDone, onClickRemake, isSave, onClickSaveAll } = props;
 
     const returnTimerFormated = useCallback((timer: number) => {
         const minutes = Math.floor(timer / 60) % 60;
@@ -58,9 +61,22 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
         }
     }, [isSave, isRecording, onClickDone, onClickInit, onClickRemake]);
 
+    const handleOnClickSaveAll = useCallback(async () => {
+        try {
+            setIsSavingAll(true);
+            if (onClickSaveAll) await onClickSaveAll();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSavingAll(false);
+        }
+    }, [onClickSaveAll]);
+
     return (
         <div className="d-flex gap-2">
             <Button
+                variant={props.isSave ? "secondary" : "primary"}
+                title="Play/Pause"
                 onClick={handleOnClick}
                 className={`my-control-recording-button ${
                     isRecording ? "recording" : ""
@@ -70,6 +86,17 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
                 <div className={`my-control-recording-button-timer ${isRecording ? "recording" : ""}`}>
                     {returnTimerFormated(timer)}
                 </div>
+            </Button>
+            <Button
+                disabled={isSavingAll}
+                onClick={!isSavingAll ? handleOnClickSaveAll : undefined}
+                variant="primary"
+                title="Enviar"
+                className={`my-control-recording-button d-flex ${
+                    props.isAllDone ? "" : "d-none"
+                } fs-5 rounded-pill align-items-center justify-content-center`}
+            >
+                <i className="bi bi-cloud-arrow-up-fill" />
             </Button>
         </div>
     );

@@ -1,6 +1,6 @@
 import { tNewBaby } from "../components/forms/formBaby/FormBaby";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
-import { tBaby } from "../interfaces";
+import { tBaby, tProject } from "../interfaces";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -99,16 +99,8 @@ const api = {
         instance.get(`/baby/${id}`, { signal }),
 
     //PROJECTS
-    createProject: (data: tNewBaby[], signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.post(`/baby`, { data }, { signal }),
-    updateProject: (id: number, data: tNewBaby, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.patch(`/baby/${id}`, { data }, { signal }),
-    deleteProject: (id: number, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.delete(`/baby/${id}`, { signal }),
-    getProjects: (params?: tBabyQuery, signal?: AbortSignal): Promise<AxiosResponse<tBaby[], AxiosError>> =>
-        instance.get(`/baby`, { params, signal }),
-    getProject: (id: number, signal?: AbortSignal): Promise<AxiosResponse<tBaby, AxiosError>> =>
-        instance.get(`/baby/${id}`, { signal }),
+    getProjects: (params?: tProjectQuery, signal?: AbortSignal): Promise<AxiosResponse<tProject[], AxiosError>> =>
+        instance.get(`/project`, { params, signal }),
 };
 
 export default api;

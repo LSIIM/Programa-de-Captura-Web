@@ -30,7 +30,7 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
                         <td width={"35%"}>
                             <span
                                 onClick={() => handleOnClickBaby(baby)}
-                                className="text-decoration-underline text-info"
+                                className="text-decoration-underline text-dark"
                             >
                                 {baby.name}
                             </span>
