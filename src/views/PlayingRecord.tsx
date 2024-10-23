@@ -54,7 +54,7 @@ export default function PlayingRecord() {
             <LayoutPlaying.PlayerContainer>
                 <LayoutPlaying.Player
                     loadingVideo={!videoReadyToPlay}
-                    loadingInfo={isFinding && errorToGet}
+                    loadingInfo={isFinding || errorToGet}
                     onReady={() => setVideoReadyToPlay(true)}
                     video={currentVideo ?? undefined}
                 >

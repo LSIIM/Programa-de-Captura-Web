@@ -59,7 +59,7 @@ export default function Babys() {
                         Cadastrar
                     </LayoutTable.Button>
                 </LayoutTable.Header>
-                <LayoutTable.Body isLoading={isReading}>
+                <LayoutTable.Body isLoading={isReading || errorToRead}>
                     {babys.length < 1 && !isReading && !errorToRead  && <h5 className="text-secondary w-100 text-center">--- Nenhum bebê encontrado ---</h5>}
                     {babys.length > 0 && <BabysTable babys={filteredBabys} onClickBaby={setBabySelected} />}
                 </LayoutTable.Body>

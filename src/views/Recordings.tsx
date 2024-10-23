@@ -50,7 +50,7 @@ export default function Recordings() {
                         Gravar
                     </LayoutGridList.Button>
                 </LayoutGridList.Header>
-                <LayoutGridList.Body isLoading={isReading}>
+                <LayoutGridList.Body isLoading={isReading || errorToRead}>
                     {recordings.length < 1 && !errorToRead && !isReading && (
                         <h5 className="text-secondary position-absolute text-center w-100">
                             --- Nenhuma gravação encontrada ---
