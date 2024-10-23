@@ -6,7 +6,7 @@ import utils from "../utils";
 let abortController: AbortController | undefined;
 export default function useProject() {
     //STATES
-    const [isReading, setIsReading] = useState(false);
+    const [arrBuscando, setArrBuscando] = useState<true[]>([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -19,7 +19,7 @@ export default function useProject() {
 
         return new Promise<tProject[]>(async (resolve, reject) => {
             try {
-                setIsReading(true);
+                setArrBuscando((current) => [...current, true]);
                 const res = await api.getProjects(params, signal);
                 setErrorToRead(false);
                 resolve(res.data);
@@ -29,7 +29,7 @@ export default function useProject() {
                 console.error(err);
                 reject(err);
             } finally {
-                setIsReading(false);
+                setArrBuscando((current) => current.slice(1));
             }
         });
     }, []);
@@ -102,7 +102,7 @@ export default function useProject() {
         deleteProject,
         createProject,
         cancelProcess,
-        isReading,
+        isReading: arrBuscando.length > 0,
         isCreating,
         isUpdating,
         isDeleting,

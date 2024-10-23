@@ -11,7 +11,7 @@ export default function useBaby() {
     const { showAlert } = useContext(SystemContext);
 
     //STATES
-    const [isReading, setIsReading] = useState(false);
+    const [arrBuscando, setArrBuscando] = useState<true[]>([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -25,7 +25,7 @@ export default function useBaby() {
 
             return new Promise<tBaby[]>(async (resolve, reject) => {
                 try {
-                    setIsReading(true);
+                    setArrBuscando((current) => [...current, true]);
                     const res = await api.getBabys(params, signal);
                     setErrorToRead(false);
                     resolve(res.data);
@@ -36,7 +36,7 @@ export default function useBaby() {
                     console.error(err);
                     reject(err);
                 } finally {
-                    setIsReading(false);
+                    setArrBuscando((current) => current.slice(1));
                 }
             });
         },
@@ -120,7 +120,7 @@ export default function useBaby() {
         deleteBaby,
         createBaby,
         cancelProcess,
-        isReading,
+        isReading: arrBuscando.length > 0,
         isCreating,
         isUpdating,
         isDeleting,

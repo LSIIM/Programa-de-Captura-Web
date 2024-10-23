@@ -5,6 +5,7 @@ import { CardRecordListed } from "../components";
 import { tRecording, tVideo } from "../interfaces";
 import { useParams } from "react-router-dom";
 import { SystemContext } from "../contexts/SystemContext";
+import utils from "../utils";
 
 export default function PlayingRecord() {
     //CONTEXTS
@@ -40,12 +41,12 @@ export default function PlayingRecord() {
                 setSuggestedVideos(recording.videos);
                 setCurrentVideo(recording.videos[0]);
             })
-            .catch((errMsg) => showAlert(errMsg));
+            .catch((err) => showAlert(utils.getMessageError(err)));
 
         //Buscando outros recordings
         readRecordings()
             .then((recordings) => setOtherRecordings(recordings))
-            .catch((errMsg) => showAlert(errMsg));
+            .catch((err) => showAlert(utils.getMessageError(err)));
     }, [readRecordings, currentRecordingId, getRecording, showAlert]);
 
     return (

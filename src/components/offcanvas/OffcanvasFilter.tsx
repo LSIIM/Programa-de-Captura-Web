@@ -5,6 +5,7 @@ import useBaby from "../../hooks/useBaby";
 import { tBaby, tProject } from "../../interfaces";
 import { useProject } from "../../hooks";
 import { SystemContext } from "../../contexts/SystemContext";
+import utils from "../../utils";
 
 export interface OffcanvasRecordingFilterProps extends OffcanvasProps {
     onApply?: (props: { babyIdSelected: null | number; projectSelected: null | number }) => void;
@@ -12,7 +13,7 @@ export interface OffcanvasRecordingFilterProps extends OffcanvasProps {
 
 export default function OffcanvasRecordingFilter({ onApply, ...rest }: OffcanvasRecordingFilterProps) {
     //CONTEXTS
-    const {showAlert} = useContext(SystemContext);
+    const { showAlert } = useContext(SystemContext);
 
     //HOOKS
     const {
@@ -41,12 +42,12 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
         //Carregando bebês
         readBabys()
             .then((babys) => setBabys(babys))
-            .catch((errMsg) => showAlert(errMsg));
+            .catch((err) => showAlert(utils.getMessageError(err)));
 
         //Carregando projetos
         readProjects()
             .then((projects) => setProjects(projects))
-            .catch((errMsg) => showAlert(errMsg));
+            .catch((err) => showAlert(utils.getMessageError(err)));
 
         return () => {
             cancelBabyProcess();
@@ -94,7 +95,8 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
                         </FormGroup>
                         <FormGroup controlId={v4()} className="position-relative">
                             <Form.Label className="d-flex align-items-center">
-                                Por projeto {isReadingProjects && <Spinner size="sm" className="ms-2" animation="grow" />}
+                                Por projeto{" "}
+                                {isReadingProjects && <Spinner size="sm" className="ms-2" animation="grow" />}
                             </Form.Label>
                             <FormSelect isInvalid={errorToReadProjects} onChange={handleOnChangeProjectIdSelected}>
                                 <option value="">Todos</option>

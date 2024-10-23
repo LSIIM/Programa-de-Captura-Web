@@ -7,13 +7,14 @@ import { useRecording } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router";
 import { SystemContext } from "../contexts/SystemContext";
+import utils from "../utils";
 
 export default function Recordings() {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
     //HOOKS
-    const { readRecordings, isReading, cancelProcess } = useRecording();
+    const { readRecordings, isReading, cancelProcess, errorToRead } = useRecording();
     const navigate = useNavigate();
 
     //STATES
@@ -24,7 +25,7 @@ export default function Recordings() {
     useEffect(() => {
         readRecordings()
             .then((recordings) => setRecordings(recordings))
-            .catch((errMsg) => showAlert(errMsg));
+            .catch((err) => showAlert(utils.getMessageError(err)));
         return () => cancelProcess();
     }, [readRecordings, cancelProcess, showAlert]);
 
@@ -50,6 +51,11 @@ export default function Recordings() {
                     </LayoutGridList.Button>
                 </LayoutGridList.Header>
                 <LayoutGridList.Body isLoading={isReading}>
+                    {recordings.length < 1 && !errorToRead && !isReading && (
+                        <h5 className="text-secondary position-absolute text-center w-100">
+                            --- Nenhuma gravação encontrada ---
+                        </h5>
+                    )}
                     {recordings.map((record) => (
                         <CardRecording key={record.id} recording={record} video={record.videos[0]} />
                     ))}

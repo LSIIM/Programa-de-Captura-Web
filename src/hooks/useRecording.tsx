@@ -6,8 +6,8 @@ import utils from "../utils";
 let abortController: AbortController | undefined;
 export default function useRecording() {
     //STATES
-    const [isFinding, setIsFinding] = useState(false);
-    const [isReading, setIsReading] = useState(false);
+    const [arrBuscando, setArrBuscando] = useState<true[]>([]);
+    const [arrBuscandoPorId, setArrBuscandoPorId] = useState<true[]>([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -22,7 +22,7 @@ export default function useRecording() {
 
         return new Promise<tRecording[]>(async (resolve, reject) => {
             try {
-                setIsReading(true);
+                setArrBuscando((current) => [...current, true]);
                 const res = await api.getRecordings(params, signal);
                 setErrorToRead(false);
                 resolve(res.data);
@@ -32,7 +32,7 @@ export default function useRecording() {
                 setErrorToRead(true);
                 reject(err);
             } finally {
-                setIsReading(false);
+                setArrBuscando((current) => current.slice(1));
             }
         });
     }, []);
@@ -44,7 +44,7 @@ export default function useRecording() {
 
         return new Promise<tRecording>(async (resolve, reject) => {
             try {
-                setIsFinding(true);
+                setArrBuscandoPorId((current) => [...current, true]);
                 //TODO: Implementar a lógica de pegar somente o recording certo.
                 const res = await api.getRecordings();
                 const recording = res.data.find(({ id }) => recordingId === id);
@@ -58,7 +58,7 @@ export default function useRecording() {
                 setErrorToGet(true);
                 reject(err);
             } finally {
-                setIsFinding(false);
+                setArrBuscandoPorId((current) => current.slice(1));
             }
         });
     }, []);
@@ -66,6 +66,7 @@ export default function useRecording() {
     const updateRecording = useCallback(async (recording: any) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
+        console.log(recording);
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -132,8 +133,8 @@ export default function useRecording() {
         readRecordings,
         deleteRecording,
         cancelProcess,
-        isFinding,
-        isReading,
+        isFinding: arrBuscandoPorId.length > 0,
+        isReading: arrBuscando.length > 0,
         isCreating,
         isUpdating,
         isDeleting,
