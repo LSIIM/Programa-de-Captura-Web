@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 import { tRecording } from "../interfaces";
+import api, { tRecordingQuery } from "../services/api";
+import utils from "../utils";
 
 let abortController: AbortController | undefined;
 export default function useRecording() {
@@ -13,31 +15,29 @@ export default function useRecording() {
     const [errorToGet, setErrorToGet] = useState(false);
 
     //EVENTS
-    const readRecordings = useCallback(async () => {
+    const readRecordings = useCallback(async (params?: tRecordingQuery) => {
         //TODO: Implementar o controle de signal
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<tRecording[]>(async (resolve, reject) => {
             try {
                 setIsReading(true);
-                //TODO: Implementar a lógica de carregar dados dos recordings.
-                const recordings = await new Promise<tRecording[]>((resolve) =>
-                    setTimeout(() => resolve(_recordings), 1000)
-                );
+                const res = await api.getRecordings(params, signal);
                 setErrorToRead(false);
-                resolve(recordings);
+                resolve(res.data);
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
                 setErrorToRead(true);
-                reject(err?.message ?? "Erro desconhecido ao buscar recordings");
+                reject(err);
             } finally {
                 setIsReading(false);
             }
         });
     }, []);
 
-    const getRecording = useCallback(async (id: number) => {
+    const getRecording = useCallback(async (recordingId: number) => {
         //TODO: Implementar o controle de signal
         abortController = new AbortController();
         //const signal = abortController.signal;
@@ -45,21 +45,18 @@ export default function useRecording() {
         return new Promise<tRecording>(async (resolve, reject) => {
             try {
                 setIsFinding(true);
-                //TODO: Implementar a lógica de carregar dados do recording.
-                const recording = await new Promise<tRecording>((resolve, reject) =>
-                    setTimeout(() => {
-                        const recordings = _recordings;
-                        const recording = recordings.find(({ id_recording }) => id_recording === id);
-                        if (recording) resolve(recording);
-                        else reject(new Error("A gravação não foi encontrada."));
-                    }, 1000)
-                );
+                //TODO: Implementar a lógica de pegar somente o recording certo.
+                const res = await api.getRecordings();
+                const recording = res.data.find(({ id }) => recordingId === id);
+                if (!recording) throw Error("Gravação não encontrada!");
+
                 setErrorToGet(false);
                 resolve(recording);
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
                 setErrorToGet(true);
-                reject(err?.message ?? "Erro desconhecido ao buscar recordings");
+                reject(err);
             } finally {
                 setIsFinding(false);
             }
@@ -77,8 +74,9 @@ export default function useRecording() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err.message ?? "Erro desconhecido ao editar recording.");
+                reject(err);
             } finally {
                 setIsUpdating(false);
             }
@@ -96,8 +94,9 @@ export default function useRecording() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao criar recording.");
+                reject(err);
             } finally {
                 setIsCreating(false);
             }
@@ -115,8 +114,9 @@ export default function useRecording() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao deletar recording.");
+                reject(err);
             } finally {
                 setIsDeleting(false);
             }
@@ -141,104 +141,3 @@ export default function useRecording() {
         errorToGet,
     };
 }
-
-const _recordings: tRecording[] = [
-    {
-        id_recording: 0,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 1,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 2,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 3,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 4,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 5,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-    {
-        id_recording: 6,
-        fk_id_baby: 1,
-        fk_id_cam_mov: true,
-        fk_id_cam_mov_aux: 1,
-        fk_id_mov: 0,
-        fk_id_projeto: 0,
-        ignore: true,
-        observation: "Algo foi observado.",
-        recording_year: 2024,
-        recording_month: 8,
-        recording_day: 2,
-        mov_aux: true,
-    },
-];

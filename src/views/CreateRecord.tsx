@@ -2,7 +2,7 @@ import { Col, Form, FormGroup, FormSelect } from "react-bootstrap";
 import { v4 } from "uuid";
 import { useBaby, useProject } from "../hooks";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { tBaby, tMovs, tProject } from "../interfaces";
+import { tBaby, tMov, tProject } from "../interfaces";
 import { LayoutRecording } from "../layouts";
 import { SelectCamsPSModal } from "../components";
 import { tStreamLabel } from "../layouts/recording/LayoutRecordingBody";
@@ -144,7 +144,7 @@ export default function CreateRecord() {
     );
 }
 
-const moviments: tMovs[] = [
+const moviments: tMov[] = [
     { id_mov: 0, description: "Movimento 1" },
     { id_mov: 1, description: "Movimento 2" },
     { id_mov: 2, description: "Movimento 3" },

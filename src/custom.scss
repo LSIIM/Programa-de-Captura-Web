@@ -222,7 +222,7 @@ $danger: #ff6b6b;
 
     // TEXTS
     .text-primary {
-        color: $primary !important;
+        color: darken($primary, 10%) !important;
     }
     .text-secondary {
         color: $secondary !important;
@@ -350,16 +350,16 @@ $danger: #ff6b6b;
 
     //TABLES
     .my-table {
-        background: $secondary-25;
+        background: darken($secondary-25, 10%);
     }
     .my-table > tbody > tr:nth-child(odd) {
-        background-color: lighten($secondary-25, 2%);
+        background-color: darken($secondary-25, 15%);
     }
     .my-table > tbody > tr:nth-child(odd):hover {
-        background-color: darken($secondary-25, 10%);
+        background-color: darken($secondary-25, 80%);
     }
     .my-table > tbody > tr:nth-child(even):hover {
-        background-color: darken($secondary-25, 10%);
+        background-color: darken($secondary-25, 80%);
     }
 
     //MENU LIST
@@ -412,4 +412,9 @@ $danger: #ff6b6b;
 .my-menu-list > *:hover {
     cursor: pointer;
     user-select: none;
+}
+
+//LINKS
+.my-link.my-link-active{
+    font-weight: bold;
 }

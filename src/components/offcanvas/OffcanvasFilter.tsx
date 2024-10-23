@@ -1,15 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, FormGroup, FormSelect, Offcanvas, OffcanvasProps, Spinner, Stack } from "react-bootstrap";
 import { v4 } from "uuid";
 import useBaby from "../../hooks/useBaby";
 import { tBaby, tProject } from "../../interfaces";
 import { useProject } from "../../hooks";
+import { SystemContext } from "../../contexts/SystemContext";
 
 export interface OffcanvasRecordingFilterProps extends OffcanvasProps {
     onApply?: (props: { babyIdSelected: null | number; projectSelected: null | number }) => void;
 }
 
 export default function OffcanvasRecordingFilter({ onApply, ...rest }: OffcanvasRecordingFilterProps) {
+    //CONTEXTS
+    const {showAlert} = useContext(SystemContext);
+
     //HOOKS
     const {
         errorToRead: errorToReadBabys,
@@ -37,18 +41,18 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
         //Carregando bebês
         readBabys()
             .then((babys) => setBabys(babys))
-            .catch((errMsg) => alert(errMsg));
+            .catch((errMsg) => showAlert(errMsg));
 
         //Carregando projetos
         readProjects()
             .then((projects) => setProjects(projects))
-            .catch((errMsg) => alert(errMsg));
+            .catch((errMsg) => showAlert(errMsg));
 
         return () => {
             cancelBabyProcess();
             cancelProjectProcess();
         };
-    }, [readBabys, cancelBabyProcess, readProjects, cancelProjectProcess]);
+    }, [readBabys, cancelBabyProcess, readProjects, cancelProjectProcess, showAlert]);
 
     const handleOnChangeBabyIdSelected = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
         const possibleBabyId = Number(event.target.value);

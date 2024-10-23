@@ -3,6 +3,7 @@
 }
 
 .my-card-record-listed-thumbnail {
+    background-color: black;
     width: 35% !important;
     min-width: 7rem;
     height: auto;

@@ -3,6 +3,7 @@
 }
 
 .my-card-record-thumbnail {
+    background-color: black !important;
     width: 100%;
     object-fit: cover;
     aspect-ratio: 16/9;

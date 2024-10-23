@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { v4 } from "uuid";
 import { ControlRecordingButton, MovimentsButtons } from "../../components";
-import { tMovs } from "../../interfaces";
+import { tMov } from "../../interfaces";
 import { SystemContext } from "../../contexts/SystemContext";
 import "./styles.css";
 import utils from "../../utils";
@@ -11,11 +11,11 @@ const VIDEO_TYPE = "video/mp4";
 
 export type tDataLabelChunks = { label: string; chunks: Blob[] };
 export type tStreamLabel = { stream: MediaStream; label: string };
-export type tDoneMoviment = tMovs & { data: { label: string; url: string }[] };
+export type tDoneMoviment = tMov & { data: { label: string; url: string }[] };
 
 export interface LayoutRecordingBodyProps {
     streamsLabel: tStreamLabel[];
-    moviments: tMovs[];
+    moviments: tMov[];
 }
 
 export default function LayoutRecordingBody({ streamsLabel, moviments, ...props }: LayoutRecordingBodyProps) {

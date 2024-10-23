@@ -1,9 +1,11 @@
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { v4 } from "uuid";
 import InputPassword from "../../inputs/inputPassword/InputPassword";
+import { SystemContext } from "../../../contexts/SystemContext";
+import utils from "../../../utils";
 
 //TYPES
 export type tCredentials = { password: string };
@@ -14,6 +16,9 @@ export interface FormLoginProps {
 }
 
 export default function FormLogin(props: FormLoginProps) {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //VARIABLES
     const { onSubmit } = props;
 
@@ -25,13 +30,12 @@ export default function FormLogin(props: FormLoginProps) {
                 await onSubmit(credentials);
                 helpers.resetForm();
             } catch (err) {
-                //TODO: Mostrar feedback visual do erro
-                console.error(err);
+                showAlert(utils.getMessageError(err));
             } finally {
                 helpers.setSubmitting(false);
             }
         },
-        [onSubmit]
+        [onSubmit, showAlert]
     );
 
     return (

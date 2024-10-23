@@ -1,39 +1,44 @@
 import { ListGroup, Stack } from "react-bootstrap";
-import { tRecording } from "../../../interfaces";
+import { tRecording, tVideo } from "../../../interfaces";
 import { useCallback } from "react";
 import MenuButton from "../../buttons/menuButton/MenuButton";
 import { routes } from "../../../router";
 import "./styles.css";
 
-export interface CardRecordProps {
-    record: tRecording;
+export interface CardRecordingProps {
+    recording: tRecording;
+    video?: tVideo;
 }
 
-export default function CardRecord({ record }: CardRecordProps) {
+export default function CardRecording({ recording, video }: CardRecordingProps) {
     //EVENTS
     const handleOnClickPlay = useCallback(() => {
-        window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
-    }, [record]);
+        window.location.href = routes.playingRecord.replace(":id", recording.id.toString());
+    }, [recording]);
 
     const handleOnClickPlayProcessedVideo = useCallback(() => {
-        window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
-    }, [record]);
+        window.location.href = routes.playingRecord.replace(":id", recording.id.toString());
+    }, [recording]);
 
     const handleOnClickProcess = useCallback(() => {}, []);
 
     return (
         <>
             <Stack className="my-card-record rounded-4 d-flex gap-2 w-100">
-                <img
+                <video
                     role="button"
                     onClick={handleOnClickPlay}
+                    muted
+                    playsInline
+                    controls={false}
                     className="my-card-record-thumbnail rounded-4"
-                    alt="thumbnail"
-                    src="https://img.freepik.com/fotos-gratis/uma-pintura-digital-de-uma-montanha-com-uma-arvore-colorida-em-primeiro-plano_1340-25699.jpg"
-                />
+                    preload="metadata"
+                >
+                    <source src={video?.url} type="video/mp4" />
+                </video>
                 <Stack className="d-flex ps-2 pe-2 w-100">
                     <div className="my-card-record-div-baby-name d-flex w-100 align-items-center">
-                        <span className="fw-bold text-truncate w-100">Nome do bebê</span>
+                        <span className="fw-bold text-truncate w-100">{recording.babyInfo.name}</span>
                         <MenuButton className="rounded-circle" bootstrapIconName="three-dots-vertical">
                             <ListGroup className="small my-menu-list">
                                 <ListGroup.Item onClick={handleOnClickPlay}>
@@ -51,8 +56,10 @@ export default function CardRecord({ record }: CardRecordProps) {
                             </ListGroup>
                         </MenuButton>
                     </div>
-                    <small className="text-truncate">Nome do projeto</small>
-                    <small className="text-truncate">Movimento X</small>
+                    <small className="text-truncate text-capitalize">{recording.project.projectName}</small>
+                    <small className="text-truncate text-capitalize">
+                        {recording.moveInfo?.description ?? "<Nenhum Movimento>"}
+                    </small>
                 </Stack>
             </Stack>
         </>

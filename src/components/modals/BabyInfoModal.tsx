@@ -1,7 +1,9 @@
 import { Button, Col, Modal, ModalProps, Row, Spinner, Stack } from "react-bootstrap";
 import { tBaby } from "../../interfaces";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import useBaby from "../../hooks/useBaby";
+import { SystemContext } from "../../contexts/SystemContext";
+import utils from "../../utils";
 
 export interface BabyInfoModalProps extends ModalProps {
     baby?: tBaby | null;
@@ -10,6 +12,9 @@ export interface BabyInfoModalProps extends ModalProps {
 }
 
 export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit, ...rest }: BabyInfoModalProps) {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { deleteBaby, isDeleting } = useBaby();
 
@@ -21,12 +26,12 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
 
         try {
             await deleteBaby(baby.id);
-            alert("Bebê deletado");
+            showAlert("Bebê deletado");
             if (onHide) onHide();
-        } catch (err: any) {
-            alert(err?.message ?? "Erro ao deletar bebê");
+        } catch (err) {
+            showAlert(utils.getMessageError(err));
         }
-    }, [baby, onHide, deleteBaby]);
+    }, [baby, onHide, deleteBaby, showAlert]);
 
     return (
         <>

@@ -1,17 +1,18 @@
 import { ListGroup, Stack } from "react-bootstrap";
-import { tRecording } from "../../../interfaces";
+import { tRecording, tVideo } from "../../../interfaces";
 import { useCallback, useState } from "react";
 import MenuButton from "../../buttons/menuButton/MenuButton";
 import { routes } from "../../../router";
-import "./styles.css";
 import { v4 } from "uuid";
+import "./styles.css";
 
 export interface CardRecordListedProps {
-    record: tRecording;
+    recording: tRecording;
     isPlaying?: boolean;
+    video?: tVideo;
 }
 
-export default function CardRecordListed({ record, isPlaying }: CardRecordListedProps) {
+export default function CardRecordListed({ recording, isPlaying, video }: CardRecordListedProps) {
     //STATES
     const [MENU_BUTTON_ID] = useState(v4());
 
@@ -21,14 +22,14 @@ export default function CardRecordListed({ record, isPlaying }: CardRecordListed
             const menuButton = document.getElementById(MENU_BUTTON_ID);
             if (!menuButton || menuButton.contains(e.target as Node)) return;
 
-            window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
+            window.location.href = routes.playingRecord.replace(":id", recording.id.toString());
         },
-        [record, MENU_BUTTON_ID]
+        [recording, MENU_BUTTON_ID]
     );
 
     const handleOnClickPlayProcessedVideo = useCallback(() => {
-        window.location.href = routes.playingRecord.replace(":id", record.id_recording.toString());
-    }, [record]);
+        window.location.href = routes.playingRecord.replace(":id", recording.id.toString());
+    }, [recording]);
 
     const handleOnClickProcess = useCallback(() => {}, []);
 
@@ -44,14 +45,19 @@ export default function CardRecordListed({ record, isPlaying }: CardRecordListed
                         <i className="bi bi-play-fill " />
                     </div>
                 )}
-                <img
+                <video
+                    role="button"
+                    muted
+                    playsInline
+                    controls={false}
                     className="my-card-record-listed-thumbnail rounded-4"
-                    alt="thumbnail"
-                    src="https://img.freepik.com/fotos-gratis/uma-pintura-digital-de-uma-montanha-com-uma-arvore-colorida-em-primeiro-plano_1340-25699.jpg"
-                />
+                    preload="metadata"
+                >
+                    <source src={video?.url} type="video/mp4" />
+                </video>
                 <Stack className="my-card-record-listed-info d-flex">
                     <div className=" d-flex w-100 align-items-center">
-                        <span className="fw-bold text-truncate w-100">Nome do bebê</span>
+                        <span className="fw-bold text-truncate w-100">{recording.babyInfo.name}</span>
                         <MenuButton
                             className="rounded-circle"
                             bootstrapIconName="three-dots-vertical"
@@ -73,8 +79,10 @@ export default function CardRecordListed({ record, isPlaying }: CardRecordListed
                             </ListGroup>
                         </MenuButton>
                     </div>
-                    <small className="text-truncate">Nome do projeto</small>
-                    <small className="text-truncate">Movimento X</small>
+                    <small className="text-truncate text-capitalize">{recording.project.projectName}</small>
+                    <small className="text-truncate text-capitalize">
+                        {recording.moveInfo?.description ?? "<Nenhum Movimento>"}
+                    </small>
                 </Stack>
             </div>
         </>

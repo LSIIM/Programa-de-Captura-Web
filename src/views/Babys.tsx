@@ -6,7 +6,7 @@ import { tBaby } from "../interfaces";
 
 export default function Babys() {
     //HOOKS
-    const { cancelProcess, readBabys, isReading } = useBaby();
+    const { cancelProcess, readBabys, isReading, errorToRead } = useBaby();
 
     //STATES
     const [babys, setBabys] = useState<tBaby[]>([]);
@@ -26,7 +26,7 @@ export default function Babys() {
                 const incomingBabys = await readBabys({ page, where: { name } });
 
                 if (page === undefined) setBabys(incomingBabys);
-                else setBabys((current) => ({...current, ...incomingBabys}));
+                else setBabys((current) => ({ ...current, ...incomingBabys }));
 
                 return incomingBabys.length;
             } catch (_) {
@@ -60,7 +60,8 @@ export default function Babys() {
                     </LayoutTable.Button>
                 </LayoutTable.Header>
                 <LayoutTable.Body isLoading={isReading}>
-                    <BabysTable babys={filteredBabys} onClickBaby={setBabySelected} />
+                    {babys.length < 1 && !isReading && !errorToRead  && <h5 className="text-secondary w-100 text-center">--- Nenhum bebê encontrado ---</h5>}
+                    {babys.length > 0 && <BabysTable babys={filteredBabys} onClickBaby={setBabySelected} />}
                 </LayoutTable.Body>
             </LayoutTable.Root>
 

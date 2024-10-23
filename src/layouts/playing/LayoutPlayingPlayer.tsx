@@ -1,25 +1,31 @@
 import { ReactNode } from "react";
 import ReactPlayer, { ReactPlayerProps } from "react-player";
-import "./styles.css";
 import { Placeholder, Stack } from "react-bootstrap";
+import "./styles.css";
+import { tVideo } from "../../interfaces";
 
 export interface LayoutPlayingPlayerProps extends ReactPlayerProps {
     children?: ReactNode;
-    loadingRecord?: boolean;
+    loadingVideo?: boolean;
     loadingInfo?: boolean;
+    video?: tVideo;
 }
 
 export default function LayoutPlayingPlayer({
     children,
-    loadingRecord,
+    loadingVideo,
     loadingInfo,
+    video,
     ...rest
 }: LayoutPlayingPlayerProps) {
     return (
         <Stack className="d-flex w-100">
             <div className="my-layout-playing-player d-flex position-relative">
-                {loadingRecord && (
-                    <Placeholder className="my-layout-playing-player-placeholder opacity-50 position-absolute top-0 start-0" animation="glow">
+                {(loadingVideo || !video) && (
+                    <Placeholder
+                        className="my-layout-playing-player-placeholder opacity-50 position-absolute top-0 start-0"
+                        animation="glow"
+                    >
                         <Placeholder className="w-100 h-100" />
                     </Placeholder>
                 )}
@@ -27,7 +33,7 @@ export default function LayoutPlayingPlayer({
                     controls
                     playing
                     className="react-player"
-                    url="https://www.youtube.com/watch?v=IogPHjiS_HU"
+                    url={video?.url}
                     width="100%"
                     height="100%"
                     {...rest}

@@ -1,6 +1,6 @@
 import { tNewBaby } from "../components/forms/formBaby/FormBaby";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
-import { tBaby, tProject } from "../interfaces";
+import { tBaby, tProject, tRecording } from "../interfaces";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -13,6 +13,7 @@ export type tQuery<WhereObj extends object, SortKeys extends string> = {
 };
 export type tBabyQuery = tQuery<{ name?: string }, "name" | "birthDate" | "gestacionalAge">;
 export type tProjectQuery = tQuery<{}, "">;
+export type tRecordingQuery = tQuery<{}, "">;
 
 //Verifica strings em formato de datas
 const formatoDeData = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/;
@@ -101,6 +102,10 @@ const api = {
     //PROJECTS
     getProjects: (params?: tProjectQuery, signal?: AbortSignal): Promise<AxiosResponse<tProject[], AxiosError>> =>
         instance.get(`/project`, { params, signal }),
+
+    //RECORDINGS
+    getRecordings: (params?: tRecordingQuery, signal?: AbortSignal): Promise<AxiosResponse<tRecording[], AxiosError>> =>
+        instance.get(`/recording`, { params, signal }),
 };
 
 export default api;

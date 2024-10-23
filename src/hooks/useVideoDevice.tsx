@@ -1,6 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
+import { SystemContext } from "../contexts/SystemContext";
 
 export default function useVideoDevice() {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //STATES
     const [loadingStreams, setLoadingStreams] = useState(false);
 
@@ -25,8 +29,6 @@ export default function useVideoDevice() {
             const videoDevices = devices.filter(
                 ({ kind, deviceId }) => kind === "videoinput" && deviceId !== deviceIdDefault
             );
-            console.log("Pegou todos os devices:");
-            devices.map((device) => console.log(device));
 
             const _otherStreams = videoDevices.map(({ deviceId }) =>
                 navigator.mediaDevices
@@ -37,21 +39,20 @@ export default function useVideoDevice() {
             const filteredOtherStreams = otherStreams.filter((stream) => stream !== undefined) as MediaStream[];
             return [defaultStream, ...filteredOtherStreams];
         } catch (err: any) {
-            console.log("Entrou no catch:");
-            console.log(err);
+            console.error(err);
             switch (err?.code) {
                 case 0:
-                    alert("Não foi possível acessar todas suas câmeras. Outros programas podem estar usando-as.");
+                    showAlert("Não foi possível acessar todas suas câmeras. Outros programas podem estar usando-as.");
                     break;
                 default:
-                    alert("Não foi possível acessar alguma das suas camêras.");
+                    showAlert("Não foi possível acessar alguma das suas camêras.");
                     break;
             }
             throw err;
         } finally {
             setLoadingStreams(false);
         }
-    }, []);
+    }, [showAlert]);
 
     return { loadingStreams, getVideoStreams };
 }

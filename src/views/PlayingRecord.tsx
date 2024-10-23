@@ -1,23 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LayoutPlaying from "../layouts/playing";
 import { useRecording } from "../hooks";
 import { CardRecordListed } from "../components";
-import { tRecording } from "../interfaces";
+import { tRecording, tVideo } from "../interfaces";
 import { useParams } from "react-router-dom";
+import { SystemContext } from "../contexts/SystemContext";
 
 export default function PlayingRecord() {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { readRecordings, isReading, isFinding, getRecording, errorToGet, errorToRead } = useRecording();
     const { id: currentRecordingId } = useParams();
 
     //STATES
-    const [suggestedRecordings, setSuggestedRecordings] = useState<tRecording[]>([]);
+    const [otherRecordings, setOtherRecordings] = useState<tRecording[]>([]);
     const [currentRecording, setCurrentRecording] = useState<tRecording | null>(null);
+    const [suggestedVideos, setSuggestedVideos] = useState<tVideo[]>([]);
+    const [currentVideo, setCurrentVideo] = useState<tVideo | null>();
 
-    const [recordReadyToPlay, setRecordReadyToPlay] = useState(false);
+    const [videoReadyToPlay, setVideoReadyToPlay] = useState(false);
 
-    //STATES
     const [search, setSearch] = useState("");
+
+    //VARIABLES
+    const otherVideosFiltered = otherRecordings.filter(
+        ({ id, babyInfo }) => id !== currentRecording?.id && babyInfo.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     //EVENTS
     useEffect(() => {
@@ -25,44 +35,55 @@ export default function PlayingRecord() {
 
         //Buscado current recording
         getRecording(Number(currentRecordingId))
-            .then((recording) => setCurrentRecording(recording))
-            .catch((errMsg) => alert(errMsg));
+            .then((recording) => {
+                setCurrentRecording(recording);
+                setSuggestedVideos(recording.videos);
+                setCurrentVideo(recording.videos[0]);
+            })
+            .catch((errMsg) => showAlert(errMsg));
 
-        //Buscando recordings sugestivos
+        //Buscando outros recordings
         readRecordings()
-            .then((recordings) => setSuggestedRecordings(recordings))
-            .catch((errMsg) => alert(errMsg));
-    }, [readRecordings, currentRecordingId, getRecording]);
+            .then((recordings) => setOtherRecordings(recordings))
+            .catch((errMsg) => showAlert(errMsg));
+    }, [readRecordings, currentRecordingId, getRecording, showAlert]);
 
     return (
         <LayoutPlaying.Root>
             <LayoutPlaying.PlayerContainer>
                 <LayoutPlaying.Player
-                    loadingRecord={!recordReadyToPlay}
+                    loadingVideo={!videoReadyToPlay}
                     loadingInfo={isFinding && errorToGet}
-                    onReady={() => setRecordReadyToPlay(true)}
+                    onReady={() => setVideoReadyToPlay(true)}
+                    video={currentVideo ?? undefined}
                 >
-                    <h5 className="mb-0">Nome do bebê | Projeto X | Movimento Y</h5>
+                    <h5 className="mb-0">
+                        {currentRecording?.babyInfo.name} | {currentRecording?.project.projectName} |{" "}
+                        {currentRecording?.moveInfo?.description ?? "<Nenhum Movimento>"}
+                    </h5>
                 </LayoutPlaying.Player>
             </LayoutPlaying.PlayerContainer>
             <LayoutPlaying.List>
-                <LayoutPlaying.Playlist
-                    title="Relacionado"
-                    subtitle="Vídeos da mesma gravação"
-                    isLoading={isReading || errorToRead}
-                >
-                    {suggestedRecordings.map((record) => (
-                        <CardRecordListed
-                            record={record}
-                            key={record.id_recording}
-                            isPlaying={record.id_recording === currentRecording?.id_recording}
-                        />
-                    ))}
-                </LayoutPlaying.Playlist>
+                {currentRecording && currentRecording.videos.length > 0 && (
+                    <LayoutPlaying.Playlist
+                        title="Relacionado"
+                        subtitle="Vídeos da mesma gravação"
+                        isLoading={isReading || errorToRead}
+                    >
+                        {suggestedVideos.map((video) => (
+                            <CardRecordListed
+                                recording={currentRecording}
+                                key={video.url}
+                                isPlaying={video === currentVideo}
+                                video={video}
+                            />
+                        ))}
+                    </LayoutPlaying.Playlist>
+                )}
                 <LayoutPlaying.Search value={search} onAccept={setSearch} placeholder="Pesquise pelo nome do bebê" />
                 <LayoutPlaying.ListBody isLoading={isReading || errorToRead}>
-                    {suggestedRecordings.map((record) => (
-                        <CardRecordListed record={record} key={record.id_recording} />
+                    {otherVideosFiltered.map((recording) => (
+                        <CardRecordListed recording={recording} key={recording.id} video={recording.videos[0]} />
                     ))}
                 </LayoutPlaying.ListBody>
             </LayoutPlaying.List>

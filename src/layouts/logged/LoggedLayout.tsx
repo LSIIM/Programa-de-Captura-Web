@@ -5,6 +5,7 @@ import api from "../../services/api";
 import { routes } from "../../router";
 import { SystemContext } from "../../contexts/SystemContext";
 import "./styles.css";
+import utils from "../../utils";
 
 export interface LoggedLayoutProps {
     children?: ReactNode;
@@ -12,17 +13,16 @@ export interface LoggedLayoutProps {
 
 export default function LoggedLayout(props: LoggedLayoutProps) {
     //CONTEXTS
-    const { toggleLightMode, lightMode } = useContext(SystemContext);
+    const { toggleLightMode, lightMode, showAlert } = useContext(SystemContext);
 
     //EVENTS
     const handleOnClickLoggout = useCallback(async () => {
         try {
             await api.logout();
         } catch (err) {
-            //TODO: Mostrar feedback visual
-            console.error(err);
+            showAlert(utils.getMessageError(err));
         }
-    }, []);
+    }, [showAlert]);
 
     return (
         <Stack className="my-logged-layout-root d-flex overflow-hidden user-select-none">

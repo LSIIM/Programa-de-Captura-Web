@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import { CardRecord, OffcanvasRecordingFilter } from "../components";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { CardRecording, OffcanvasRecordingFilter } from "../components";
 import LayoutGridList from "../layouts/gridList";
 import { Button } from "react-bootstrap";
 import { tRecording } from "../interfaces";
 import { useRecording } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router";
+import { SystemContext } from "../contexts/SystemContext";
 
-export default function Records() {
+export default function Recordings() {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { readRecordings, isReading, cancelProcess } = useRecording();
     const navigate = useNavigate();
@@ -20,9 +24,9 @@ export default function Records() {
     useEffect(() => {
         readRecordings()
             .then((recordings) => setRecordings(recordings))
-            .catch((errMsg) => alert(errMsg));
+            .catch((errMsg) => showAlert(errMsg));
         return () => cancelProcess();
-    }, [readRecordings, cancelProcess]);
+    }, [readRecordings, cancelProcess, showAlert]);
 
     const handleOnApply = useCallback(() => {
         //TODO: Modificar os filtros
@@ -47,7 +51,7 @@ export default function Records() {
                 </LayoutGridList.Header>
                 <LayoutGridList.Body isLoading={isReading}>
                     {recordings.map((record) => (
-                        <CardRecord record={record} key={record.id_recording}></CardRecord>
+                        <CardRecording key={record.id} recording={record} video={record.videos[0]} />
                     ))}
                 </LayoutGridList.Body>
             </LayoutGridList.Root>

@@ -1,7 +1,8 @@
 import { Button, Col, Modal, ModalProps, Row, Stack } from "react-bootstrap";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import "./styles.css";
 import { tStreamLabel } from "../../layouts/recording/LayoutRecordingBody";
+import { SystemContext } from "../../contexts/SystemContext";
 
 export interface SelectCamsPSModalProps extends ModalProps {
     videoStreams: MediaStream[];
@@ -9,6 +10,9 @@ export interface SelectCamsPSModalProps extends ModalProps {
 }
 
 export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfirm, ...rest }: SelectCamsPSModalProps) {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //STATES
     const [camsSelected, setCamsSelected] = useState<string[]>([]);
 
@@ -27,10 +31,10 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
     }, [onHide]);
 
     const handleOnConfirm = useCallback(() => {
-        if (camsSelected.length !== 2) return alert("Você deve escolher duas câmeras (Primária e Secundária).");
+        if (camsSelected.length !== 2) return showAlert("Você deve escolher duas câmeras (Primária e Secundária).");
 
         const streams = camsSelected.map((camSelected) => videoStreams.find(({ id }) => id === camSelected));
-        if (streams.some((stream) => stream === undefined)) return alert("Algo deu errado!");
+        if (streams.some((stream) => stream === undefined)) return showAlert("Algo deu errado!");
 
         setCamsSelected([]);
         onConfirm(
@@ -39,7 +43,7 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
                 label: index === 0 ? "Primária" : "Secundária",
             }))
         );
-    }, [onConfirm, camsSelected, videoStreams]);
+    }, [onConfirm, camsSelected, videoStreams, showAlert]);
 
     return (
         <>

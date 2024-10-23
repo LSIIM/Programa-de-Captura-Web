@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import { Button } from "react-bootstrap";
-import { tMovs } from "../../../interfaces";
+import { tMov } from "../../../interfaces";
 import "./styles.css";
 
 export interface MovimentsButtonsProps {
-    moviments: tMovs[];
+    moviments: tMov[];
     donedMovimentsIds?: number[];
     currentMovimentId?: number;
     setCurrentMovimentId?: (id: number) => void;

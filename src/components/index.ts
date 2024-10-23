@@ -6,7 +6,7 @@ import ControlRecordingButton from "./buttons/controlVideoButtons/ControlRecordi
 
 //CARDS
 import CardLogin from "./cards/cardLogin/CardLogin";
-import CardRecord from "./cards/cardRecord/CardRecord";
+import CardRecording from "./cards/cardRecording/CardRecording";
 import CardRecordListed from "./cards/cardRecordListed/CardRecordListed";
 
 //FORMS
@@ -44,7 +44,7 @@ export {
 
     //CARDS
     CardLogin,
-    CardRecord,
+    CardRecording,
     CardRecordListed,
 
     //FORMS

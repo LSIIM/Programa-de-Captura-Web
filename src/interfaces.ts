@@ -11,25 +11,30 @@ export type tBaby = {
 };
 
 //MOVS_INFO
-export type tMovs = {
+export type tMov = {
     id_mov: number;
     description: string;
 };
 
 //RECORDINGS
 export type tRecording = {
-    id_recording: number;
-    ignore: boolean;
-    observation: string;
-    fk_id_baby: number;
-    recording_year: number;
-    recording_month: number;
-    recording_day: number;
-    fk_id_mov: number;
-    mov_aux: boolean;
-    fk_id_cam_mov: boolean;
-    fk_id_cam_mov_aux: number;
-    fk_id_projeto: number;
+    id: number;
+    ignore: false;
+    observation?: string;
+    babyId: number;
+    babyInfo: tBaby;
+    recordingDate: Date;
+    moveId?: number;
+    moveInfo?: tMov;
+    movAux: boolean;
+    projectId: number;
+    project: tProject;
+    camInfoId?: number;
+    camInfo?: tCam;
+    recordVideoTypes: [];
+    videos: tVideo[];
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 //CAM_INFO
@@ -37,6 +42,12 @@ export type tCam = {
     id_cam: number;
     model: string;
     is_ir: boolean;
+};
+
+//VIDEO
+export type tVideo = {
+    url: string;
+    isMain: boolean;
 };
 
 //PROJECT

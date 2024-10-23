@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { tPartialEntity, tProject } from "../interfaces";
 import api, { tProjectQuery } from "../services/api";
+import utils from "../utils";
 
 let abortController: AbortController | undefined;
 export default function useProject() {
@@ -12,29 +13,28 @@ export default function useProject() {
     const [errorToRead, setErrorToRead] = useState(false);
 
     //EVENTS
-    const readProjects = useCallback((params?: tProjectQuery, signal?: AbortSignal) => {
+    const readProjects = useCallback((params?: tProjectQuery) => {
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<tProject[]>(async (resolve, reject) => {
             try {
                 setIsReading(true);
-                //TODO: Implementar a lógica de carregar dados dos projetos.
                 const res = await api.getProjects(params, signal);
                 setErrorToRead(false);
                 resolve(res.data);
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 setErrorToRead(true);
                 console.error(err);
-                reject(err?.message ?? "Erro ao encontrar projetos.");
+                reject(err);
             } finally {
                 setIsReading(false);
             }
         });
     }, []);
 
-    //TODO: Mudar o type any para o certo
-    const updateProject = useCallback(async (project: any & tPartialEntity<tProject, "id">) => {
+    const updateProject = useCallback(async (project: tProject & tPartialEntity<tProject, "id">) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
 
@@ -45,15 +45,16 @@ export default function useProject() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err.message ?? "Erro desconhecido ao editar projeto.");
+                reject(err);
             } finally {
                 setIsUpdating(false);
             }
         });
     }, []);
 
-    const createProject = useCallback(async (project: any) => {
+    const createProject = useCallback(async (project: tProject) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
 
@@ -64,8 +65,9 @@ export default function useProject() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao criar projeto.");
+                reject(err);
             } finally {
                 setIsCreating(false);
             }
@@ -83,8 +85,9 @@ export default function useProject() {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
                 resolve();
             } catch (err: any) {
+                if (utils.canIgnoreThisError(err)) return;
                 console.error(err);
-                reject(err?.message ?? "Erro desconhecido ao deletar projeto.");
+                reject(err);
             } finally {
                 setIsDeleting(false);
             }
