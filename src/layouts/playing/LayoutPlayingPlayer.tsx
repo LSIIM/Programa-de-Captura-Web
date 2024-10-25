@@ -39,7 +39,7 @@ export default function LayoutPlayingPlayer({
                     {...rest}
                 />
             </div>
-            <Stack className="d-flex w-100 mt-2 overflow-hidden">
+            <Stack className="my-layout-playing-player-info d-flex mt-2 overflow-hidden">
                 {loadingInfo ? (
                     <Placeholder as="h5" sm="8" className="opacity-50" animation="glow">
                         <Placeholder className="w-100 h-100 rounded-4" />

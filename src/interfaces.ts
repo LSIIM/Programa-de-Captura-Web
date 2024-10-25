@@ -50,10 +50,33 @@ export type tVideo = {
     isMain: boolean;
 };
 
+//CAM INFO
+export type CamInfo = {
+    id: number;
+    framerate: null | number;
+    isInfraRed: boolean;
+    model: string;
+    projectVideoTypeId: number;
+};
+
+//PROJECT VIDEO TYPE
+//TODO: recordVideoType é um array do que?
+export type tProjectVideoType = {
+    id: number;
+    isMain: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    projectId: number;
+    typeName: string;
+    recordVideoType: any[];
+    camsInfo: CamInfo[];
+};
+
 //PROJECT
 export type tProject = {
     id: number;
     projectName: string;
+    projectsVideoTypes: tProjectVideoType[];
     createdAt: Date;
     updatedAt: Date;
 };

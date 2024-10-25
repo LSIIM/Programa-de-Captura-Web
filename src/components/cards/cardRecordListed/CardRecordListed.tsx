@@ -1,30 +1,38 @@
 import { ListGroup, Stack } from "react-bootstrap";
 import { tRecording, tVideo } from "../../../interfaces";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import MenuButton from "../../buttons/menuButton/MenuButton";
 import { routes } from "../../../router";
 import { v4 } from "uuid";
 import "./styles.css";
+import { SystemContext } from "../../../contexts/SystemContext";
 
 export interface CardRecordListedProps {
     recording: tRecording;
     isPlaying?: boolean;
     video?: tVideo;
+    onPlaySpecificVideo?: (video: tVideo) => void;
 }
 
-export default function CardRecordListed({ recording, isPlaying, video }: CardRecordListedProps) {
+export default function CardRecordListed({ recording, isPlaying, video, onPlaySpecificVideo }: CardRecordListedProps) {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //STATES
     const [MENU_BUTTON_ID] = useState(v4());
 
     //EVENTS
     const handleOnClickPlay = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
+            if (!video) return showAlert("O vídeo não foi encontrado!");
+            if (onPlaySpecificVideo) return onPlaySpecificVideo(video);
+
             const menuButton = document.getElementById(MENU_BUTTON_ID);
             if (!menuButton || menuButton.contains(e.target as Node)) return;
 
             window.location.href = routes.playingRecord.replace(":id", recording.id.toString());
         },
-        [recording, MENU_BUTTON_ID]
+        [recording, MENU_BUTTON_ID, onPlaySpecificVideo, video, showAlert]
     );
 
     const handleOnClickPlayProcessedVideo = useCallback(() => {

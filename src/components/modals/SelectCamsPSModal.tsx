@@ -1,49 +1,62 @@
 import { Button, Col, Modal, ModalProps, Row, Stack } from "react-bootstrap";
 import { useCallback, useContext, useState } from "react";
-import "./styles.css";
 import { tStreamLabel } from "../../layouts/recording/LayoutRecordingBody";
 import { SystemContext } from "../../contexts/SystemContext";
+import { tProject, tProjectVideoType } from "../../interfaces";
+import "./styles.css";
 
 export interface SelectCamsPSModalProps extends ModalProps {
+    project: tProject;
     videoStreams: MediaStream[];
     onConfirm: (streams: tStreamLabel[]) => void;
 }
 
-export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfirm, ...rest }: SelectCamsPSModalProps) {
+export default function SelectCamsPSModal({
+    videoStreams,
+    onHide,
+    show,
+    onConfirm,
+    project,
+    ...rest
+}: SelectCamsPSModalProps) {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
     //STATES
-    const [camsSelected, setCamsSelected] = useState<string[]>([]);
+    const [streamsSelected, setStreamsSelected] = useState<
+        { stream: MediaStream; projectVideoType: tProjectVideoType }[]
+    >([]);
+
+    //VARIABLES
+    const projectVideoTypeToSelect = project.projectsVideoTypes[streamsSelected.length];
 
     //EVENTS
-    const handleOnClickCam = useCallback((deviceId?: string) => {
-        if (!deviceId) return;
-        setCamsSelected((current) => {
-            if (current.includes(deviceId)) return current.filter((id) => id !== deviceId);
-            return [...current, deviceId];
-        });
-    }, []);
+    const handleOnClickStream = useCallback(
+        (streamSelected?: MediaStream) => {
+            if (!streamSelected || !projectVideoTypeToSelect) return;
+            setStreamsSelected((current) => {
+                if (current.some(({ stream }) => stream.id === streamSelected.id))
+                    return current.filter(({ stream }) => stream.id !== streamSelected.id);
+                return [...current, { stream: streamSelected, projectVideoType: projectVideoTypeToSelect }];
+            });
+        },
+        [projectVideoTypeToSelect]
+    );
 
     const handleOnHide = useCallback(() => {
-        setCamsSelected([]);
+        setStreamsSelected([]);
         if (onHide) onHide();
     }, [onHide]);
 
     const handleOnConfirm = useCallback(() => {
-        if (camsSelected.length !== 2) return showAlert("Você deve escolher duas câmeras (Primária e Secundária).");
+        const streamsToSelect = project.projectsVideoTypes.length;
+        if (streamsSelected.length !== streamsToSelect)
+            return showAlert(`Você deve escolher ${streamsToSelect} câmeras.`);
 
-        const streams = camsSelected.map((camSelected) => videoStreams.find(({ id }) => id === camSelected));
-        if (streams.some((stream) => stream === undefined)) return showAlert("Algo deu errado!");
-
-        setCamsSelected([]);
         onConfirm(
-            streams.map((stream, index) => ({
-                stream: stream as MediaStream,
-                label: index === 0 ? "Primária" : "Secundária",
-            }))
+            streamsSelected.map(({ stream, projectVideoType }) => ({ stream, label: projectVideoType.typeName }))
         );
-    }, [onConfirm, camsSelected, videoStreams, showAlert]);
+    }, [onConfirm, streamsSelected, videoStreams, showAlert, project]);
 
     return (
         <>
@@ -54,35 +67,33 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
                 <Modal.Body>
                     <Row>
                         <Col sm="12">
-                            {camsSelected.length === 0 ? (
-                                <h6 className="mb-3">
-                                    Selecione a camêra <span className={"p-1 rounded bg-primary"}>Primária</span>
-                                </h6>
-                            ) : camsSelected.length === 1 ? (
-                                <h6 className="mb-3">
-                                    Selecione a camêra <span className={"p-1 rounded bg-secondary"}>Secundária</span>
-                                </h6>
+                            {projectVideoTypeToSelect ? (
+                                <>
+                                    <h6 className="mb-3">
+                                        Selecione a camêra{" "}
+                                        <span className={"p-1 rounded bg-dark"}>
+                                            {projectVideoTypeToSelect.typeName}
+                                        </span>
+                                    </h6>
+                                    <div className="lh-1 rounded bg-light p-2 border border-info w-auto mb-3">
+                                        {projectVideoTypeToSelect.camsInfo[0]?.framerate}
+                                    </div>
+                                </>
                             ) : (
                                 <h6 className="mb-3">Confirme as camêras selecionadas.</h6>
                             )}
                         </Col>
                         {videoStreams.map((videoStream, index) => {
-                            const className =
-                                camsSelected[0] === videoStream.id
-                                    ? "border-primary border-5 border"
-                                    : camsSelected[1] === videoStream.id
-                                    ? "border-secondary border-5 border"
-                                    : "";
+                            const typeName = streamsSelected.find(({ stream }) => stream.id === videoStream.id)
+                                ?.projectVideoType.typeName;
 
                             return (
                                 <Col key={videoStream.id} className="mb-3">
                                     <Stack
-                                        onClick={() => handleOnClickCam(videoStream.id)}
+                                        onClick={() => handleOnClickStream(videoStream)}
                                         className="d-flex w-100 align-items-center "
                                     >
-                                        <div
-                                            className={`my-wrapper-video ${className} rounded-4 bg-secondary position-relative`}
-                                        >
+                                        <div className={`my-wrapper-video rounded-4 bg-secondary position-relative`}>
                                             <video
                                                 className="w-100 h-100"
                                                 autoPlay
@@ -94,15 +105,11 @@ export default function SelectCamsPSModal({ videoStreams, onHide, show, onConfir
                                                 }}
                                             />
                                             <div className="position-absolute top-0 start-0 ms-2 mt-1 text-center">
-                                                {camsSelected[0] === videoStream.id ? (
-                                                    <span className="fs-4 bg-primary rounded-3 ps-2 pe-2 shadow">
-                                                        Primária
+                                                {typeName && (
+                                                    <span className="fs-4 bg-black text-white rounded-3 ps-2 pe-2 shadow bg-opacity-75">
+                                                        {typeName}
                                                     </span>
-                                                ) : camsSelected[1] === videoStream.id ? (
-                                                    <span className="fs-4 bg-secondary rounded-3 ps-2 pe-2 shadow">
-                                                        Secundária
-                                                    </span>
-                                                ) : undefined}
+                                                )}
                                             </div>
                                         </div>
 

@@ -88,6 +88,8 @@ export default function CreateRecord() {
         [projects]
     );
 
+    console.log(selectedProject);
+
     return (
         <>
             <LayoutRecording.Root>
@@ -131,15 +133,18 @@ export default function CreateRecord() {
                 <LayoutRecording.Body streamsLabel={selectedStreamsLabel} moviments={moviments} />
             </LayoutRecording.Root>
 
-            <SelectCamsPSModal
-                show={showSelectCamsModal}
-                onHide={handleOnHideSelectCamsModal}
-                videoStreams={streams}
-                onConfirm={(selected) => {
-                    setSelectedStreamsLabel(selected);
-                    setShowSelectCamsModal(false);
-                }}
-            />
+            {selectedProject && (
+                <SelectCamsPSModal
+                    project={selectedProject}
+                    show={showSelectCamsModal}
+                    onHide={handleOnHideSelectCamsModal}
+                    videoStreams={streams}
+                    onConfirm={(selected) => {
+                        setSelectedStreamsLabel(selected);
+                        setShowSelectCamsModal(false);
+                    }}
+                />
+            )}
         </>
     );
 }

@@ -58,7 +58,7 @@ export default function PlayingRecord() {
                     onReady={() => setVideoReadyToPlay(true)}
                     video={currentVideo ?? undefined}
                 >
-                    <h5 className="mb-0">
+                    <h5 className="mb-0 text-truncate">
                         {currentRecording?.babyInfo.name} | {currentRecording?.project.projectName} |{" "}
                         {currentRecording?.moveInfo?.description ?? "<Nenhum Movimento>"}
                     </h5>
@@ -73,6 +73,7 @@ export default function PlayingRecord() {
                     >
                         {suggestedVideos.map((video) => (
                             <CardRecordListed
+                                onPlaySpecificVideo={setCurrentVideo}
                                 recording={currentRecording}
                                 key={video.url}
                                 isPlaying={video === currentVideo}

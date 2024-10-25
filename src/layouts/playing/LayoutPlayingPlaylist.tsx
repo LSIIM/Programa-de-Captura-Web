@@ -11,7 +11,7 @@ export interface LayoutPlayingPlaylistProps {
 
 export default function LayoutPlayingPlaylist(props: LayoutPlayingPlaylistProps) {
     return (
-        <Stack className="my-layout-playing-playlist d-flex gap-3 rounded-4 border bg-light">
+        <Stack className="my-layout-playing-playlist d-flex gap-3 rounded-4 border bg-body">
             {props.isLoading ? (
                 <Placeholder animation="glow" className="h-100 w-100 opacity-50">
                     <Placeholder className="w-100 h-100 rounded-4" />

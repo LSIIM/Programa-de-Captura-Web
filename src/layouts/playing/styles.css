@@ -68,6 +68,10 @@
     padding-right: 1.5rem;
 }
 
+.my-layout-playing-player-info {
+    width: calc(100svw - 3rem);
+}
+
 @media (min-width: 768px) {
     .my-layout-playing-grid {
         grid-template-columns: calc(100% - 24rem) calc(24rem - 1rem) !important;
@@ -88,5 +92,10 @@
         height: max-content;
         min-height: 16rem;
         max-height: 55rem;
+    }
+    .my-layout-playing-player-info {
+        width: calc(100svw - 27rem);
+        min-width: 0px;
+        max-width: max-content;
     }
 }
