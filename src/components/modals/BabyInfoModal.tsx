@@ -1,12 +1,12 @@
 import { Button, Col, Modal, ModalProps, Row, Spinner, Stack } from "react-bootstrap";
-import { tBaby } from "../../interfaces";
+import { tPatient } from "../../interfaces";
 import { useCallback, useContext } from "react";
 import useBaby from "../../hooks/useBaby";
 import { SystemContext } from "../../contexts/SystemContext";
 import utils from "../../utils";
 
 export interface BabyInfoModalProps extends ModalProps {
-    baby?: tBaby | null;
+    baby?: tPatient | null;
     onClickDelete?: () => void;
     onClickEdit?: () => void;
 }
@@ -70,7 +70,7 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
                         <Col sm="12" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Atipicidades</small>
-                                <span>{baby?.atipicidade}</span>
+                                <span>{baby?.atipicidades}</span>
                             </Stack>
                         </Col>
 

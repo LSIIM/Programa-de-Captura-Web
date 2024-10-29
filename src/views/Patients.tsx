@@ -2,15 +2,15 @@ import { LayoutTable } from "../layouts";
 import { useCallback, useEffect, useState } from "react";
 import { BabyInfoModal, BabysTable, ManageBabyModal } from "../components";
 import useBaby from "../hooks/useBaby";
-import { tBaby } from "../interfaces";
+import { tPatient } from "../interfaces";
 
-export default function Babys() {
+export default function Patients() {
     //HOOKS
     const { cancelProcess, readBabys, isReading, errorToRead } = useBaby();
 
     //STATES
-    const [babys, setBabys] = useState<tBaby[]>([]);
-    const [babySelected, setBabySelected] = useState<tBaby | null>(null);
+    const [babys, setBabys] = useState<tPatient[]>([]);
+    const [babySelected, setBabySelected] = useState<tPatient | null>(null);
     const [showManageBabyModal, setShowManageBabyModal] = useState(false);
 
     const [search, setSearch] = useState("");
@@ -71,7 +71,7 @@ export default function Babys() {
                         name: "",
                         birthDate: new Date(),
                         isPremature: false,
-                        atipicidade: "",
+                        atipicidades: "",
                         gestationalAge: 0,
                     }
                 }

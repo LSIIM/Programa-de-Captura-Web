@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, FormGroup, FormSelect, Offcanvas, OffcanvasProps, Spinner, Stack } from "react-bootstrap";
 import { v4 } from "uuid";
 import useBaby from "../../hooks/useBaby";
-import { tBaby, tProject } from "../../interfaces";
+import { tPatient, tProject } from "../../interfaces";
 import { useProject } from "../../hooks";
 import { SystemContext } from "../../contexts/SystemContext";
 import utils from "../../utils";
@@ -31,7 +31,7 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
     } = useProject();
 
     //STATES
-    const [babys, setBabys] = useState<tBaby[]>([]);
+    const [babys, setBabys] = useState<tPatient[]>([]);
     const [babyIdSelected, setBabyIdSelected] = useState<number | null>(null);
 
     const [projects, setProjects] = useState<tProject[]>([]);

@@ -65,7 +65,7 @@ export default function CardRecordListed({ recording, isPlaying, video, onPlaySp
                 </video>
                 <Stack className="my-card-record-listed-info d-flex">
                     <div className=" d-flex w-100 align-items-center">
-                        <span className="fw-bold text-truncate w-100">{recording.babyInfo.name}</span>
+                        <span className="fw-bold text-truncate w-100">{recording.patient.name}</span>
                         <MenuButton
                             className="rounded-circle"
                             bootstrapIconName="three-dots-vertical"

@@ -37,14 +37,14 @@ export default function MovimentsButtons({
             </Button>
             {moviments.map((mov) => (
                 <Button
-                    onClick={() => handleOnSelectMoviment(mov.id_mov)}
-                    key={mov.id_mov}
+                    onClick={() => handleOnSelectMoviment(mov.id)}
+                    key={mov.id}
                     variant={
-                        currentMovimentId === mov.id_mov
-                            ? props.donedMovimentsIds?.includes(mov.id_mov)
+                        currentMovimentId === mov.id
+                            ? props.donedMovimentsIds?.includes(mov.id)
                                 ? "primary-dark"
                                 : "secondary-dark"
-                            : props.donedMovimentsIds?.includes(mov.id_mov)
+                            : props.donedMovimentsIds?.includes(mov.id)
                             ? "primary"
                             : "secondary"
                     }

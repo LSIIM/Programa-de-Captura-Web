@@ -5,20 +5,20 @@ import { SystemContext } from "../../contexts/SystemContext";
 import { tProject, tProjectVideoType } from "../../interfaces";
 import "./styles.css";
 
-export interface SelectCamsPSModalProps extends ModalProps {
+export interface SelectCamsModalProps extends ModalProps {
     project: tProject;
     videoStreams: MediaStream[];
     onConfirm: (streams: tStreamLabel[]) => void;
 }
 
-export default function SelectCamsPSModal({
+export default function SelectCamsModal({
     videoStreams,
     onHide,
     show,
     onConfirm,
     project,
     ...rest
-}: SelectCamsPSModalProps) {
+}: SelectCamsModalProps) {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
@@ -56,7 +56,7 @@ export default function SelectCamsPSModal({
         onConfirm(
             streamsSelected.map(({ stream, projectVideoType }) => ({ stream, label: projectVideoType.typeName }))
         );
-    }, [onConfirm, streamsSelected, videoStreams, showAlert, project]);
+    }, [onConfirm, streamsSelected, showAlert, project]);
 
     return (
         <>
@@ -76,7 +76,7 @@ export default function SelectCamsPSModal({
                                         </span>
                                     </h6>
                                     <div className="lh-1 rounded bg-light p-2 border border-info w-auto mb-3">
-                                        {projectVideoTypeToSelect.camsInfo[0]?.framerate}
+                                        Informação da câmera (Isto é estático não está vindo)
                                     </div>
                                 </>
                             ) : (

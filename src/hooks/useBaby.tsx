@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
-import { tBaby } from "../interfaces";
-import { tNewBaby } from "../components/forms/formBaby/FormBaby";
+import { tPatient } from "../interfaces";
+import { tNewPatient } from "../components/forms/formBaby/FormBaby";
 import api, { tBabyQuery } from "../services/api";
 import utils from "../utils";
 import { SystemContext } from "../contexts/SystemContext";
@@ -23,10 +23,10 @@ export default function useBaby() {
             abortController = new AbortController();
             const signal = abortController.signal;
 
-            return new Promise<tBaby[]>(async (resolve, reject) => {
+            return new Promise<tPatient[]>(async (resolve, reject) => {
                 try {
                     setArrBuscando((current) => [...current, true]);
-                    const res = await api.getBabys(params, signal);
+                    const res = await api.getPatients(params, signal);
                     setErrorToRead(false);
                     resolve(res.data);
                 } catch (err: any) {
@@ -44,14 +44,14 @@ export default function useBaby() {
     );
 
     const updateBaby = useCallback(
-        async (id: number, data: tNewBaby) => {
+        async (id: number, data: tNewPatient) => {
             abortController = new AbortController();
             const signal = abortController.signal;
 
             return new Promise<void>(async (resolve, reject) => {
                 try {
                     setIsUpdating(true);
-                    await api.updateBaby(id, data, signal);
+                    await api.updatePatient(id, data, signal);
                     resolve();
                 } catch (err: any) {
                     if (utils.canIgnoreThisError(err)) return;
@@ -67,14 +67,14 @@ export default function useBaby() {
     );
 
     const createBaby = useCallback(
-        async (baby: tNewBaby) => {
+        async (baby: tNewPatient) => {
             abortController = new AbortController();
             const signal = abortController.signal;
 
             return new Promise<void>(async (resolve, reject) => {
                 try {
                     setIsCreating(true);
-                    await api.createBaby([baby], signal);
+                    await api.createPatient([baby], signal);
                     resolve();
                 } catch (err: any) {
                     if (utils.canIgnoreThisError(err)) return;
@@ -97,7 +97,7 @@ export default function useBaby() {
             return new Promise<void>(async (resolve, reject) => {
                 try {
                     setIsDeleting(true);
-                    await api.deleteBaby(babyId, signal);
+                    await api.deletePatient(babyId, signal);
                     resolve();
                 } catch (err: any) {
                     if (utils.canIgnoreThisError(err)) return;

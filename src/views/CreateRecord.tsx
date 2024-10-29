@@ -2,9 +2,9 @@ import { Col, Form, FormGroup, FormSelect } from "react-bootstrap";
 import { v4 } from "uuid";
 import { useBaby, useProject } from "../hooks";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { tBaby, tMov, tProject } from "../interfaces";
+import { tPatient, tProject } from "../interfaces";
 import { LayoutRecording } from "../layouts";
-import { SelectCamsPSModal } from "../components";
+import { SelectCamsModal } from "../components";
 import { tStreamLabel } from "../layouts/recording/LayoutRecordingBody";
 import { SystemContext } from "../contexts/SystemContext";
 
@@ -17,8 +17,8 @@ export default function CreateRecord() {
     const { readProjects, cancelProcess: cancelProjectProcess } = useProject();
 
     //STATES
-    const [babys, setBabys] = useState<tBaby[]>([]);
-    const [selectedBaby, setSelectedBaby] = useState<tBaby | null>(null);
+    const [babys, setBabys] = useState<tPatient[]>([]);
+    const [selectedBaby, setSelectedBaby] = useState<tPatient | null>(null);
 
     const [projects, setProjects] = useState<tProject[]>([]);
     const [selectedProject, setSelectedProject] = useState<tProject | null>(null);
@@ -130,11 +130,14 @@ export default function CreateRecord() {
                         onFindStreams={handleOnFindStreams}
                     />
                 </LayoutRecording.Header>
-                <LayoutRecording.Body streamsLabel={selectedStreamsLabel} moviments={moviments} />
+                <LayoutRecording.Body
+                    streamsLabel={selectedStreamsLabel}
+                    moviments={selectedProject?.movesInfo ?? []}
+                />
             </LayoutRecording.Root>
 
             {selectedProject && (
-                <SelectCamsPSModal
+                <SelectCamsModal
                     project={selectedProject}
                     show={showSelectCamsModal}
                     onHide={handleOnHideSelectCamsModal}
@@ -148,10 +151,3 @@ export default function CreateRecord() {
         </>
     );
 }
-
-const moviments: tMov[] = [
-    { id_mov: 0, description: "Movimento 1" },
-    { id_mov: 1, description: "Movimento 2" },
-    { id_mov: 2, description: "Movimento 3" },
-    { id_mov: 3, description: "Movimento 4" },
-];

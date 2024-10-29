@@ -1,7 +1,7 @@
 import { Button, Modal, ModalProps, Spinner } from "react-bootstrap";
-import FormBaby, { tNewBaby } from "../forms/formBaby/FormBaby";
+import FormBaby, { tNewPatient } from "../forms/formBaby/FormBaby";
 import { useCallback, useContext } from "react";
-import { tBaby, tPartialEntity } from "../../interfaces";
+import { tPatient, tPartialEntity } from "../../interfaces";
 import useBaby from "../../hooks/useBaby";
 import { SystemContext } from "../../contexts/SystemContext";
 
@@ -9,7 +9,7 @@ const FORM_BABY_ID = "form-register-baby";
 
 export interface ManageBabyModalProps extends ModalProps {
     babyId?: number;
-    initialValues: tNewBaby;
+    initialValues: tNewPatient;
     onSuccess?: () => void;
 }
 
@@ -22,7 +22,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
 
     //EVENTOS
     const handleOnEdit = useCallback(
-        async ({ id: id_baby, ...data }: tNewBaby & tPartialEntity<tBaby, "id">) => {
+        async ({ id: id_baby, ...data }: tNewPatient & tPartialEntity<tPatient, "id">) => {
             try {
                 await updateBaby(id_baby, data);
                 showAlert("Bebê editado com sucesso.");
@@ -35,7 +35,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     );
 
     const handleOnCreate = useCallback(
-        async (baby: tNewBaby) => {
+        async (baby: tNewPatient) => {
             try {
                 await createBaby(baby);
                 showAlert("Bebê cadastrado com sucesso.");
@@ -48,7 +48,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     );
 
     const handleOnSubmit = useCallback(
-        async (baby: tNewBaby) => {
+        async (baby: tNewPatient) => {
             try {
                 if (babyId !== undefined) await handleOnEdit({ id: babyId, ...baby });
                 else await handleOnCreate(baby);

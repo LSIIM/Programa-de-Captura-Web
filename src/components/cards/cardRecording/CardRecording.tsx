@@ -38,7 +38,7 @@ export default function CardRecording({ recording, video }: CardRecordingProps) 
                 </video>
                 <Stack className="d-flex ps-2 pe-2 w-100">
                     <div className="my-card-record-div-baby-name d-flex w-100 align-items-center">
-                        <span className="fw-bold text-truncate w-100">{recording.babyInfo.name}</span>
+                        <span className="fw-bold text-truncate w-100">{recording.patient.name}</span>
                         <MenuButton className="rounded-circle" bootstrapIconName="three-dots-vertical">
                             <ListGroup className="small my-menu-list">
                                 <ListGroup.Item onClick={handleOnClickPlay}>

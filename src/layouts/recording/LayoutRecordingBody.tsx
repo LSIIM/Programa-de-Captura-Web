@@ -32,12 +32,12 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
     const [isRecording, setIsRecording] = useState(false);
 
     //VARIABLES
-    const currentMovimentIsDoned = donedMoviments.some(({ id_mov }) => id_mov === currentMovimentId) ? true : false;
+    const currentMovimentIsDoned = donedMoviments.some(({ id: id_mov }) => id_mov === currentMovimentId) ? true : false;
 
     //EVENTS
     useEffect(() => {
         if (streamsLabel.length > 0) setCurrentSelectedStreamId(streamsLabel[0].stream.id);
-        if (moviments.length > 0) setCurrentMovimentId(moviments[0].id_mov);
+        if (moviments.length > 0) setCurrentMovimentId(moviments[0].id);
         setDonedMoviments([]);
     }, [streamsLabel, moviments]);
 
@@ -56,7 +56,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
 
     const handleOnSaveVideos = useCallback(
         (data: tDataLabelChunks[], currentMovimentId: number | null) => {
-            const currentMoviment = moviments.find((mov) => mov.id_mov === currentMovimentId);
+            const currentMoviment = moviments.find((mov) => mov.id === currentMovimentId);
             if (!currentMoviment) return showAlert("Aconteceu um erro ao salvar os vídeos.");
 
             //Criando um moivment atual com os vídeos gravados de cada câmera
@@ -71,9 +71,9 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
 
             //Salvando o moviment criado
             setDonedMoviments((current) => {
-                if (current.some((donedMoviment) => donedMoviment.id_mov === currentMovimentId))
+                if (current.some((donedMoviment) => donedMoviment.id === currentMovimentId))
                     return current.map((donedMoviment) =>
-                        donedMoviment.id_mov === currentMovimentId ? currentDonedMoviment : donedMoviment
+                        donedMoviment.id === currentMovimentId ? currentDonedMoviment : donedMoviment
                     );
                 else return [...current, currentDonedMoviment];
             });
@@ -133,7 +133,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
     }, [mediaRecorders, handleOnRestart, handleOnRecordingError, showAlert]);
 
     const handleOnRemake = useCallback(() => {
-        setDonedMoviments((current) => current.filter((donedMoviment) => donedMoviment.id_mov !== currentMovimentId));
+        setDonedMoviments((current) => current.filter((donedMoviment) => donedMoviment.id !== currentMovimentId));
     }, [currentMovimentId]);
 
     const handleOnChangeCurrentMoviment = useCallback(
@@ -182,7 +182,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
                     moviments={moviments}
                     currentMovimentId={currentMovimentId ?? 0}
                     setCurrentMovimentId={handleOnChangeCurrentMoviment}
-                    donedMovimentsIds={donedMoviments.map(({ id_mov }) => id_mov)}
+                    donedMovimentsIds={donedMoviments.map(({ id: id_mov }) => id_mov)}
                 />
             </div>
 
@@ -205,7 +205,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
             {streamsLabel.length < 1 && <div className="my-layout-recording-body-div-video-selected rounded-4" />}
             {streamsLabel.map(({ stream, label }) => {
                 const isSelected = stream.id === currentSelectedStreamId;
-                const currentDonedMoviment = donedMoviments.find(({ id_mov }) => id_mov === currentMovimentId);
+                const currentDonedMoviment = donedMoviments.find(({ id: id_mov }) => id_mov === currentMovimentId);
                 const dataSaved = currentDonedMoviment?.data?.find((data) => data.label === label);
                 return (
                     <div

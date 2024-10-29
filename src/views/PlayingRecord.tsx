@@ -27,7 +27,7 @@ export default function PlayingRecord() {
 
     //VARIABLES
     const otherVideosFiltered = otherRecordings.filter(
-        ({ id, babyInfo }) => id !== currentRecording?.id && babyInfo.name.toLowerCase().includes(search.toLowerCase())
+        ({ id, patient: babyInfo }) => id !== currentRecording?.id && babyInfo.name.toLowerCase().includes(search.toLowerCase())
     );
 
     //EVENTS
@@ -59,7 +59,7 @@ export default function PlayingRecord() {
                     video={currentVideo ?? undefined}
                 >
                     <h5 className="mb-0 text-truncate">
-                        {currentRecording?.babyInfo.name} | {currentRecording?.project.projectName} |{" "}
+                        {currentRecording?.patient.name} | {currentRecording?.project.projectName} |{" "}
                         {currentRecording?.moveInfo?.description ?? "<Nenhum Movimento>"}
                     </h5>
                 </LayoutPlaying.Player>

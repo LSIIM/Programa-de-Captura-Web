@@ -1,15 +1,15 @@
 import { useCallback } from "react";
-import { tBaby } from "../../interfaces";
+import { tPatient } from "../../interfaces";
 
 export interface BabysTableProps {
-    babys: tBaby[];
-    onClickBaby?: (baby: tBaby) => void;
+    babys: tPatient[];
+    onClickBaby?: (baby: tPatient) => void;
 }
 
 export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
     //EVENTS
     const handleOnClickBaby = useCallback(
-        (baby: tBaby) => {
+        (baby: tPatient) => {
             if (onClickBaby) onClickBaby(baby);
         },
         [onClickBaby]

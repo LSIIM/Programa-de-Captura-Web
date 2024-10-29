@@ -1,6 +1,6 @@
-import { tNewBaby } from "../components/forms/formBaby/FormBaby";
+import { tNewPatient } from "../components/forms/formBaby/FormBaby";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
-import { tBaby, tProject, tRecording } from "../interfaces";
+import { tPatient, tProject, tRecording } from "../interfaces";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -88,16 +88,16 @@ const api = {
     },
 
     //BABYS
-    createBaby: (data: tNewBaby[], signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.post(`/baby`, { data }, { signal }),
-    updateBaby: (id: number, data: tNewBaby, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.patch(`/baby/${id}`, { data }, { signal }),
-    deleteBaby: (id: number, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.delete(`/baby/${id}`, { signal }),
-    getBabys: (params?: tBabyQuery, signal?: AbortSignal): Promise<AxiosResponse<tBaby[], AxiosError>> =>
-        instance.get(`/baby`, { params, signal }),
-    getBaby: (id: number, signal?: AbortSignal): Promise<AxiosResponse<tBaby, AxiosError>> =>
-        instance.get(`/baby/${id}`, { signal }),
+    createPatient: (data: tNewPatient[], signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
+        instance.post(`/patient`, { data }, { signal }),
+    updatePatient: (id: number, data: tNewPatient, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
+        instance.patch(`/patient/${id}`, { data }, { signal }),
+    deletePatient: (id: number, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
+        instance.delete(`/patient/${id}`, { signal }),
+    getPatients: (params?: tBabyQuery, signal?: AbortSignal): Promise<AxiosResponse<tPatient[], AxiosError>> =>
+        instance.get(`/patient`, { params, signal }),
+    getPatient: (id: number, signal?: AbortSignal): Promise<AxiosResponse<tPatient, AxiosError>> =>
+        instance.get(`/patient/${id}`, { signal }),
 
     //PROJECTS
     getProjects: (params?: tProjectQuery, signal?: AbortSignal): Promise<AxiosResponse<tProject[], AxiosError>> =>

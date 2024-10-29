@@ -3,16 +3,16 @@ import * as yup from "yup";
 import { useCallback } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { v4 } from "uuid";
-import { tBaby, tPartialEntity } from "../../../interfaces";
+import { tPatient, tPartialEntity } from "../../../interfaces";
 import { InputDate } from "../..";
 
 //TYPES
-export type tNewBaby = tPartialEntity<tBaby, "birthDate" | "isPremature" | "name" | "atipicidade" | "gestationalAge">;
+export type tNewPatient = tPartialEntity<tPatient, "birthDate" | "isPremature" | "name" | "atipicidades" | "gestationalAge">;
 
 export interface FormBabyProps {
-    initialValues: tNewBaby;
+    initialValues: tNewPatient;
     formId: string;
-    onSubmit: (newBaby: tNewBaby) => Promise<void> | void;
+    onSubmit: (newBaby: tNewPatient) => Promise<void> | void;
 }
 
 export default function FormBaby(props: FormBabyProps) {
@@ -21,7 +21,7 @@ export default function FormBaby(props: FormBabyProps) {
 
     //EVENTS
     const handleOnSubmit = useCallback(
-        async (newBaby: tNewBaby, helpers: FormikHelpers<tNewBaby>) => {
+        async (newBaby: tNewPatient, helpers: FormikHelpers<tNewPatient>) => {
             try {
                 helpers.setSubmitting(true);
                 await onSubmit(newBaby);
@@ -107,11 +107,11 @@ export default function FormBaby(props: FormBabyProps) {
                                     className="rounded-4"
                                     required
                                     rows={3}
-                                    value={values.atipicidade}
-                                    isInvalid={!!errors.atipicidade}
-                                    onChange={(e) => setValues({ ...values, atipicidade: e.target.value })}
+                                    value={values.atipicidades}
+                                    isInvalid={!!errors.atipicidades}
+                                    onChange={(e) => setValues({ ...values, atipicidades: e.target.value })}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.atipicidade}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.atipicidades}</Form.Control.Feedback>
                             </Form.Group>
                         </Row>
                     </Form>
@@ -121,10 +121,10 @@ export default function FormBaby(props: FormBabyProps) {
     );
 }
 
-export const schemaNewBaby: yup.ObjectSchema<tNewBaby> = yup.object({
+export const schemaNewBaby: yup.ObjectSchema<tNewPatient> = yup.object({
     birthDate: yup.date().required("Este campo é requerido."),
     isPremature: yup.boolean().required("Este campo é requerido."),
     name: yup.string().required("Este campo é requerido."),
     gestationalAge: yup.number().integer().required("Este campo é requerido.").min(1, "Coloque um valor válido."),
-    atipicidade: yup.string().required("Este campo é requerido."),
+    atipicidades: yup.string().required("Este campo é requerido."),
 });

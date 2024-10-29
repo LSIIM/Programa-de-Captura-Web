@@ -1,19 +1,22 @@
 //Entidades do banco de dados
 
-//BABYS_INFO
-export type tBaby = {
+//PATIENT
+export type tPatient = {
     id: number;
     name: string;
     birthDate: Date;
     isPremature: boolean;
     gestationalAge: number;
-    atipicidade: string;
+    atipicidades: string;
 };
 
 //MOVS_INFO
 export type tMov = {
-    id_mov: number;
+    id: number;
     description: string;
+    projectId: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 //RECORDINGS
@@ -21,20 +24,17 @@ export type tRecording = {
     id: number;
     ignore: false;
     observation?: string;
-    babyId: number;
-    babyInfo: tBaby;
+    patientId: number;
+    patient: tPatient;
     recordingDate: Date;
     moveId?: number;
     moveInfo?: tMov;
-    movAux: boolean;
     projectId: number;
     project: tProject;
-    camInfoId?: number;
-    camInfo?: tCam;
     recordVideoTypes: [];
-    videos: tVideo[];
     createdAt: Date;
     updatedAt: Date;
+    videos: tVideo[];
 };
 
 //CAM_INFO
@@ -64,21 +64,21 @@ export type CamInfo = {
 export type tProjectVideoType = {
     id: number;
     isMain: boolean;
+    typeName: string;
+    projectId: number;
     createdAt: Date;
     updatedAt: Date;
-    projectId: number;
-    typeName: string;
     recordVideoType: any[];
-    camsInfo: CamInfo[];
 };
 
 //PROJECT
 export type tProject = {
     id: number;
     projectName: string;
-    projectsVideoTypes: tProjectVideoType[];
     createdAt: Date;
     updatedAt: Date;
+    movesInfo: tMov[];
+    projectsVideoTypes: tProjectVideoType[];
 };
 
 //Tipo auxiliar para obter tipos parciais de tipos existentes
