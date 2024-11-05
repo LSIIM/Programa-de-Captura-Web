@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { tRecording } from "../interfaces";
 import api, { tRecordingQuery } from "../services/api";
 import utils from "../utils";
+import { tNewRecording } from "../layouts/recording/LayoutRecordingBody";
 
 let abortController: AbortController | undefined;
 export default function useRecording() {
@@ -84,15 +85,14 @@ export default function useRecording() {
         });
     }, []);
 
-    const createRecording = useCallback(async (recording: any) => {
+    const createRecording = useCallback(async (recordings: tNewRecording[]) => {
         abortController = new AbortController();
-        //const signal = abortController.signal;
+        const signal = abortController.signal;
 
         return new Promise<void>(async (resolve, reject) => {
             try {
                 setIsCreating(true);
-                //TODO: Realizar lógica de criar o recording
-                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
+                await api.createRecordings(recordings, signal);
                 resolve();
             } catch (err: any) {
                 if (utils.canIgnoreThisError(err)) return;

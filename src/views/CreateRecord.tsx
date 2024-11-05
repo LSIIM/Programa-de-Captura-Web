@@ -17,8 +17,8 @@ export default function CreateRecord() {
     const { readProjects, cancelProcess: cancelProjectProcess } = useProject();
 
     //STATES
-    const [babys, setBabys] = useState<tPatient[]>([]);
-    const [selectedBaby, setSelectedBaby] = useState<tPatient | null>(null);
+    const [patients, setPatients] = useState<tPatient[]>([]);
+    const [selectedPatient, setSelectedPatient] = useState<tPatient | null>(null);
 
     const [projects, setProjects] = useState<tProject[]>([]);
     const [selectedProject, setSelectedProject] = useState<tProject | null>(null);
@@ -41,7 +41,7 @@ export default function CreateRecord() {
 
     useEffect(() => {
         readBabys()
-            .then((babys) => setBabys(babys))
+            .then((babys) => setPatients(babys))
             .catch((err) => console.error(err));
 
         readProjects()
@@ -56,10 +56,10 @@ export default function CreateRecord() {
     }, [cancelBabyProcess, readBabys, readProjects, cancelProjectProcess, stopStreams]);
 
     const handleOnCanFindStreams = useCallback(() => {
-        if (selectedProject && selectedBaby) return true;
+        if (selectedProject && selectedPatient) return true;
         showAlert("Antes de escolher as câmeras selecione um bebê e um projeto.");
         return false;
-    }, [selectedProject, selectedBaby, showAlert]);
+    }, [selectedProject, selectedPatient, showAlert]);
 
     const handleOnFindStreams = useCallback((streams: MediaStream[]) => {
         setStreams(streams);
@@ -74,10 +74,10 @@ export default function CreateRecord() {
     const handleOnChangeSelectBaby = useCallback(
         (_babyId: string) => {
             const babyId = Number(_babyId);
-            const selectedBaby = babys.find((baby) => baby.id === babyId);
-            setSelectedBaby(selectedBaby ?? null);
+            const selectedBaby = patients.find((baby) => baby.id === babyId);
+            setSelectedPatient(selectedBaby ?? null);
         },
-        [babys]
+        [patients]
     );
     const handleOnChangeSelectProject = useCallback(
         (_projectId: string) => {
@@ -88,8 +88,6 @@ export default function CreateRecord() {
         [projects]
     );
 
-    console.log(selectedProject);
-
     return (
         <>
             <LayoutRecording.Root>
@@ -98,11 +96,11 @@ export default function CreateRecord() {
                         <Form.Label>Bebê</Form.Label>
                         <FormSelect
                             className="rounded-pill"
-                            value={selectedBaby?.id ?? ""}
+                            value={selectedPatient?.id ?? ""}
                             onChange={(e) => handleOnChangeSelectBaby(e.target.value)}
                         >
                             <option value="">--- Selecionar bebê ---</option>
-                            {babys.map((baby) => (
+                            {patients.map((baby) => (
                                 <option key={baby.id} value={baby.id}>
                                     {baby.name}
                                 </option>
@@ -130,10 +128,14 @@ export default function CreateRecord() {
                         onFindStreams={handleOnFindStreams}
                     />
                 </LayoutRecording.Header>
-                <LayoutRecording.Body
-                    streamsLabel={selectedStreamsLabel}
-                    moviments={selectedProject?.movesInfo ?? []}
-                />
+                {selectedProject && selectedPatient && (
+                    <LayoutRecording.Body
+                        patient={selectedPatient}
+                        project={selectedProject}
+                        streamsLabel={selectedStreamsLabel}
+                        moviments={selectedProject?.movesInfo ?? []}
+                    />
+                )}
             </LayoutRecording.Root>
 
             {selectedProject && (

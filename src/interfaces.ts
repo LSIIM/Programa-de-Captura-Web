@@ -15,6 +15,7 @@ export type tMov = {
     id: number;
     description: string;
     projectId: string;
+    defaultCamId: number;
     createdAt: Date;
     updatedAt: Date;
 };
@@ -30,6 +31,8 @@ export type tRecording = {
     moveId?: number;
     moveInfo?: tMov;
     projectId: number;
+    movAux: boolean;
+    camInfoId: number;
     project: tProject;
     recordVideoTypes: [];
     createdAt: Date;
@@ -68,7 +71,6 @@ export type tProjectVideoType = {
     projectId: number;
     createdAt: Date;
     updatedAt: Date;
-    recordVideoType: any[];
 };
 
 //PROJECT

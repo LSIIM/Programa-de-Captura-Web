@@ -53,9 +53,7 @@ export default function SelectCamsModal({
         if (streamsSelected.length !== streamsToSelect)
             return showAlert(`Você deve escolher ${streamsToSelect} câmeras.`);
 
-        onConfirm(
-            streamsSelected.map(({ stream, projectVideoType }) => ({ stream, label: projectVideoType.typeName }))
-        );
+        onConfirm(streamsSelected.map((streamSelected) => streamSelected));
     }, [onConfirm, streamsSelected, showAlert, project]);
 
     return (

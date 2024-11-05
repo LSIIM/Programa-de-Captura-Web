@@ -2,25 +2,41 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { v4 } from "uuid";
 import { ControlRecordingButton, MovimentsButtons } from "../../components";
-import { tMov } from "../../interfaces";
+import { tMov, tPartialEntity, tPatient, tProject, tProjectVideoType, tRecording } from "../../interfaces";
 import { SystemContext } from "../../contexts/SystemContext";
 import "./styles.css";
 import utils from "../../utils";
+import { useRecording } from "../../hooks";
 
 const VIDEO_TYPE = "video/mp4";
 
-export type tDataLabelChunks = { label: string; chunks: Blob[] };
-export type tStreamLabel = { stream: MediaStream; label: string };
-export type tDoneMoviment = tMov & { data: { label: string; url: string }[] };
+export type tNewRecording = tPartialEntity<
+    tRecording,
+    "ignore" | "observation" | "patientId" | "recordingDate" | "moveId" | "projectId"
+> & { recordingsVideos: { projectVideoTypeId: number; camIdUsed: number }[] };
+export type tDataLabelChunks = { chunks: Blob[]; projectVideoType: tProjectVideoType };
+export type tStreamLabel = { stream: MediaStream; projectVideoType: tProjectVideoType };
+export type tDoneMoviment = tMov & { data: { blob: Blob; projectVideoType: tProjectVideoType }[] };
 
 export interface LayoutRecordingBodyProps {
     streamsLabel: tStreamLabel[];
     moviments: tMov[];
+    project: tProject;
+    patient: tPatient;
 }
 
-export default function LayoutRecordingBody({ streamsLabel, moviments, ...props }: LayoutRecordingBodyProps) {
+export default function LayoutRecordingBody({
+    streamsLabel,
+    moviments,
+    patient,
+    project,
+    ...props
+}: LayoutRecordingBodyProps) {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
+
+    //HOOKS
+    const { createRecording } = useRecording();
 
     //STATES
     const [currentSelectedStreamId, setCurrentSelectedStreamId] = useState<string | null>(null);
@@ -62,10 +78,9 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
             //Criando um moivment atual com os vídeos gravados de cada câmera
             const currentDonedMoviment = {
                 ...currentMoviment,
-                data: data?.map(({ chunks, label }) => {
+                data: data?.map(({ chunks, projectVideoType }) => {
                     const blob = new Blob(chunks, { type: VIDEO_TYPE });
-                    const url = URL.createObjectURL(blob);
-                    return { label, url };
+                    return { blob, projectVideoType };
                 }),
             };
 
@@ -87,8 +102,8 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
         try {
             //Inicia variável para salvar os vídeos e se criam os objetos de gravação.
             let data: tDataLabelChunks[] = [];
-            const mediaRecorders = streamsLabel.map(({ stream, label }) => {
-                data.push({ label, chunks: [] });
+            const mediaRecorders = streamsLabel.map(({ stream, projectVideoType }) => {
+                data.push({ chunks: [], projectVideoType });
                 return new MediaRecorder(stream, { mimeType: `${VIDEO_TYPE}; codecs=vp9` });
             });
 
@@ -147,33 +162,33 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
 
     const handleOnSubmit = useCallback(async () => {
         try {
-            await new Promise<void>((resolve) => {
-                const linkElement = document.createElement("a");
+            const newRecording: tNewRecording = {
+                ignore: false,
+                observation: "algo",
+                patientId: patient.id,
+                recordingDate: new Date(),
+                moveId: 123,
+                projectId: project.id,
+                recordingsVideos: donedMoviments.flatMap((donedMov) =>
+                    donedMov.data.map((data) => {
+                        const form = new FormData();
+                        form.append("videos", data.blob, data.projectVideoType.typeName);
+                        return {
+                            projectVideoTypeId: data.projectVideoType.id,
+                            camIdUsed: donedMov.defaultCamId,
+                            file: form,
+                        };
+                    })
+                ),
+            };
 
-                for (const donedMoviment of donedMoviments) {
-                    for (const data of donedMoviment.data) {
-                        const fileName = `${donedMoviment.description}-${data.label}`;
-
-                        linkElement.href = data.url;
-                        linkElement.download = fileName;
-
-                        document.body.appendChild(linkElement);
-                        linkElement.click();
-                        document.body.removeChild(linkElement);
-
-                        URL.revokeObjectURL(data.url);
-                    }
-                }
-
-                resolve();
-            });
-
+            await createRecording([newRecording]);
             setDonedMoviments([]);
         } catch (err) {
             showAlert(utils.getMessageError(err));
             console.error(err);
         }
-    }, [donedMoviments, showAlert]);
+    }, [donedMoviments, showAlert, createRecording, patient, project]);
 
     return (
         <Col sm="12" className="bg-red h-100 z-1 p-3 position-relative">
@@ -203,10 +218,12 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
             </div>
 
             {streamsLabel.length < 1 && <div className="my-layout-recording-body-div-video-selected rounded-4" />}
-            {streamsLabel.map(({ stream, label }) => {
+            {streamsLabel.map(({ stream, projectVideoType }) => {
                 const isSelected = stream.id === currentSelectedStreamId;
                 const currentDonedMoviment = donedMoviments.find(({ id: id_mov }) => id_mov === currentMovimentId);
-                const dataSaved = currentDonedMoviment?.data?.find((data) => data.label === label);
+                const dataSaved = currentDonedMoviment?.data?.find(
+                    (data) => data.projectVideoType.id === projectVideoType.id
+                );
                 return (
                     <div
                         key={v4()}
@@ -220,7 +237,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
                                 <i className="bi bi-box-arrow-in-up-left fs-5 position-absolute top-0 start-0 ms-2 mt-2" />
                             )}
                             <span className="position-absolute top-0 end-0 bg-black bg-opacity-50 rounded text-white me-2 mt-2 ps-1 pe-1">
-                                {label}
+                                {projectVideoType.typeName}
                             </span>
                             <video
                                 className="w-100 h-100"
@@ -233,7 +250,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, ...props 
 
                                     if (dataSaved) {
                                         video.srcObject = null;
-                                        video.src = dataSaved.url;
+                                        video.src = URL.createObjectURL(dataSaved.blob);
                                     } else {
                                         video.srcObject = stream;
                                     }
