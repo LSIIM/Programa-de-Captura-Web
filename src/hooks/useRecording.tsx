@@ -101,7 +101,7 @@ export default function useRecording() {
                 formData.append("recordings", JSON.stringify({ data: recordingsWithoutFile }));
                 recordings.forEach((recording) =>
                     recording.recordingsVideos.forEach((video) => {
-                        formData.append("videos", video.file, video.projectVideoTypeId.toString());
+                        formData.append("videos", video.file, video.projectVideoTypeId.toString() + '.mp4');
                     })
                 );
 

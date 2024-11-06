@@ -167,7 +167,7 @@ export default function LayoutRecordingBody({
                 observation: "algo",
                 patientId: patient.id,
                 recordingDate: new Date(),
-                moveId: 123,
+                moveId: 1,
                 projectId: project.id,
                 recordingsVideos: donedMoviments.flatMap((donedMov) =>
                     donedMov.data.map((data) => {
