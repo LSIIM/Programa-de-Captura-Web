@@ -38,8 +38,8 @@ export default function PlayingRecord() {
         getRecording(Number(currentRecordingId))
             .then((recording) => {
                 setCurrentRecording(recording);
-                setSuggestedVideos(recording.videos);
-                setCurrentVideo(recording.videos[0]);
+                setSuggestedVideos(recording.recordingsVideos);
+                setCurrentVideo(recording.recordingsVideos[0]);
             })
             .catch((err) => showAlert(utils.getMessageError(err)));
 
@@ -65,7 +65,7 @@ export default function PlayingRecord() {
                 </LayoutPlaying.Player>
             </LayoutPlaying.PlayerContainer>
             <LayoutPlaying.List>
-                {currentRecording && currentRecording.videos.length > 0 && (
+                {currentRecording && currentRecording.recordingsVideos.length > 0 && (
                     <LayoutPlaying.Playlist
                         title="Relacionado"
                         subtitle="Vídeos da mesma gravação"
@@ -85,7 +85,7 @@ export default function PlayingRecord() {
                 <LayoutPlaying.Search value={search} onAccept={setSearch} placeholder="Pesquise pelo nome do bebê" />
                 <LayoutPlaying.ListBody isLoading={isReading || errorToRead}>
                     {otherVideosFiltered.map((recording) => (
-                        <CardRecordListed recording={recording} key={recording.id} video={recording.videos[0]} />
+                        <CardRecordListed recording={recording} key={recording.id} video={recording.recordingsVideos[0]} />
                     ))}
                 </LayoutPlaying.ListBody>
             </LayoutPlaying.List>

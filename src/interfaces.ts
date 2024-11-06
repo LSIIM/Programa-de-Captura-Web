@@ -31,13 +31,13 @@ export type tRecording = {
     moveId?: number;
     moveInfo?: tMov;
     projectId: number;
+    project: tProject;
     movAux: boolean;
     camInfoId: number;
-    project: tProject;
     recordVideoTypes: [];
     createdAt: Date;
     updatedAt: Date;
-    videos: tVideo[];
+    recordingsVideos: tVideo[];
 };
 
 //CAM_INFO
@@ -49,8 +49,11 @@ export type tCam = {
 
 //VIDEO
 export type tVideo = {
+    id: number;
+    projectVideoTypeId: number;
+    camIdUsed: number;
     url: string;
-    isMain: boolean;
+    projectVideoType: tPartialEntity<tProjectVideoType, "isMain">;
 };
 
 //CAM INFO
@@ -77,6 +80,7 @@ export type tProjectVideoType = {
 export type tProject = {
     id: number;
     projectName: string;
+    description: string;
     createdAt: Date;
     updatedAt: Date;
     movesInfo: tMov[];

@@ -57,7 +57,7 @@ export default function Recordings() {
                         </h5>
                     )}
                     {recordings.map((record) => (
-                        <CardRecording key={record.id} recording={record} video={record.videos[0]} />
+                        <CardRecording key={record.id} recording={record} video={record.recordingsVideos[0]} />
                     ))}
                 </LayoutGridList.Body>
             </LayoutGridList.Root>
