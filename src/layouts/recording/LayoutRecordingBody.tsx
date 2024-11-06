@@ -13,7 +13,7 @@ const VIDEO_TYPE = "video/mp4";
 export type tNewRecording = tPartialEntity<
     tRecording,
     "ignore" | "observation" | "patientId" | "recordingDate" | "moveId" | "projectId"
-> & { recordingsVideos: { projectVideoTypeId: number; camIdUsed: number }[] };
+> & { recordingsVideos: { projectVideoTypeId: number; camIdUsed: number; file: Blob }[] };
 export type tDataLabelChunks = { chunks: Blob[]; projectVideoType: tProjectVideoType };
 export type tStreamLabel = { stream: MediaStream; projectVideoType: tProjectVideoType };
 export type tDoneMoviment = tMov & { data: { blob: Blob; projectVideoType: tProjectVideoType }[] };
@@ -171,12 +171,10 @@ export default function LayoutRecordingBody({
                 projectId: project.id,
                 recordingsVideos: donedMoviments.flatMap((donedMov) =>
                     donedMov.data.map((data) => {
-                        const form = new FormData();
-                        form.append("videos", data.blob, data.projectVideoType.typeName);
                         return {
                             projectVideoTypeId: data.projectVideoType.id,
                             camIdUsed: donedMov.defaultCamId,
-                            file: form,
+                            file: data.blob,
                         };
                     })
                 ),

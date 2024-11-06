@@ -1,7 +1,6 @@
 import { tNewPatient } from "../components/forms/formBaby/FormBaby";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
 import { tPatient, tProject, tRecording } from "../interfaces";
-import { tNewRecording } from "../layouts/recording/LayoutRecordingBody";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -107,17 +106,13 @@ const api = {
     //RECORDINGS
     getRecordings: (params?: tRecordingQuery, signal?: AbortSignal): Promise<AxiosResponse<tRecording[], AxiosError>> =>
         instance.get(`/recording`, { params, signal }),
-    createRecordings: (data: tNewRecording[], signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
-        instance.post(
-            `/recording`,
-            { data },
-            {
-                signal,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        ),
+    createRecordings: (data: FormData, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
+        instance.post(`/recording`, data, {
+            signal,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }),
 };
 
 export default api;

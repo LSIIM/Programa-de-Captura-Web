@@ -89,10 +89,23 @@ export default function useRecording() {
         abortController = new AbortController();
         const signal = abortController.signal;
 
+        const recordingsWithoutFile = recordings.map((recording) => ({
+            ...recording,
+            recordingsVideos: recording.recordingsVideos.map(({ file, ...rest }) => rest),
+        }));
+
         return new Promise<void>(async (resolve, reject) => {
             try {
                 setIsCreating(true);
-                await api.createRecordings(recordings, signal);
+                const formData = new FormData();
+                formData.append("recordings", JSON.stringify({ data: recordingsWithoutFile }));
+                recordings.forEach((recording) =>
+                    recording.recordingsVideos.forEach((video) => {
+                        formData.append("videos", video.file, video.projectVideoTypeId.toString());
+                    })
+                );
+
+                await api.createRecordings(formData, signal);
                 resolve();
             } catch (err: any) {
                 if (utils.canIgnoreThisError(err)) return;
