@@ -23,12 +23,9 @@ export default function PlayingRecord() {
 
     const [videoReadyToPlay, setVideoReadyToPlay] = useState(false);
 
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState<string | undefined>(undefined);
 
     //VARIABLES
-    const otherVideosFiltered = otherRecordings.filter(
-        ({ id, patient: babyInfo }) => id !== currentRecording?.id && babyInfo.name.toLowerCase().includes(search.toLowerCase())
-    );
 
     //EVENTS
     useEffect(() => {
@@ -84,8 +81,12 @@ export default function PlayingRecord() {
                 )}
                 <LayoutPlaying.Search value={search} onAccept={setSearch} placeholder="Pesquise pelo nome do bebê" />
                 <LayoutPlaying.ListBody isLoading={isReading || errorToRead}>
-                    {otherVideosFiltered.map((recording) => (
-                        <CardRecordListed recording={recording} key={recording.id} video={recording.recordingsVideos[0]} />
+                    {otherRecordings.map((recording) => (
+                        <CardRecordListed
+                            recording={recording}
+                            key={recording.id}
+                            video={recording.recordingsVideos[0]}
+                        />
                     ))}
                 </LayoutPlaying.ListBody>
             </LayoutPlaying.List>

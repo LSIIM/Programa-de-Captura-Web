@@ -5,8 +5,10 @@ import api, { tBabyQuery } from "../services/api";
 import utils from "../utils";
 import { SystemContext } from "../contexts/SystemContext";
 
+export const LIMIT_PATIENT_PER_PAGE = 30;
+
 let abortController: AbortController | undefined;
-export default function useBaby() {
+export default function usePatients() {
     //CONTEXT
     const { showAlert } = useContext(SystemContext);
 

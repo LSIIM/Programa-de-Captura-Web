@@ -2,7 +2,7 @@ import { Button, Modal, ModalProps, Spinner } from "react-bootstrap";
 import FormBaby, { tNewPatient } from "../forms/formBaby/FormBaby";
 import { useCallback, useContext } from "react";
 import { tPatient, tPartialEntity } from "../../interfaces";
-import useBaby from "../../hooks/useBaby";
+import usePatients from "../../hooks/usePatients";
 import { SystemContext } from "../../contexts/SystemContext";
 
 const FORM_BABY_ID = "form-register-baby";
@@ -18,7 +18,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     const { showAlert } = useContext(SystemContext);
 
     //HOOKS
-    const { createBaby, updateBaby, isCreating, isUpdating } = useBaby();
+    const { createBaby, updateBaby, isCreating, isUpdating } = usePatients();
 
     //EVENTOS
     const handleOnEdit = useCallback(

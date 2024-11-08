@@ -13,6 +13,9 @@ import CardRecordListed from "./cards/cardRecordListed/CardRecordListed";
 import FormLogin from "./forms/formLogin/FormLogin";
 import FormBaby from "./forms/formBaby/FormBaby";
 
+//INIFINITE SCROLL
+import InfiniteScroll from "./infiniteScroll/InfiniteScroll";
+
 //INPUTS
 import InputPassword from "./inputs/inputPassword/InputPassword";
 import InputSearch from "./inputs/inputSearch/InputSearch";
@@ -50,6 +53,9 @@ export {
     //FORMS
     FormLogin,
     FormBaby,
+
+    //INFINITE SCROLL
+    InfiniteScroll,
 
     //INPUTS
     InputPassword,

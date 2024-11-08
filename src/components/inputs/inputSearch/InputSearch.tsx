@@ -3,8 +3,8 @@ import { Form, FormControl, FormControlProps, InputGroup } from "react-bootstrap
 import { IMaskInput } from "react-imask";
 
 export interface InputSearchProps extends FormControlProps {
-    value: string;
-    onAccept: (search: string) => void;
+    value?: string;
+    onAccept: (search?: string) => void;
     error?: string;
 }
 
@@ -13,7 +13,7 @@ export default function InputSearch({ value, onAccept, error, ...rest }: InputSe
     const handleOnChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            onAccept(value);
+            onAccept(value === "" ? undefined : value);
         },
         [onAccept]
     );
@@ -21,6 +21,7 @@ export default function InputSearch({ value, onAccept, error, ...rest }: InputSe
     return (
         <InputGroup>
             <FormControl
+                value={value ?? ""}
                 className="rounded-start-pill"
                 type={"text"}
                 onChange={handleOnChange}

@@ -1,0 +1,16 @@
+.my-infinite-scroll-root {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.my-infinite-scroll-extra-space {
+    height: 100%;
+    width: 100%;
+    transition: height 300ms;
+}
+
+.my-infinite-scroll-extra-space.close {
+    height: 0px;
+}

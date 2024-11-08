@@ -162,25 +162,25 @@ export default function LayoutRecordingBody({
 
     const handleOnSubmit = useCallback(async () => {
         try {
-            const newRecording: tNewRecording = {
-                ignore: false,
-                observation: "algo",
-                patientId: patient.id,
-                recordingDate: new Date(),
-                moveId: 1,
-                projectId: project.id,
-                recordingsVideos: donedMoviments.flatMap((donedMov) =>
-                    donedMov.data.map((data) => {
+            const recordings: tNewRecording[] = donedMoviments.map((moviment) => {
+                return {
+                    ignore: false,
+                    observation: "algo",
+                    patientId: patient.id,
+                    recordingDate: new Date(),
+                    moveId: moviment.id,
+                    projectId: project.id,
+                    recordingsVideos: moviment.data.map((data) => {
                         return {
                             projectVideoTypeId: data.projectVideoType.id,
-                            camIdUsed: donedMov.defaultCamId,
+                            camIdUsed: moviment.defaultCamId,
                             file: data.blob,
                         };
-                    })
-                ),
-            };
+                    }),
+                };
+            });
 
-            await createRecording([newRecording]);
+            await createRecording(recordings);
             setDonedMoviments([]);
         } catch (err) {
             showAlert(utils.getMessageError(err));

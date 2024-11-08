@@ -1,45 +1,42 @@
 import { LayoutTable } from "../layouts";
 import { useCallback, useEffect, useState } from "react";
-import { BabyInfoModal, BabysTable, ManageBabyModal } from "../components";
-import useBaby from "../hooks/useBaby";
+import { BabyInfoModal, BabysTable, InfiniteScroll, ManageBabyModal } from "../components";
+import usePatients, { LIMIT_PATIENT_PER_PAGE } from "../hooks/usePatients";
 import { tPatient } from "../interfaces";
 
 export default function Patients() {
     //HOOKS
-    const { cancelProcess, readBabys, isReading, errorToRead } = useBaby();
+    const { cancelProcess, readBabys, isReading, errorToRead } = usePatients();
 
     //STATES
     const [babys, setBabys] = useState<tPatient[]>([]);
     const [babySelected, setBabySelected] = useState<tPatient | null>(null);
     const [showManageBabyModal, setShowManageBabyModal] = useState(false);
 
-    const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
 
-    //VARIABLES
-    const filteredBabys =
-        search === "" ? babys : babys.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()));
+    const [search, setSearch] = useState<string | undefined>(undefined);
 
     //EVENTS
     const paginateBaby = useCallback(
-        async (page?: number, name?: string) => {
+        async (page?: number, name?: string): Promise<number> => {
             try {
-                const incomingBabys = await readBabys({ page, where: { name } });
+                const incomingBabys = await readBabys({ page, limit: LIMIT_PATIENT_PER_PAGE, where: { name } });
 
-                if (page === undefined) setBabys(incomingBabys);
-                else setBabys((current) => ({ ...current, ...incomingBabys }));
-
+                setBabys((current) => [...current, ...incomingBabys]);
                 return incomingBabys.length;
-            } catch (_) {
-                return;
+            } catch (err) {
+                return 0;
             }
         },
         [readBabys]
     );
 
     useEffect(() => {
-        paginateBaby();
+        paginateBaby().then(() => setCurrentPage((current) => current + 1));
+
         return () => cancelProcess();
-    }, [paginateBaby, cancelProcess]);
+    }, [cancelProcess, paginateBaby]);
 
     const handleOnClickRegisterOrEdit = useCallback(() => setShowManageBabyModal(true), []);
     const handleOnHideModal = useCallback(() => setShowManageBabyModal(false), []);
@@ -52,18 +49,33 @@ export default function Patients() {
 
     return (
         <>
-            <LayoutTable.Root>
-                <LayoutTable.Header>
-                    <LayoutTable.Search value={search} onAccept={setSearch} />
-                    <LayoutTable.Button className="rounded-pill shadow" onClick={handleOnClickRegisterOrEdit}>
-                        Cadastrar
-                    </LayoutTable.Button>
-                </LayoutTable.Header>
-                <LayoutTable.Body isLoading={isReading || errorToRead}>
-                    {babys.length < 1 && !isReading && !errorToRead  && <h5 className="text-secondary w-100 text-center">--- Nenhum bebê encontrado ---</h5>}
-                    {babys.length > 0 && <BabysTable babys={filteredBabys} onClickBaby={setBabySelected} />}
-                </LayoutTable.Body>
-            </LayoutTable.Root>
+            <InfiniteScroll
+                loading={isReading && currentPage !== 0}
+                onScrollEnd={(page) => paginateBaby(page, search)}
+                page={currentPage}
+                setPage={setCurrentPage}
+            >
+                <LayoutTable.Root>
+                    <LayoutTable.Header>
+                        <LayoutTable.Search
+                            value={search}
+                            onAccept={(value) => {
+                                setSearch(value);
+                                setCurrentPage(0);
+                            }}
+                        />
+                        <LayoutTable.Button className="rounded-pill shadow" onClick={handleOnClickRegisterOrEdit}>
+                            Cadastrar
+                        </LayoutTable.Button>
+                    </LayoutTable.Header>
+                    <LayoutTable.Body isLoading={(isReading && currentPage === 0) || errorToRead}>
+                        {babys.length < 1 && !isReading && !errorToRead && (
+                            <h5 className="text-secondary w-100 text-center">--- Nenhum bebê encontrado ---</h5>
+                        )}
+                        {babys.length > 0 && <BabysTable babys={babys} onClickBaby={setBabySelected} />}
+                    </LayoutTable.Body>
+                </LayoutTable.Root>
+            </InfiniteScroll>
 
             <ManageBabyModal
                 initialValues={

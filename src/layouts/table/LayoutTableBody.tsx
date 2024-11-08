@@ -9,7 +9,7 @@ export interface LayoutTableBodyProps {
 
 export default function LayoutTableBody(props: LayoutTableBodyProps) {
     return (
-        <Container fluid className="my-layout-table-body d-flex ps-3 pe-3 mb-5">
+        <Container fluid className="my-layout-table-body d-flex ps-3 pe-3">
             {!props.isLoading ? (
                 props.children
             ) : (

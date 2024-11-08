@@ -1,7 +1,7 @@
 import { Button, Col, Modal, ModalProps, Row, Spinner, Stack } from "react-bootstrap";
 import { tPatient } from "../../interfaces";
 import { useCallback, useContext } from "react";
-import useBaby from "../../hooks/useBaby";
+import usePatients from "../../hooks/usePatients";
 import { SystemContext } from "../../contexts/SystemContext";
 import utils from "../../utils";
 
@@ -16,7 +16,7 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
     const { showAlert } = useContext(SystemContext);
 
     //HOOKS
-    const { deleteBaby, isDeleting } = useBaby();
+    const { deleteBaby, isDeleting } = usePatients();
 
     //EVENTS
     const handleOnClickDelete = useCallback(async () => {

@@ -1,6 +1,6 @@
 import useRecording from "./useRecording";
-import useBaby from "./useBaby";
+import usePatients from "./usePatients";
 import useProject from "./useProjects";
 import useVideoDevice from "./useVideoDevice";
 
-export { useRecording, useProject, useBaby, useVideoDevice };
+export { useRecording, useProject, usePatients as useBaby, useVideoDevice };

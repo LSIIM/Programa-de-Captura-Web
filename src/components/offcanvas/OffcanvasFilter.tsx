@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, FormGroup, FormSelect, Offcanvas, OffcanvasProps, Spinner, Stack } from "react-bootstrap";
 import { v4 } from "uuid";
-import useBaby from "../../hooks/useBaby";
+import usePatients from "../../hooks/usePatients";
 import { tPatient, tProject } from "../../interfaces";
 import { useProject } from "../../hooks";
 import { SystemContext } from "../../contexts/SystemContext";
@@ -21,7 +21,7 @@ export default function OffcanvasRecordingFilter({ onApply, ...rest }: Offcanvas
         cancelProcess: cancelBabyProcess,
         readBabys,
         isReading: isReadingBabys,
-    } = useBaby();
+    } = usePatients();
 
     const {
         errorToRead: errorToReadProjects,
