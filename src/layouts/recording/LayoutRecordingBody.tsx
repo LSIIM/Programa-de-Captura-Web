@@ -180,7 +180,7 @@ export default function LayoutRecordingBody({
                 };
             });
 
-            await createRecording(recordings);
+            await Promise.all(recordings.map((recording) => createRecording([recording])));
             setDonedMoviments([]);
         } catch (err) {
             showAlert(utils.getMessageError(err));
