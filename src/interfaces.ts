@@ -53,6 +53,7 @@ export type tVideo = {
     projectVideoTypeId: number;
     camIdUsed: number;
     url: string;
+    thumb: string;
     projectVideoType: tPartialEntity<tProjectVideoType, "isMain">;
 };
 

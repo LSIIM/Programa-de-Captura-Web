@@ -1,18 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import LayoutPlaying from "../layouts/playing";
 import { useRecording } from "../hooks";
-import { CardRecordListed } from "../components";
+import { CardRecordListed, InfiniteScroll } from "../components";
 import { tRecording, tVideo } from "../interfaces";
 import { useParams } from "react-router-dom";
 import { SystemContext } from "../contexts/SystemContext";
 import utils from "../utils";
+import { LIMIT_PATIENT_PER_RECORDING } from "../hooks/useRecording";
 
 export default function PlayingRecord() {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
     //HOOKS
-    const { readRecordings, isReading, isFinding, getRecording, errorToGet, errorToRead } = useRecording();
+    const { readRecordings, isReading, isFinding, getRecording, errorToGet, errorToRead, cancelProcess } =
+        useRecording();
     const { id: currentRecordingId } = useParams();
 
     //STATES
@@ -25,9 +27,24 @@ export default function PlayingRecord() {
 
     const [search, setSearch] = useState<string | undefined>(undefined);
 
-    //VARIABLES
+    const [currentPage, setCurrentPage] = useState(0);
 
     //EVENTS
+    const paginateOtherRecordings = useCallback(
+        async (page?: number): Promise<number> => {
+            try {
+                const otherRecordings = await readRecordings({ page, limit: LIMIT_PATIENT_PER_RECORDING, where: {} });
+
+                setOtherRecordings((current) => [...current, ...otherRecordings]);
+                return otherRecordings.length;
+            } catch (err) {
+                showAlert("Houve um erro ao carregar os videos.");
+                return 0;
+            }
+        },
+        [readRecordings, showAlert]
+    );
+
     useEffect(() => {
         if (currentRecordingId === undefined || isNaN(Number(currentRecordingId))) return;
 
@@ -40,56 +57,65 @@ export default function PlayingRecord() {
             })
             .catch((err) => showAlert(utils.getMessageError(err)));
 
-        //Buscando outros recordings
-        readRecordings()
-            .then((recordings) => setOtherRecordings(recordings))
-            .catch((err) => showAlert(utils.getMessageError(err)));
-    }, [readRecordings, currentRecordingId, getRecording, showAlert]);
+        paginateOtherRecordings().then(() => setCurrentPage((current) => current + 1));
+        return () => cancelProcess();
+    }, [paginateOtherRecordings, cancelProcess, readRecordings, currentRecordingId, getRecording, showAlert]);
 
     return (
-        <LayoutPlaying.Root>
-            <LayoutPlaying.PlayerContainer>
-                <LayoutPlaying.Player
-                    loadingVideo={!videoReadyToPlay}
-                    loadingInfo={isFinding || errorToGet}
-                    onReady={() => setVideoReadyToPlay(true)}
-                    video={currentVideo ?? undefined}
-                >
-                    <h5 className="mb-0 text-truncate">
-                        {currentRecording?.patient.name} | {currentRecording?.project.projectName} |{" "}
-                        {currentRecording?.moveInfo?.description ?? "<Nenhum Movimento>"}
-                    </h5>
-                </LayoutPlaying.Player>
-            </LayoutPlaying.PlayerContainer>
-            <LayoutPlaying.List>
-                {currentRecording && currentRecording.recordingsVideos.length > 0 && (
-                    <LayoutPlaying.Playlist
-                        title="Relacionado"
-                        subtitle="Vídeos da mesma gravação"
-                        isLoading={isReading || errorToRead}
+        <InfiniteScroll
+            page={currentPage}
+            setPage={setCurrentPage}
+            loading={isReading && currentPage !== 0}
+            onScrollEnd={paginateOtherRecordings}
+        >
+            <LayoutPlaying.Root>
+                <LayoutPlaying.PlayerContainer>
+                    <LayoutPlaying.Player
+                        loadingVideo={!videoReadyToPlay}
+                        loadingInfo={isFinding || errorToGet}
+                        onReady={() => setVideoReadyToPlay(true)}
+                        video={currentVideo ?? undefined}
                     >
-                        {suggestedVideos.map((video) => (
+                        <h5 className="mb-0 text-truncate">
+                            {currentRecording?.patient.name} | {currentRecording?.project.projectName} |{" "}
+                            {currentRecording?.moveInfo?.description ?? "<Nenhum Movimento>"}
+                        </h5>
+                    </LayoutPlaying.Player>
+                </LayoutPlaying.PlayerContainer>
+                <LayoutPlaying.List>
+                    {currentRecording && currentRecording.recordingsVideos.length > 0 && (
+                        <LayoutPlaying.Playlist
+                            title="Relacionado"
+                            subtitle="Vídeos da mesma gravação"
+                            isLoading={isReading || errorToRead}
+                        >
+                            {suggestedVideos.map((video) => (
+                                <CardRecordListed
+                                    onPlaySpecificVideo={setCurrentVideo}
+                                    recording={currentRecording}
+                                    key={video.url}
+                                    isPlaying={video === currentVideo}
+                                    video={video}
+                                />
+                            ))}
+                        </LayoutPlaying.Playlist>
+                    )}
+                    <LayoutPlaying.Search
+                        value={search}
+                        onAccept={setSearch}
+                        placeholder="Pesquise pelo nome do bebê"
+                    />
+                    <LayoutPlaying.ListBody isLoading={(isReading && currentPage === 0) || errorToRead}>
+                        {otherRecordings.map((recording) => (
                             <CardRecordListed
-                                onPlaySpecificVideo={setCurrentVideo}
-                                recording={currentRecording}
-                                key={video.url}
-                                isPlaying={video === currentVideo}
-                                video={video}
+                                recording={recording}
+                                key={recording.id}
+                                video={recording.recordingsVideos[0]}
                             />
                         ))}
-                    </LayoutPlaying.Playlist>
-                )}
-                <LayoutPlaying.Search value={search} onAccept={setSearch} placeholder="Pesquise pelo nome do bebê" />
-                <LayoutPlaying.ListBody isLoading={isReading || errorToRead}>
-                    {otherRecordings.map((recording) => (
-                        <CardRecordListed
-                            recording={recording}
-                            key={recording.id}
-                            video={recording.recordingsVideos[0]}
-                        />
-                    ))}
-                </LayoutPlaying.ListBody>
-            </LayoutPlaying.List>
-        </LayoutPlaying.Root>
+                    </LayoutPlaying.ListBody>
+                </LayoutPlaying.List>
+            </LayoutPlaying.Root>
+        </InfiniteScroll>
     );
 }

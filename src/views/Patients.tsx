@@ -1,10 +1,14 @@
 import { LayoutTable } from "../layouts";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { BabyInfoModal, BabysTable, InfiniteScroll, ManageBabyModal } from "../components";
 import usePatients, { LIMIT_PATIENT_PER_PAGE } from "../hooks/usePatients";
 import { tPatient } from "../interfaces";
+import { SystemContext } from "../contexts/SystemContext";
 
 export default function Patients() {
+    //CONTEXTS
+    const { showAlert } = useContext(SystemContext);
+
     //HOOKS
     const { cancelProcess, readBabys, isReading, errorToRead } = usePatients();
 
@@ -26,10 +30,11 @@ export default function Patients() {
                 setBabys((current) => [...current, ...incomingBabys]);
                 return incomingBabys.length;
             } catch (err) {
+                showAlert("Houve um erro ao carregar os pacientes.");
                 return 0;
             }
         },
-        [readBabys]
+        [readBabys, showAlert]
     );
 
     useEffect(() => {

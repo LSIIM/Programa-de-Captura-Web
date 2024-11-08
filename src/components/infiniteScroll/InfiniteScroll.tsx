@@ -2,6 +2,9 @@ import { ReactNode, useCallback, useRef, useState } from "react";
 import { Spinner, Stack } from "react-bootstrap";
 import "./styles.css";
 
+//TODO: Caso a tela for muito grande pode acontecer de não aparecer a barra de scroll.
+//TODO: Caso a barra de scroll não apareça não será possíve scrollar e encontrar novos dados.
+
 export interface InfiniteScrollProps {
     children: ReactNode;
     onScrollEnd: (page: number) => number | Promise<number>;
@@ -13,22 +16,12 @@ export interface InfiniteScrollProps {
 export default function InfiniteScroll({ onScrollEnd, page, setPage, loading, ...props }: InfiniteScrollProps) {
     //STATES
     const [lastPageDone, setLastPageDone] = useState(false);
-    const [showExtraSpace, setShowExtraSpace] = useState(true);
 
     //REF
     const scrollRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
 
     //VARIABLES
-    const thereNotScroll = useCallback((): boolean => {
-        const bodyElement = bodyRef.current;
-        const scrollElement = scrollRef.current;
-        if (!scrollElement || !bodyElement) return false;
-
-        if (bodyElement.clientHeight < scrollElement.clientHeight) return true;
-        return false;
-    }, []);
-
     const scrollOnEnd = useCallback((): boolean => {
         const scrollElement = scrollRef.current;
         if (!scrollElement || loading || lastPageDone) return false;
@@ -64,7 +57,6 @@ export default function InfiniteScroll({ onScrollEnd, page, setPage, loading, ..
                     </>
                 )}
             </Stack>
-            {/*<div className={`my-infinite-scroll-extra-space ${showExtraSpace ? "" : "close"}`} />*/}
         </div>
     );
 }

@@ -53,16 +53,13 @@ export default function CardRecordListed({ recording, isPlaying, video, onPlaySp
                         <i className="bi bi-play-fill " />
                     </div>
                 )}
-                <video
+                <img
+                    alt="previa"
+                    src={video?.thumb ?? "/novideo.webp"}
                     role="button"
-                    muted
-                    playsInline
-                    controls={false}
+                    onClick={handleOnClickPlay}
                     className="my-card-record-listed-thumbnail rounded-4"
-                    preload="metadata"
-                >
-                    <source src={video?.url} type="video/mp4" />
-                </video>
+                />
                 <Stack className="my-card-record-listed-info d-flex">
                     <div className=" d-flex w-100 align-items-center">
                         <span className="fw-bold text-truncate w-100">{recording.patient.name}</span>

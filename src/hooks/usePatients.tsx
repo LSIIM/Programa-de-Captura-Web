@@ -5,7 +5,7 @@ import api, { tBabyQuery } from "../services/api";
 import utils from "../utils";
 import { SystemContext } from "../contexts/SystemContext";
 
-export const LIMIT_PATIENT_PER_PAGE = 30;
+export const LIMIT_PATIENT_PER_PAGE = 50;
 
 let abortController: AbortController | undefined;
 export default function usePatients() {

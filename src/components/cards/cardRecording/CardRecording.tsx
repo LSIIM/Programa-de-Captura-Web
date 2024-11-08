@@ -25,17 +25,13 @@ export default function CardRecording({ recording, video }: CardRecordingProps) 
     return (
         <>
             <Stack className="my-card-record rounded-4 d-flex gap-2 w-100">
-                <video
+                <img
+                    alt="previa"
+                    src={video?.thumb ?? "/novideo.webp"}
                     role="button"
                     onClick={handleOnClickPlay}
-                    muted
-                    playsInline
-                    controls={false}
                     className="my-card-record-thumbnail rounded-4"
-                    preload="metadata"
-                >
-                    <source src={video?.url} type="video/mp4" />
-                </video>
+                />
                 <Stack className="d-flex ps-2 pe-2 w-100">
                     <div className="my-card-record-div-baby-name d-flex w-100 align-items-center">
                         <span className="fw-bold text-truncate w-100">{recording.patient.name}</span>

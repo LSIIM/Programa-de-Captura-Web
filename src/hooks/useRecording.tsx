@@ -4,6 +4,8 @@ import api, { tRecordingQuery } from "../services/api";
 import utils from "../utils";
 import { tNewRecording } from "../layouts/recording/LayoutRecordingBody";
 
+export const LIMIT_PATIENT_PER_RECORDING= 50;
+
 let abortController: AbortController | undefined;
 export default function useRecording() {
     //STATES
