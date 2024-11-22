@@ -84,6 +84,8 @@ export default function CreateRecord() {
             const projectId = Number(_projectId);
             const selectedProject = projects.find((project) => project.id === projectId);
             setSelectedProject(selectedProject ?? null);
+            setStreams([]);
+            setSelectedStreamsLabel([]);
         },
         [projects]
     );

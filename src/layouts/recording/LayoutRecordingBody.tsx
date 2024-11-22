@@ -4,9 +4,9 @@ import { v4 } from "uuid";
 import { ControlRecordingButton, MovimentsButtons } from "../../components";
 import { tMov, tPartialEntity, tPatient, tProject, tProjectVideoType, tRecording } from "../../interfaces";
 import { SystemContext } from "../../contexts/SystemContext";
-import "./styles.css";
 import utils from "../../utils";
 import { useRecording } from "../../hooks";
+import "./styles.css";
 
 const VIDEO_TYPE = "video/mp4";
 
@@ -25,13 +25,7 @@ export interface LayoutRecordingBodyProps {
     patient: tPatient;
 }
 
-export default function LayoutRecordingBody({
-    streamsLabel,
-    moviments,
-    patient,
-    project,
-    ...props
-}: LayoutRecordingBodyProps) {
+export default function LayoutRecordingBody({ streamsLabel, moviments, patient, project }: LayoutRecordingBodyProps) {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
@@ -43,6 +37,7 @@ export default function LayoutRecordingBody({
     const [currentMovimentId, setCurrentMovimentId] = useState<number | null>(null);
 
     const [donedMoviments, setDonedMoviments] = useState<tDoneMoviment[]>([]);
+    const [uploadedMovimentsId, setUploadedMovimentsId] = useState<number[]>([]);
 
     const [mediaRecorders, setMediaRecorders] = useState<MediaRecorder[]>([]);
     const [isRecording, setIsRecording] = useState(false);
@@ -55,7 +50,8 @@ export default function LayoutRecordingBody({
         if (streamsLabel.length > 0) setCurrentSelectedStreamId(streamsLabel[0].stream.id);
         if (moviments.length > 0) setCurrentMovimentId(moviments[0].id);
         setDonedMoviments([]);
-    }, [streamsLabel, moviments]);
+        setUploadedMovimentsId([]);
+    }, [streamsLabel, moviments, patient]);
 
     const handleOnRestart = useCallback(() => {
         setIsRecording(false);
@@ -160,33 +156,38 @@ export default function LayoutRecordingBody({
         [isRecording, streamsLabel.length, showAlert]
     );
 
-    const handleOnSubmit = useCallback(async () => {
+    const handleOnUpload = useCallback(async () => {
         try {
-            const recordings: tNewRecording[] = donedMoviments.map((moviment) => {
-                return {
+            if (!currentMovimentId) return showAlert("Nenhum movimento selecionado.");
+
+            if (uploadedMovimentsId.includes(currentMovimentId)) return showAlert("Este movimento já foi salvo.");
+
+            const currentDonedMoviment = donedMoviments.find((dm) => dm.id === currentMovimentId);
+            if (!currentDonedMoviment) return showAlert("Não foi possível encontrar o movimento salvo.");
+
+            await createRecording([
+                {
                     ignore: false,
-                    observation: "algo",
                     patientId: patient.id,
                     recordingDate: new Date(),
-                    moveId: moviment.id,
+                    moveId: currentMovimentId,
                     projectId: project.id,
-                    recordingsVideos: moviment.data.map((data) => {
-                        return {
-                            projectVideoTypeId: data.projectVideoType.id,
-                            camIdUsed: moviment.defaultCamId,
-                            file: data.blob,
-                        };
-                    }),
-                };
-            });
+                    observation: "-",
+                    recordingsVideos: currentDonedMoviment.data.map((data) => ({
+                        projectVideoTypeId: data.projectVideoType.id,
+                        camIdUsed: currentDonedMoviment.defaultCamId,
+                        file: data.blob,
+                    })),
+                },
+            ]);
 
-            await Promise.all(recordings.map((recording) => createRecording([recording])));
-            setDonedMoviments([]);
+            setUploadedMovimentsId((current) => [...current, currentDonedMoviment.id]);
+            showAlert("Movimento salvo!");
         } catch (err) {
             showAlert(utils.getMessageError(err));
             console.error(err);
         }
-    }, [donedMoviments, showAlert, createRecording, patient, project]);
+    }, [donedMoviments, showAlert, createRecording, patient, project, currentMovimentId, uploadedMovimentsId]);
 
     return (
         <Col sm="12" className="bg-red h-100 z-1 p-3 position-relative">
@@ -205,13 +206,13 @@ export default function LayoutRecordingBody({
                 } position-absolute z-2 bottom-0 start-0`}
             >
                 <ControlRecordingButton
-                    isAllDone={donedMoviments.length === moviments.length}
+                    isUploaded={uploadedMovimentsId.includes(currentMovimentId ?? -1)}
                     isRecording={isRecording}
-                    isSave={currentMovimentIsDoned}
+                    isReadyToUpload={currentMovimentIsDoned}
                     onClickInit={handleOnInitPlay}
                     onClickDone={handleOnDone}
                     onClickRemake={handleOnRemake}
-                    onClickSaveAll={handleOnSubmit}
+                    onClickUpload={handleOnUpload}
                 />
             </div>
 

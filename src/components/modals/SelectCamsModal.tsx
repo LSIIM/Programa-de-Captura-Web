@@ -54,6 +54,7 @@ export default function SelectCamsModal({
             return showAlert(`Você deve escolher ${streamsToSelect} câmeras.`);
 
         onConfirm(streamsSelected.map((streamSelected) => streamSelected));
+        setStreamsSelected([]);
     }, [onConfirm, streamsSelected, showAlert, project]);
 
     return (
@@ -118,7 +119,7 @@ export default function SelectCamsModal({
                         })}
                     </Row>
                 </Modal.Body>
-                <Modal.Footer className="user-select-none">
+                <Modal.Footer>
                     <Button onClick={handleOnHide} variant="outline-secondary" className="rounded-pill">
                         Fechar
                     </Button>

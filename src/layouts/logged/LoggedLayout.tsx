@@ -25,7 +25,7 @@ export default function LoggedLayout(props: LoggedLayoutProps) {
     }, [showAlert]);
 
     return (
-        <Stack className="my-logged-layout-root d-flex overflow-hidden user-select-none">
+        <Stack className="my-logged-layout-root d-flex overflow-hidden">
             <div className="my-logged-layout-header bg-primary d-flex w-100">
                 <div className="my-logged-layout-header-left d-flex gap-2 align-items-center h-100 ps-2">
                     <h5 className="mb-0 fw-bold text-dark">Ferramenta de Captura LSIIM</h5>

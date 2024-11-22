@@ -3,22 +3,22 @@ import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 
 export interface ControlRecordinButtonProps {
-    isAllDone: boolean;
     isRecording: boolean;
-    isSave: boolean;
+    isReadyToUpload: boolean;
+    isUploaded: boolean;
     onClickInit?: () => void;
     onClickDone?: () => void;
     onClickRemake?: () => void;
-    onClickSaveAll?: () => Promise<void> | void;
+    onClickUpload?: () => Promise<void> | void;
 }
 
 export default function ControlRecordingButton(props: ControlRecordinButtonProps) {
     //STATES
-    const [isSavingAll, setIsSavingAll] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [timer, setTimer] = useState(0);
 
     //VARIAVEIS
-    const { isRecording, onClickInit, onClickDone, onClickRemake, isSave, onClickSaveAll } = props;
+    const { isRecording, onClickInit, onClickDone, onClickRemake, isReadyToUpload, onClickUpload } = props;
 
     const returnTimerFormated = useCallback((timer: number) => {
         const minutes = Math.floor(timer / 60) % 60;
@@ -31,14 +31,14 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
 
     const returnIconText = useCallback(() => {
         switch (true) {
-            case !isRecording && !isSave:
+            case !isRecording && !isReadyToUpload:
                 return "play-fill";
-            case isRecording && !isSave:
+            case isRecording && !isReadyToUpload:
                 return "stop-fill";
             default:
                 return "arrow-repeat";
         }
-    }, [isRecording, isSave]);
+    }, [isRecording, isReadyToUpload]);
 
     //EVENTS
     useEffect(() => {
@@ -49,33 +49,33 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
 
     const handleOnClick = useCallback(() => {
         switch (true) {
-            case !isRecording && !isSave:
+            case !isRecording && !isReadyToUpload:
                 if (onClickInit) return onClickInit();
                 break;
-            case !isRecording && isSave:
+            case !isRecording && isReadyToUpload:
                 if (onClickRemake) return onClickRemake();
                 break;
             default:
                 if (onClickDone) return onClickDone();
                 break;
         }
-    }, [isSave, isRecording, onClickDone, onClickInit, onClickRemake]);
+    }, [isReadyToUpload, isRecording, onClickDone, onClickInit, onClickRemake]);
 
-    const handleOnClickSaveAll = useCallback(async () => {
+    const handleOnClickUploadVideo = useCallback(async () => {
         try {
-            setIsSavingAll(true);
-            if (onClickSaveAll) await onClickSaveAll();
+            setIsUploading(true);
+            if (onClickUpload) await onClickUpload();
         } catch (err) {
             console.error(err);
         } finally {
-            setIsSavingAll(false);
+            setIsUploading(false);
         }
-    }, [onClickSaveAll]);
+    }, [onClickUpload]);
 
     return (
         <div className="d-flex gap-2">
             <Button
-                variant={props.isSave ? "secondary" : "primary"}
+                variant={props.isReadyToUpload ? "secondary" : "primary"}
                 title="Play/Pause"
                 onClick={handleOnClick}
                 className={`my-control-recording-button ${
@@ -88,15 +88,15 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
                 </div>
             </Button>
             <Button
-                disabled={isSavingAll}
-                onClick={!isSavingAll ? handleOnClickSaveAll : undefined}
+                disabled={!isReadyToUpload && isUploading}
+                onClick={isReadyToUpload && !isUploading ? handleOnClickUploadVideo : undefined}
                 variant="primary"
                 title="Enviar"
                 className={`my-control-recording-button d-flex ${
-                    props.isAllDone ? "" : "d-none"
+                    props.isReadyToUpload ? "" : "d-none"
                 } fs-5 rounded-pill align-items-center justify-content-center`}
             >
-                <i className="bi bi-cloud-arrow-up-fill" />
+                <i className={`bi ${props.isUploaded?"bi-check":"bi-cloud-arrow-up-fill"}`} />
             </Button>
         </div>
     );

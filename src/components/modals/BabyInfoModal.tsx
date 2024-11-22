@@ -74,7 +74,7 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
                             </Stack>
                         </Col>
 
-                        <Col sm="12" className="user-select-none mt-2">
+                        <Col sm="12" className="mt-2">
                             <div className="d-flex gap-3 justify-content-center">
                                 <span role="button" className="text-primary" onClick={onClickEdit}>
                                     <i className="bi bi-pencil-square" /> Editar
@@ -87,7 +87,7 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer className="user-select-none">
+                <Modal.Footer>
                     <Button onClick={onHide} variant="outline-secondary" className="rounded-pill">
                         Fechar
                     </Button>
