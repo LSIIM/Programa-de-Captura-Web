@@ -1,0 +1,325 @@
+[
+    {
+        "id": 1,
+        "projectName": "camera fixa",
+        "description": "aaaa",
+        "patientSpecialFetauresTemplate": {
+            "feature3": "Valor 3",
+            "feature4": "Valor 4"
+        },
+        "createdAt": "2024-11-06T21:05:23.127Z",
+        "updatedAt": "2024-11-06T21:05:23.127Z",
+        "movesInfo": [
+            {
+                "id": 1,
+                "description": "HorizontalSlow_Cammoving",
+                "projectId": 1,
+                "defaultCamId": 1,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z"
+            },
+            {
+                "id": 2,
+                "description": "HorizontalAbrupt_Cammoving",
+                "projectId": 1,
+                "defaultCamId": 1,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z"
+            },
+            {
+                "id": 3,
+                "description": "VerticalSlow_Cammoving",
+                "projectId": 1,
+                "defaultCamId": 2,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z"
+            },
+            {
+                "id": 4,
+                "description": "HorizontalHead_Camfixed",
+                "projectId": 1,
+                "defaultCamId": 2,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z"
+            }
+        ],
+        "projectsVideoTypes": [
+            {
+                "id": 1,
+                "isMain": true,
+                "typeName": "Camera principal",
+                "projectId": 1,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z",
+                "videos": [
+                    {
+                        "id": 1,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 1,
+                        "camIdUsed": 1,
+                        "file": "xxx",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 2,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 180,
+                        "camIdUsed": 1,
+                        "file": "1730927172000-Camera principal, 1730927172001-Auxiliar, 1730927172004-Camera principal, 1730927172005-Auxiliar, 1730927172006-Camera principal, 1730927172007-Auxiliar, 1730927172009-Camera principal, 1730927172009-Auxiliar",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 3,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 181,
+                        "camIdUsed": 1,
+                        "file": "1730927379763-Camera principal, 1730927379764-Auxiliar, 1730927379766-Camera principal, 1730927379766-Auxiliar, 1730927379767-Camera principal, 1730927379768-Auxiliar, 1730927379769-Camera principal, 1730927379770-Auxiliar",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 4,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 182,
+                        "camIdUsed": 1,
+                        "file": "1730927556333-Camera principal, 1730927556336-Auxiliar, 1730927556345-Camera principal, 1730927556345-Auxiliar, 1730927556351-Camera principal, 1730927556352-Auxiliar, 1730927556353-Camera principal, 1730927556353-Auxiliar",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 5,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 183,
+                        "camIdUsed": 1,
+                        "file": "1730927632135-Camera principal, 1730927632136-Auxiliar, 1730927632142-Camera principal, 1730927632142-Auxiliar, 1730927632143-Camera principal, 1730927632144-Auxiliar, 1730927632145-Camera principal, 1730927632145-Auxiliar",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 6,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 184,
+                        "camIdUsed": 1,
+                        "file": "1730927753336-Camera principal, 1730927753339-Auxiliar, 1730927753348-Camera principal, 1730927753348-Auxiliar, 1730927753350-Camera principal, 1730927753350-Auxiliar, 1730927753353-Camera principal, 1730927753354-Auxiliar",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 7,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 185,
+                        "camIdUsed": 1,
+                        "file": "9c1406aa-cf78-44f1-9abf-bf3f7f37c9a8_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 9,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 186,
+                        "camIdUsed": 1,
+                        "file": "b565b147-3c16-48e5-b2eb-0ce1f57a5838_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 11,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 187,
+                        "camIdUsed": 1,
+                        "file": "41d416d4-b4c8-41d7-a826-8c965c7ff4f6_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 13,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 188,
+                        "camIdUsed": 1,
+                        "file": "50d53d96-08ae-4791-a23f-21a2b3cb9449_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 15,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 189,
+                        "camIdUsed": 2,
+                        "file": "84dec72b-047e-4f97-860c-8434ed69172d_1.mp4",
+                        "camInfo": {
+                            "id": 2,
+                            "model": "(adicionar o modelo da pequena aqui)",
+                            "isInfraRed": true,
+                            "framerate": null,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 17,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 190,
+                        "camIdUsed": 2,
+                        "file": "06a6a853-9ec7-4532-a0f7-12e0922adaad_1.mp4",
+                        "camInfo": {
+                            "id": 2,
+                            "model": "(adicionar o modelo da pequena aqui)",
+                            "isInfraRed": true,
+                            "framerate": null,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 19,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 191,
+                        "camIdUsed": 1,
+                        "file": "c3bdfbee-14ea-4bc3-9620-5a4fa1b48df8_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 21,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 192,
+                        "camIdUsed": 1,
+                        "file": "452b96f6-b2a2-4653-a1ca-f89e405065f1_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    },
+                    {
+                        "id": 23,
+                        "projectVideoTypeId": 1,
+                        "recordingId": 193,
+                        "camIdUsed": 1,
+                        "file": "05600648-330b-4a4e-be96-4889fd026449_1.mp4",
+                        "camInfo": {
+                            "id": 1,
+                            "model": "HardLine Cutie 6809",
+                            "isInfraRed": true,
+                            "framerate": 25.74,
+                            "createdAt": "2024-11-06T21:05:23.127Z",
+                            "updatedAt": "2024-11-06T21:05:23.127Z"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "projectName": "vestivel",
+        "description": "bbbb",
+        "patientSpecialFetauresTemplate": {
+            "feature3": "Valor 3",
+            "feature4": "Valor 4"
+        },
+        "createdAt": "2024-11-06T21:05:23.127Z",
+        "updatedAt": "2024-11-06T21:05:23.127Z",
+        "movesInfo": [],
+        "projectsVideoTypes": [
+            {
+                "id": 3,
+                "isMain": true,
+                "typeName": "Olho Direito",
+                "projectId": 2,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z",
+                "videos": []
+            },
+            {
+                "id": 4,
+                "isMain": true,
+                "typeName": "Olho Esquerdo",
+                "projectId": 2,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z",
+                "videos": []
+            },
+            {
+                "id": 5,
+                "isMain": false,
+                "typeName": "Auxiliar",
+                "projectId": 2,
+                "createdAt": "2024-11-06T21:05:23.127Z",
+                "updatedAt": "2024-11-06T21:05:23.127Z",
+                "videos": []
+            }
+        ]
+    }
+]

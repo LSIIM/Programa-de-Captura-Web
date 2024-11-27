@@ -18,7 +18,7 @@ export default function CardLogin(props: CardLoginProps) {
                     </Col>
                     <Col sm="12">{props.children}</Col>
                     <Col sm="12" className="text-end">
-                        <Button className="rounded-pill" form={props.formId} type="submit">
+                        <Button data-test="button-login" className="rounded-pill" form={props.formId} type="submit">
                             Entrar {props.loading ? <Spinner size="sm" className="ms-2" animation="grow" /> : ""}
                         </Button>
                     </Col>

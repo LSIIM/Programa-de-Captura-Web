@@ -1,4 +1,4 @@
-import { tNewPatient } from "../components/forms/formBaby/FormBaby";
+import { tNewPatient } from "../components/forms/formBaby/FormPatient";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
 import { tPatient, tProject, tRecording } from "../interfaces";
 import { routes } from "../router";
@@ -66,16 +66,8 @@ instance.interceptors.response.use(
 
 const api = {
     //ACCESS
-    login: async (credentials: tCredentials) => {
-        //TODO: Chamar a rota para realizar login com as credenciais passadas
-        return new Promise<void>((resolve) => {
-            setTimeout(() => {
-                console.log(credentials);
-                window.location.href = routes.listBabys;
-                resolve();
-            }, 500);
-        });
-    },
+    login: async (credentials: tCredentials, signal?: AbortSignal) =>
+        instance.post(`/auth/login`, { ...credentials }, { signal }),
     logout: async () => {
         //TODO: Apagar o token de acesso caso exista
         //TODO: Chamar a rota para deslogar o usuário

@@ -11,7 +11,7 @@ import CardRecordListed from "./cards/cardRecordListed/CardRecordListed";
 
 //FORMS
 import FormLogin from "./forms/formLogin/FormLogin";
-import FormBaby from "./forms/formBaby/FormBaby";
+import FormPatient from "./forms/formBaby/FormPatient";
 
 //INIFINITE SCROLL
 import InfiniteScroll from "./infiniteScroll/InfiniteScroll";
@@ -25,8 +25,8 @@ import InputDate from "./inputs/inputDate/InputDate";
 import TextLink from "./links/TextLink/TextLink";
 
 //MODALS
-import ManageBabyModal from "./modals/ManageBabyModal";
-import BabyInfoModal from "./modals/BabyInfoModal";
+import ManagePatientModal from "./modals/ManagePatientModal";
+import PatientInfoModal from "./modals/PatientInfoModal";
 import SelectCamsModal from "./modals/SelectCamsModal";
 
 //OFFCANVAS
@@ -52,7 +52,7 @@ export {
 
     //FORMS
     FormLogin,
-    FormBaby,
+    FormPatient,
 
     //INFINITE SCROLL
     InfiniteScroll,
@@ -66,8 +66,8 @@ export {
     TextLink,
 
     //MODALS
-    ManageBabyModal,
-    BabyInfoModal,
+    ManagePatientModal,
+    PatientInfoModal,
     SelectCamsModal,
 
     //OFFCANVAS

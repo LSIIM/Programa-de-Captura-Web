@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
 import { tPatient } from "../interfaces";
-import { tNewPatient } from "../components/forms/formBaby/FormBaby";
+import { tNewPatient } from "../components/forms/formBaby/FormPatient";
 import api, { tBabyQuery } from "../services/api";
 import utils from "../utils";
 import { SystemContext } from "../contexts/SystemContext";

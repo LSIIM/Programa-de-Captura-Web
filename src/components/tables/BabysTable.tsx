@@ -26,7 +26,7 @@ export default function BabysTable({ babys, onClickBaby }: BabysTableProps) {
             </thead>
             <tbody>
                 {babys.map((baby) => (
-                    <tr key={baby.id}>
+                    <tr key={baby.id} data-test="table-body-row">
                         <td width={"35%"}>
                             <span
                                 onClick={() => handleOnClickBaby(baby)}

@@ -24,13 +24,14 @@ export default function CardRecording({ recording, video }: CardRecordingProps) 
 
     return (
         <>
-            <Stack className="my-card-record rounded-4 d-flex gap-2 w-100">
+            <Stack className="my-card-record rounded-4 d-flex gap-2 w-100" data-test="card-recording">
                 <img
                     alt="previa"
                     src={video?.thumb ?? "/novideo.webp"}
                     role="button"
                     onClick={handleOnClickPlay}
                     className="my-card-record-thumbnail rounded-4"
+                    data-test="card-img-recording"
                 />
                 <Stack className="d-flex ps-2 pe-2 w-100">
                     <div className="my-card-record-div-baby-name d-flex w-100 align-items-center">

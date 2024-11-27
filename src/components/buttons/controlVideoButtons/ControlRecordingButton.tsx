@@ -75,6 +75,7 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
     return (
         <div className="d-flex gap-2">
             <Button
+                data-test="btn-play-pause-retry-video"
                 variant={props.isReadyToUpload ? "secondary" : "primary"}
                 title="Play/Pause"
                 onClick={handleOnClick}
@@ -88,6 +89,7 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
                 </div>
             </Button>
             <Button
+                data-test="btn-upload-video"
                 disabled={!isReadyToUpload && isUploading}
                 onClick={isReadyToUpload && !isUploading ? handleOnClickUploadVideo : undefined}
                 variant="primary"
@@ -96,7 +98,7 @@ export default function ControlRecordingButton(props: ControlRecordinButtonProps
                     props.isReadyToUpload ? "" : "d-none"
                 } fs-5 rounded-pill align-items-center justify-content-center`}
             >
-                <i className={`bi ${props.isUploaded?"bi-check":"bi-cloud-arrow-up-fill"}`} />
+                <i className={`bi ${props.isUploaded ? "bi-check" : "bi-cloud-arrow-up-fill"}`} />
             </Button>
         </div>
     );

@@ -1,6 +1,6 @@
 .my-icon-button {
     background-color: transparent;
-    border: none !important;
+    border: none;
     aspect-ratio: 1/1 !important;
     height: 100%;
     transition: color 200ms;

@@ -94,14 +94,23 @@ export default function CreateRecord() {
         <>
             <LayoutRecording.Root>
                 <LayoutRecording.Header>
-                    <FormGroup sm="6" md="4" lg="3" xl="2" as={Col} controlId={v4()} className="mb-2">
-                        <Form.Label>Bebê</Form.Label>
+                    <FormGroup
+                        sm="6"
+                        md="4"
+                        lg="3"
+                        xl="2"
+                        as={Col}
+                        controlId={v4()}
+                        className="mb-2"
+                        data-test="form-group"
+                    >
+                        <Form.Label>Paciente</Form.Label>
                         <FormSelect
                             className="rounded-pill"
                             value={selectedPatient?.id ?? ""}
                             onChange={(e) => handleOnChangeSelectBaby(e.target.value)}
                         >
-                            <option value="">--- Selecionar bebê ---</option>
+                            <option value="">--- Selecionar paciente ---</option>
                             {patients.map((baby) => (
                                 <option key={baby.id} value={baby.id}>
                                     {baby.name}
@@ -110,7 +119,16 @@ export default function CreateRecord() {
                         </FormSelect>
                     </FormGroup>
 
-                    <FormGroup as={Col} sm="6" md="4" lg="3" xl="2" controlId={v4()} className="mb-2">
+                    <FormGroup
+                        as={Col}
+                        sm="6"
+                        md="4"
+                        lg="3"
+                        xl="2"
+                        controlId={v4()}
+                        className="mb-2"
+                        data-test="form-group"
+                    >
                         <Form.Label>Projeto</Form.Label>
                         <FormSelect
                             className="rounded-pill"

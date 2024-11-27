@@ -5,13 +5,19 @@ import usePatients from "../../hooks/usePatients";
 import { SystemContext } from "../../contexts/SystemContext";
 import utils from "../../utils";
 
-export interface BabyInfoModalProps extends ModalProps {
-    baby?: tPatient | null;
+export interface PatientInfoModalProps extends ModalProps {
+    patient?: tPatient | null;
     onClickDelete?: () => void;
     onClickEdit?: () => void;
 }
 
-export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit, ...rest }: BabyInfoModalProps) {
+export default function PatientInfoModal({
+    patient,
+    onHide,
+    onClickDelete,
+    onClickEdit,
+    ...rest
+}: PatientInfoModalProps) {
     //CONTEXTS
     const { showAlert } = useContext(SystemContext);
 
@@ -20,57 +26,58 @@ export default function BabyInfoModal({ baby, onHide, onClickDelete, onClickEdit
 
     //EVENTS
     const handleOnClickDelete = useCallback(async () => {
-        if (!baby) return;
-        const canDelete = window.confirm("Tem certeza que deseja deletar o bebê?");
+        if (!patient) return;
+
+        const canDelete = window.confirm("Tem certeza que deseja deletar o paciente?");
         if (!canDelete) return;
 
         try {
-            await deleteBaby(baby.id);
-            showAlert("Bebê deletado");
+            await deleteBaby(patient.id);
+            showAlert("Paciente deletado.");
             if (onHide) onHide();
         } catch (err) {
             showAlert(utils.getMessageError(err));
         }
-    }, [baby, onHide, deleteBaby, showAlert]);
+    }, [patient, onHide, deleteBaby, showAlert]);
 
     return (
         <>
             <Modal {...rest} onHide={onHide} centered>
                 <Modal.Header closeButton>
-                    <h5 className="m-0">Informações do bebê</h5>
+                    <h5 className="m-0">Informações do paciente</h5>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col sm="7" className="mb-2">
                             <Stack className="d-flex w-100">
-                                <small>Nome do bebê</small>
-                                <span>{baby?.name}</span>
+                                <small>Nome do paciente</small>
+                                <span>{patient?.name}</span>
                             </Stack>
                         </Col>
                         <Col sm="5" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Prematuro?</small>
-                                <span>{baby?.isPremature ? "Sim" : "Não"}</span>
+                                <span>{patient?.isPremature ? "Sim" : "Não"}</span>
                             </Stack>
                         </Col>
                         <Col sm="7" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Data de nascimento</small>
-                                <span>{baby?.birthDate?.toLocaleDateString("pt-Br")}</span>
+                                <span>{patient?.birthDate?.toLocaleDateString("pt-Br")}</span>
                             </Stack>
                         </Col>
 
                         <Col sm="5" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Idade gestacional</small>
-                                <span>{baby?.gestationalAge} meses</span>
+                                <span>{patient?.gestationalAge} meses</span>
                             </Stack>
                         </Col>
 
                         <Col sm="12" className="mb-2">
                             <Stack className="d-flex w-100">
                                 <small>Atipicidades</small>
-                                <span>{baby?.atipicidades}</span>
+                                <span>{patient?.atipicidades}</span>
                             </Stack>
                         </Col>
 
