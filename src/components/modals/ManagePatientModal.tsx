@@ -1,5 +1,5 @@
 import { Button, Modal, ModalProps, Spinner } from "react-bootstrap";
-import FormBaby, { tNewPatient } from "../forms/formBaby/FormBaby";
+import FormPatient, { tNewPatient } from "../forms/formBaby/FormPatient";
 import { useCallback, useContext } from "react";
 import { tPatient, tPartialEntity } from "../../interfaces";
 import usePatients from "../../hooks/usePatients";
@@ -7,13 +7,19 @@ import { SystemContext } from "../../contexts/SystemContext";
 
 const FORM_BABY_ID = "form-register-baby";
 
-export interface ManageBabyModalProps extends ModalProps {
+export interface ManagePatientModalProps extends ModalProps {
     babyId?: number;
     initialValues: tNewPatient;
     onSuccess?: () => void;
 }
 
-export default function ManageBabyModal({ onHide, onSuccess, initialValues, babyId, ...props }: ManageBabyModalProps) {
+export default function ManagePatientModal({
+    onHide,
+    onSuccess,
+    initialValues,
+    babyId,
+    ...props
+}: ManagePatientModalProps) {
     //CONTEXT
     const { showAlert } = useContext(SystemContext);
 
@@ -25,7 +31,7 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
         async ({ id: id_baby, ...data }: tNewPatient & tPartialEntity<tPatient, "id">) => {
             try {
                 await updateBaby(id_baby, data);
-                showAlert("Bebê editado com sucesso.");
+                showAlert("Paciente editado com sucesso.");
                 if (onSuccess) onSuccess();
             } catch (err) {
                 throw err; //Necessário para o Form não resetar
@@ -35,10 +41,10 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     );
 
     const handleOnCreate = useCallback(
-        async (baby: tNewPatient) => {
+        async (patient: tNewPatient) => {
             try {
-                await createBaby(baby);
-                showAlert("Bebê cadastrado com sucesso.");
+                await createBaby(patient);
+                showAlert("Paciente cadastrado com sucesso.");
                 if (onSuccess) onSuccess();
             } catch (err) {
                 throw err; //Necessário para o form não resetar
@@ -60,18 +66,18 @@ export default function ManageBabyModal({ onHide, onSuccess, initialValues, baby
     );
 
     return (
-        <Modal {...props} onHide={onHide} centered>
+        <Modal {...props} onHide={onHide} centered data-test="modal-manage">
             <Modal.Header closeButton>
-                <h5 className="m-0">{babyId !== undefined ? "Editar Bebê" : "Cadastrar Bebê"}</h5>
+                <h5 className="m-0">{babyId !== undefined ? "Editar Paciente" : "Cadastrar Paciente"}</h5>
             </Modal.Header>
             <Modal.Body>
-                <FormBaby formId={FORM_BABY_ID} initialValues={initialValues} onSubmit={handleOnSubmit} />
+                <FormPatient formId={FORM_BABY_ID} initialValues={initialValues} onSubmit={handleOnSubmit} />
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={onHide} variant="outline-secondary" className="rounded-pill">
+                <Button onClick={onHide} variant="outline-secondary" className="rounded-pill" data-test="btn-cancel">
                     Cancelar
                 </Button>
-                <Button type="submit" form={FORM_BABY_ID} className="rounded-pill">
+                <Button type="submit" form={FORM_BABY_ID} className="rounded-pill" data-test="btn-submit">
                     <span>{babyId !== undefined ? "Editar" : "Cadastrar"}</span>
                     {(isUpdating || isCreating) && <Spinner className="ms-2" animation="grow" size="sm" />}
                 </Button>

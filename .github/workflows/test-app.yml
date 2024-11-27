@@ -1,0 +1,23 @@
+name: Test App
+
+on: push
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Cypress run
+              uses: cypress-io/github-action@v6
+              with:
+                  browser: chrome
+                  start: yarn start
+              env:
+                  REACT_APP_VERSION: $npm_package_version
+                  REACT_APP_API: http://localhost:5000
+
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v4
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}

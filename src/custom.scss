@@ -257,6 +257,9 @@ $danger: #ff6b6b;
         &:active {
             background-color: rgba($light, 0.2) !important;
         }
+        &:focus {
+            border: solid rgba($light, 0.4) 2px !important;
+        }
     }
     .btn-primary {
         background-color: $primary-dark !important;
@@ -414,6 +417,6 @@ $danger: #ff6b6b;
 }
 
 //LINKS
-.my-link.my-link-active{
+.my-link.my-link-active {
     font-weight: bold;
 }

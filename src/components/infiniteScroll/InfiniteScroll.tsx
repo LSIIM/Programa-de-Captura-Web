@@ -45,7 +45,12 @@ export default function InfiniteScroll({ onScrollEnd, page, setPage, loading, ..
     }, [onScrollEnd, scrollOnEnd, page, setPage]);
 
     return (
-        <div ref={scrollRef} className="my-infinite-scroll-root position-relative" onScroll={handleOnScroll}>
+        <div
+            ref={scrollRef}
+            className="my-infinite-scroll-root position-relative"
+            onScroll={handleOnScroll}
+            data-test="scroll-infinite"
+        >
             <div ref={bodyRef} className=" w-100">
                 {props.children}
             </div>

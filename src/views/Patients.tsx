@@ -1,6 +1,6 @@
 import { LayoutTable } from "../layouts";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { BabyInfoModal, BabysTable, InfiniteScroll, ManageBabyModal } from "../components";
+import { BabysTable, InfiniteScroll, ManagePatientModal, PatientInfoModal } from "../components";
 import usePatients, { LIMIT_PATIENT_PER_PAGE } from "../hooks/usePatients";
 import { tPatient } from "../interfaces";
 import { SystemContext } from "../contexts/SystemContext";
@@ -27,7 +27,9 @@ export default function Patients() {
             try {
                 const incomingBabys = await readBabys({ page, limit: LIMIT_PATIENT_PER_PAGE, where: { name } });
 
-                setBabys((current) => [...current, ...incomingBabys]);
+                if (page === undefined) setBabys(incomingBabys);
+                else setBabys((current) => [...current, ...incomingBabys]);
+
                 return incomingBabys.length;
             } catch (err) {
                 showAlert("Houve um erro ao carregar os pacientes.");
@@ -82,7 +84,7 @@ export default function Patients() {
                 </LayoutTable.Root>
             </InfiniteScroll>
 
-            <ManageBabyModal
+            <ManagePatientModal
                 initialValues={
                     babySelected ?? {
                         name: "",
@@ -98,9 +100,9 @@ export default function Patients() {
                 onSuccess={handleOnSuccessManage}
             />
 
-            <BabyInfoModal
+            <PatientInfoModal
                 show={babySelected !== null && !showManageBabyModal}
-                baby={babySelected}
+                patient={babySelected}
                 onHide={() => setBabySelected(null)}
                 onClickEdit={handleOnClickRegisterOrEdit}
             />

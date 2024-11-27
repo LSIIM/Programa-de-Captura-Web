@@ -57,7 +57,7 @@ export default function PlayingRecord() {
             })
             .catch((err) => showAlert(utils.getMessageError(err)));
 
-        paginateOtherRecordings().then(() => setCurrentPage((current) => current + 1));
+        paginateOtherRecordings(0).then(() => setCurrentPage((current) => current + 1));
         return () => cancelProcess();
     }, [paginateOtherRecordings, cancelProcess, readRecordings, currentRecordingId, getRecording, showAlert]);
 

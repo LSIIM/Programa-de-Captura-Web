@@ -5,7 +5,7 @@ import { DefaultLayout, LoggedLayout } from "./layouts";
 export const routes = {
     login: "/login",
     logged: "/sistema",
-    listBabys: "/sistema/bebes",
+    listBabys: "/sistema/pacientes",
     listRecords: "/sistema/gravacoes",
     playingRecord: "/sistema/gravacao/:id",
     createRecord: "/sistema/gravar",

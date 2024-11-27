@@ -89,6 +89,7 @@ export default function SelectCamsModal({
                             return (
                                 <Col key={videoStream.id} className="mb-3">
                                     <Stack
+                                        data-test="btn-select-cam"
                                         onClick={() => handleOnClickStream(videoStream)}
                                         className="d-flex w-100 align-items-center "
                                     >

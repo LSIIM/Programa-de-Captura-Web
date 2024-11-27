@@ -39,6 +39,7 @@ export default function LoggedLayout(props: LoggedLayoutProps) {
                         title="Light Mode"
                     />
                     <IconButton
+                        data-test="button-logout"
                         onClickAsync={handleOnClickLoggout}
                         bootstrapIconName="arrow-right-square-fill"
                         size="lg"

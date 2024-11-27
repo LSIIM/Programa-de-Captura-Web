@@ -7,24 +7,27 @@ import { tPatient, tPartialEntity } from "../../../interfaces";
 import { InputDate } from "../..";
 
 //TYPES
-export type tNewPatient = tPartialEntity<tPatient, "birthDate" | "isPremature" | "name" | "atipicidades" | "gestationalAge">;
+export type tNewPatient = tPartialEntity<
+    tPatient,
+    "birthDate" | "isPremature" | "name" | "atipicidades" | "gestationalAge"
+>;
 
-export interface FormBabyProps {
+export interface FormPatientProps {
     initialValues: tNewPatient;
     formId: string;
     onSubmit: (newBaby: tNewPatient) => Promise<void> | void;
 }
 
-export default function FormBaby(props: FormBabyProps) {
+export default function FormPatient(props: FormPatientProps) {
     //VARIABLES
     const { onSubmit } = props;
 
     //EVENTS
     const handleOnSubmit = useCallback(
-        async (newBaby: tNewPatient, helpers: FormikHelpers<tNewPatient>) => {
+        async (newPatient: tNewPatient, helpers: FormikHelpers<tNewPatient>) => {
             try {
                 helpers.setSubmitting(true);
-                await onSubmit(newBaby);
+                await onSubmit(newPatient);
                 helpers.resetForm();
             } catch (err) {
                 console.error(err);
@@ -46,8 +49,8 @@ export default function FormBaby(props: FormBabyProps) {
                 return (
                     <Form id={props.formId} onSubmit={handleSubmit}>
                         <Row>
-                            <Form.Group className="mb-2" as={Col} sm="7" lg="8" controlId={v4()}>
-                                <Form.Label>Nome do bebê</Form.Label>
+                            <Form.Group data-test="form-group" className="mb-2" as={Col} sm="7" lg="8" controlId={v4()}>
+                                <Form.Label>Nome do paciente</Form.Label>
                                 <Form.Control
                                     className="rounded-pill"
                                     name="name"
@@ -58,7 +61,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="5" lg="4" controlId={v4()} className="mb-2">
+                            <Form.Group data-test="form-group" as={Col} sm="5" lg="4" controlId={v4()} className="mb-2">
                                 <Form.Label>Prematuro?</Form.Label>
                                 <Form.Select
                                     className="rounded-pill"
@@ -77,8 +80,8 @@ export default function FormBaby(props: FormBabyProps) {
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">{errors.isPremature}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="7" controlId={v4()} className="mb-2">
-                                <Form.Label>Data de nascimento?</Form.Label>
+                            <Form.Group data-test="form-group" as={Col} sm="7" controlId={v4()} className="mb-2">
+                                <Form.Label>Data de nascimento</Form.Label>
                                 <InputDate
                                     className={"rounded-pill"}
                                     dateValue={values.birthDate}
@@ -87,7 +90,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.isPremature}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="5" controlId={v4()} className="mb-2">
+                            <Form.Group data-test="form-group" as={Col} sm="5" controlId={v4()} className="mb-2">
                                 <Form.Label>Idade gestacional</Form.Label>
                                 <Form.Control
                                     className="rounded-pill"
@@ -100,7 +103,7 @@ export default function FormBaby(props: FormBabyProps) {
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.gestationalAge}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} sm="12" controlId={v4()}>
+                            <Form.Group data-test="form-group" as={Col} sm="12" controlId={v4()}>
                                 <Form.Label>Atipicidades</Form.Label>
                                 <Form.Control
                                     as="textarea"

@@ -69,7 +69,6 @@ export default function useRecording() {
     const updateRecording = useCallback(async (recording: any) => {
         abortController = new AbortController();
         //const signal = abortController.signal;
-        console.log(recording);
 
         return new Promise<void>(async (resolve, reject) => {
             try {
