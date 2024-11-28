@@ -44,6 +44,16 @@
                 },
                 "url": "/videos/1/1.mp4",
                 "thumb": "/videos/1/1.jpg"
+            },
+            {
+                "id": 2,
+                "projectVideoTypeId": 1,
+                "camIdUsed": 1,
+                "projectVideoType": {
+                    "isMain": true
+                },
+                "url": "/videos/2/2.mp4",
+                "thumb": "/videos/2/2.jpg"
             }
         ],
         "createdAt": "2024-11-06T21:05:23.127Z",

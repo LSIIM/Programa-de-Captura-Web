@@ -47,6 +47,7 @@ export default function CardRecordListed({ recording, isPlaying, video, onPlaySp
                 onClick={handleOnClickPlay}
                 role="button"
                 className={`my-card-record-listed position-relative d-flex gap-2 w-100 ${isPlaying ? "bg-body" : ""}`}
+                data-test="card-recording"
             >
                 {isPlaying && (
                     <div className="d-flex position-absolute align-items-center h-100 start-0 top-0 ms-1">
@@ -59,6 +60,7 @@ export default function CardRecordListed({ recording, isPlaying, video, onPlaySp
                     role="button"
                     onClick={handleOnClickPlay}
                     className="my-card-record-listed-thumbnail rounded-4"
+                    data-test="card-img-recording"
                 />
                 <Stack className="my-card-record-listed-info d-flex">
                     <div className=" d-flex w-100 align-items-center">

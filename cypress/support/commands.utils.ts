@@ -1,4 +1,30 @@
-Cypress.Commands.add("getByDataTestId", (dataTestId: string) => {
+type tDataTestId =
+    | "table-body-row"
+    | "form-group"
+    | "input-email"
+    | "input-password"
+    | "button-login"
+    | "button-logout"
+    | "modal-manage"
+    | "btn-submit"
+    | "card-recording"
+    | "scroll-infinite"
+    | "btn-select-cam"
+    | "btn-play-pause-retry-video"
+    | "btn-upload-video"
+    | "card-img-recording"
+    | "moviment-btn";
+
+declare namespace Cypress {
+    interface Chainable<Subject> {
+        getByDataTestId(dataTestId: tDataTestId): Chainable<any>;
+        checkOnTable(props?: { length?: number; dataArr?: string[] }): void;
+        getInputByLabel(label: string): Chainable<any>;
+        getSelectByLabel(label: string): Chainable<any>;
+    }
+}
+
+Cypress.Commands.add("getByDataTestId", (dataTestId: tDataTestId) => {
     return cy.get(`[data-test=${dataTestId}]`);
 });
 

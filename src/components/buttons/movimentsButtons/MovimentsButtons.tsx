@@ -37,6 +37,7 @@ export default function MovimentsButtons({
             </Button>
             {moviments.map((mov) => (
                 <Button
+                    data-test="moviment-btn"
                     onClick={() => handleOnSelectMoviment(mov.id)}
                     key={mov.id}
                     variant={

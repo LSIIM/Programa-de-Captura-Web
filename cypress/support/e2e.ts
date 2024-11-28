@@ -14,7 +14,7 @@ beforeEach(() => {
     cy.intercept({ method: "GET", url: ALL_PATIENTS_PAGINATED }, { fixture: "patients.json" });
 
     cy.intercept({ method: "GET", url: ALL_RECORDINGS_PAGINATED }, { fixture: "recordings.json" });
-    cy.intercept({ method: "GET", url: SPECIFIC_RECORDING }, { fixture: "recordings.json" });
+    cy.intercept({ method: "GET", url: SPECIFIC_RECORDING }, { fixture: "oneRecording.json" });
 
     cy.intercept({ method: "GET", url: ALL_PROJECTS }, { fixture: "projects.json" });
 });

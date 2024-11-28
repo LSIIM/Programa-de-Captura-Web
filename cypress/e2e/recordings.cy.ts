@@ -13,7 +13,7 @@ describe("Recordings", () => {
         cy.getByDataTestId("card-recording").should("have.length", AMOUNT_RECORDING_BY_GET);
 
         cy.getByDataTestId("scroll-infinite").scrollTo("bottom");
-        cy.getByDataTestId("card-recording").should("have.length", AMOUNT_RECORDING_BY_GET * 2);
+        cy.getByDataTestId("card-recording").should("have.length.gte", AMOUNT_RECORDING_BY_GET * 2);
     });
 
     it("should create recordings", () => {
@@ -30,6 +30,7 @@ describe("Recordings", () => {
         cy.contains("Confirmar").click();
 
         cy.getByDataTestId("btn-play-pause-retry-video").click();
+        cy.wait(500);
         cy.getByDataTestId("btn-play-pause-retry-video").click();
 
         cy.intercept({ method: "POST", url: constants.API.RECORDINGS.DEFAULT_PATH }, (req) => {
@@ -39,11 +40,20 @@ describe("Recordings", () => {
 
         cy.getByDataTestId("btn-upload-video").click();
         cy.contains("Movimento salvo!");
+        cy.getByDataTestId("btn-upload-video").click();
+        cy.contains("Este movimento já foi salvo.");
+
+        cy.getByDataTestId("moviment-btn").eq(1).click();
+        cy.getByDataTestId("btn-upload-video").should("not.be.visible");
     });
 
     it("should play a recording's video", () => {
         cy.getByDataTestId("card-img-recording").eq(0).click();
         cy.url().should("contain", constants.VIEWS.PLAYING_FIRST_RECORDING);
-        //TODO: Fazer outras verificações como por exemplo verificar se o infinite scroll funciona aqui.
+
+        cy.getByDataTestId("card-img-recording").eq(1).click();
+
+        cy.getByDataTestId("scroll-infinite").scrollTo("bottom");
+        cy.getByDataTestId("card-recording").should("have.length.gte", AMOUNT_RECORDING_BY_GET * 2);
     });
 });

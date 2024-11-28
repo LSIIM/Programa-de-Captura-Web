@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>9/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>10/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>8/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -158,7 +158,9 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,32 +178,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">616x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -269,18 +273,18 @@ export interface CardRecordListedProps {
     onPlaySpecificVideo?: (video: tVideo) =&gt; void;
 }
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >CardRecordListed(</span>{ recording, isPlaying, video, onPlaySpecificVideo }: CardRecordListedProps) {
+export default function CardRecordListed({ recording, isPlaying, video, onPlaySpecificVideo }: CardRecordListedProps) {
     //CONTEXTS
-    const { showAlert } = <span class="cstat-no" title="statement not covered" >useContext(SystemContext);</span>
+    const { showAlert } = useContext(SystemContext);
 &nbsp;
     //STATES
-    const [MENU_BUTTON_ID] = <span class="cstat-no" title="statement not covered" >useState(v4());</span>
+    const [MENU_BUTTON_ID] = useState(v4());
 &nbsp;
     //EVENTS
-    const handleOnClickPlay = <span class="cstat-no" title="statement not covered" >useCallback(</span>
-<span class="fstat-no" title="function not covered" >        (e</span>: React.MouseEvent&lt;HTMLDivElement&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >            if (!video) <span class="cstat-no" title="statement not covered" >return showAlert("O vídeo não foi encontrado!");</span></span>
-<span class="cstat-no" title="statement not covered" >            if (onPlaySpecificVideo) <span class="cstat-no" title="statement not covered" >return onPlaySpecificVideo(video);</span></span>
+    const handleOnClickPlay = useCallback(
+        (e: React.MouseEvent&lt;HTMLDivElement&gt;) =&gt; {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!video) <span class="cstat-no" title="statement not covered" >return showAlert("O vídeo não foi encontrado!");</span>
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (onPlaySpecificVideo) return onPlaySpecificVideo(video);
 &nbsp;
             const menuButton = <span class="cstat-no" title="statement not covered" >document.getElementById(MENU_BUTTON_ID);</span>
 <span class="cstat-no" title="statement not covered" >            if (!menuButton || menuButton.contains(e.target as Node)) <span class="cstat-no" title="statement not covered" >return;</span></span>
@@ -290,18 +294,19 @@ export default function <span class="fstat-no" title="function not covered" >Car
         [recording, MENU_BUTTON_ID, onPlaySpecificVideo, video, showAlert]
     );
 &nbsp;
-    const handleOnClickPlayProcessedVideo = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const handleOnClickPlayProcessedVideo = useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >        window.location.href = routes.playingRecord.replace(":id", recording.id.toString());</span>
     }, [recording]);
 &nbsp;
-    const handleOnClickProcess = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {}, []);</span>
+    const handleOnClickProcess = useCallback(<span class="fstat-no" title="function not covered" >()</span> =&gt; {}, []);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;&gt;
             &lt;div
                 onClick={handleOnClickPlay}
                 role="button"
                 className={`my-card-record-listed position-relative d-flex gap-2 w-100 ${isPlaying ? "bg-body" : ""}`}
+                data-test="card-recording"
             &gt;
                 {isPlaying &amp;&amp; (
                     &lt;div className="d-flex position-absolute align-items-center h-100 start-0 top-0 ms-1"&gt;
@@ -314,6 +319,7 @@ export default function <span class="fstat-no" title="function not covered" >Car
                     role="button"
                     onClick={handleOnClickPlay}
                     className="my-card-record-listed-thumbnail rounded-4"
+                    data-test="card-img-recording"
                 /&gt;
                 &lt;Stack className="my-card-record-listed-info d-flex"&gt;
                     &lt;div className=" d-flex w-100 align-items-center"&gt;
@@ -355,7 +361,7 @@ export default function <span class="fstat-no" title="function not covered" >Car
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-27T23:14:33.389Z
+                at 2024-11-28T21:50:55.582Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

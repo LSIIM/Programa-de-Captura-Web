@@ -1,0 +1,60 @@
+{
+    "id": 1,
+    "ignore": false,
+    "observation": null,
+    "patientId": 8,
+    "patient": {
+        "id": 8,
+        "name": "Ana",
+        "birthDate": "2021-02-22T00:00:00.000Z",
+        "observation": null,
+        "createdAt": "2024-11-06T21:05:23.127Z",
+        "updatedAt": "2024-11-06T21:05:23.127Z"
+    },
+    "recordingDate": "2021-11-30T00:00:00.000Z",
+    "moveId": 4,
+    "moveInfo": {
+        "id": 4,
+        "description": "HorizontalHead_Camfixed",
+        "projectId": 1,
+        "defaultCamId": 2,
+        "createdAt": "2024-11-06T21:05:23.127Z",
+        "updatedAt": "2024-11-06T21:05:23.127Z"
+    },
+    "projectId": 1,
+    "project": {
+        "id": 1,
+        "projectName": "camera fixa",
+        "description": "aaaa",
+        "patientSpecialFetauresTemplate": {
+            "feature3": "Valor 3",
+            "feature4": "Valor 4"
+        },
+        "createdAt": "2024-11-06T21:05:23.127Z",
+        "updatedAt": "2024-11-06T21:05:23.127Z"
+    },
+    "recordingsVideos": [
+        {
+            "id": 1,
+            "projectVideoTypeId": 1,
+            "camIdUsed": 1,
+            "projectVideoType": {
+                "isMain": true
+            },
+            "url": "/videos/1/1.mp4",
+            "thumb": "/videos/1/1.jpg"
+        },
+        {
+            "id": 2,
+            "projectVideoTypeId": 1,
+            "camIdUsed": 1,
+            "projectVideoType": {
+                "isMain": true
+            },
+            "url": "/videos/2/2.mp4",
+            "thumb": "/videos/2/2.jpg"
+        }
+    ],
+    "createdAt": "2024-11-06T21:05:23.127Z",
+    "updatedAt": "2024-11-06T21:05:23.127Z"
+}

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -122,7 +122,8 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,27 +142,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,34 +195,35 @@ export interface MovimentsButtonsProps {
     setCurrentMovimentId?: (id: number) =&gt; void;
 }
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >MovimentsButtons(</span>{
+export default function MovimentsButtons({
     moviments,
     setCurrentMovimentId,
     currentMovimentId,
     ...props
 }: MovimentsButtonsProps) {
     //STATES
-    const [showMoviments, setShowMoviments] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+    const [showMoviments, setShowMoviments] = useState(false);
 &nbsp;
     //EVENTS
-    const handleOnSelectMoviment = <span class="cstat-no" title="statement not covered" >useCallback(</span>
-<span class="fstat-no" title="function not covered" >        (m</span>ov: number) =&gt; {
-<span class="cstat-no" title="statement not covered" >            if (setCurrentMovimentId) <span class="cstat-no" title="statement not covered" >setCurrentMovimentId(mov);</span></span>
+    const handleOnSelectMoviment = useCallback(
+        (mov: number) =&gt; {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (setCurrentMovimentId) setCurrentMovimentId(mov);
         },
         [setCurrentMovimentId]
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
-        &lt;div className={`my-moviments-button-root d-flex gap-2 p-1 ${!showMoviments ? "closed" : ""}`}&gt;
+    return (
+        &lt;div className={`my-moviments-button-root d-flex gap-2 p-1 ${!showMoviments ? "closed" : <span class="branch-1 cbranch-no" title="branch not covered" >""}</span>`}&gt;
             &lt;Button
                 className={`my-open-moviments-button rounded-circle shadow-sm`}
                 onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShowMoviments(<span class="fstat-no" title="function not covered" >(c</span>urrent) =&gt; <span class="cstat-no" title="statement not covered" >!current)</span>}</span>
             &gt;
                 &lt;i className="bi bi-chevron-double-up fs-6" /&gt;
             &lt;/Button&gt;
-            {moviments.map(<span class="fstat-no" title="function not covered" >(m</span>ov) =&gt; (
-<span class="cstat-no" title="statement not covered" >                &lt;Button</span>
-                    onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >handleOnSelectMoviment(mov.id)}</span>
+            {moviments.map((mov) =&gt; (
+                &lt;Button
+                    data-test="moviment-btn"
+                    onClick={() =&gt; handleOnSelectMoviment(mov.id)}
                     key={mov.id}
                     variant={
                         currentMovimentId === mov.id
@@ -247,7 +250,7 @@ export default function <span class="fstat-no" title="function not covered" >Mov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-27T23:14:33.389Z
+                at 2024-11-28T21:50:55.582Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

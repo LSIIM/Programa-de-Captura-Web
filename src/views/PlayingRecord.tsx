@@ -51,6 +51,7 @@ export default function PlayingRecord() {
         //Buscado current recording
         getRecording(Number(currentRecordingId))
             .then((recording) => {
+                console.log(recording);
                 setCurrentRecording(recording);
                 setSuggestedVideos(recording.recordingsVideos);
                 setCurrentVideo(recording.recordingsVideos[0]);

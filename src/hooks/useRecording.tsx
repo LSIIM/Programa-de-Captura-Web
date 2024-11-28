@@ -49,12 +49,11 @@ export default function useRecording() {
             try {
                 setArrBuscandoPorId((current) => [...current, true]);
                 //TODO: Implementar a lógica de pegar somente o recording certo.
-                const res = await api.getRecordings();
-                const recording = res.data.find(({ id }) => recordingId === id);
-                if (!recording) throw Error("Gravação não encontrada!");
+                const res = await api.getRecording(recordingId);
+                if (!res.data) throw Error("Gravação não encontrada!");
 
                 setErrorToGet(false);
-                resolve(recording);
+                resolve(res.data);
             } catch (err: any) {
                 if (utils.canIgnoreThisError(err)) return;
                 console.error(err);

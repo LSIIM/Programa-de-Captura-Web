@@ -4,7 +4,7 @@ const constants = {
         PACTIENTS_PATH: "/sistema/pacientes",
         RECORDINGS_PATH: "/sistema/gravacoes",
         CREATE_RECORD_PATH: "/sistema/gravar",
-        PLAYING_FIRST_RECORDING:"/sistema/gravacao/1"
+        PLAYING_FIRST_RECORDING: "/sistema/gravacao/1",
     },
     API: {
         AUTH: { LOGIN_PATH: "/v1/auth/login" },

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">84.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>11/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>10/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -125,26 +125,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,32 +166,32 @@ export interface LayoutRecordingButtonCamsProps extends ButtonProps {
     onCanFindStreams?: () =&gt; boolean;
 }
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >LayoutRecordingButtonCams(</span>{
+export default function LayoutRecordingButtonCams({
     onFindStreams,
     onCanFindStreams,
     ...rest
 }: LayoutRecordingButtonCamsProps) {
     //HOOKS
-    const { getVideoStreams } = <span class="cstat-no" title="statement not covered" >useVideoDevice();</span>
+    const { getVideoStreams } = useVideoDevice();
 &nbsp;
     //STATES
-    const [isFindingStreams, setIsFindingStreams] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+    const [isFindingStreams, setIsFindingStreams] = useState(false);
 &nbsp;
     //EVENTS
-    const handleFindStreams = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (onCanFindStreams &amp;&amp; !onCanFindStreams()) <span class="cstat-no" title="statement not covered" >return;</span></span>
-<span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >            setIsFindingStreams(true);</span>
-            const streams = <span class="cstat-no" title="statement not covered" >await getVideoStreams();</span>
-<span class="cstat-no" title="statement not covered" >            if (onFindStreams) <span class="cstat-no" title="statement not covered" >onFindStreams(streams);</span></span>
+    const handleFindStreams = useCallback(async () =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (onCanFindStreams &amp;&amp; !onCanFindStreams()) <span class="cstat-no" title="statement not covered" >return;</span>
+        try {
+            setIsFindingStreams(true);
+            const streams = await getVideoStreams();
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (onFindStreams) onFindStreams(streams);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            console.error(err);</span>
         } finally {
-<span class="cstat-no" title="statement not covered" >            setIsFindingStreams(false);</span>
+            setIsFindingStreams(false);
         }
     }, [getVideoStreams, onFindStreams, onCanFindStreams]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;Col className="d-flex align-items-end mb-2"&gt;
             &lt;Button className="rounded-pill" onClick={handleFindStreams} {...rest}&gt;
                 {isFindingStreams ? (
@@ -211,7 +211,7 @@ export default function <span class="fstat-no" title="function not covered" >Lay
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-27T23:14:33.389Z
+                at 2024-11-28T21:50:55.582Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -96,6 +96,8 @@ const api = {
         instance.get(`/project`, { params, signal }),
 
     //RECORDINGS
+    getRecording: (id: number, signal?: AbortSignal): Promise<AxiosResponse<tRecording, AxiosError>> =>
+        instance.get(`/recording/${id}`, { signal }),
     getRecordings: (params?: tRecordingQuery, signal?: AbortSignal): Promise<AxiosResponse<tRecording[], AxiosError>> =>
         instance.get(`/recording`, { params, signal }),
     createRecordings: (data: FormData, signal?: AbortSignal): Promise<AxiosResponse<void, AxiosError>> =>
