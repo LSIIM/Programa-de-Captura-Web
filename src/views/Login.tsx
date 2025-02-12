@@ -5,6 +5,7 @@ import { tCredentials } from "../components/forms/formLogin/FormLogin";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router";
+import myStorage from "../services/localstorage";
 
 const FORM_LOGIN_ID = "login-form";
 
@@ -20,10 +21,15 @@ export default function Login() {
         async (credentials: tCredentials) => {
             try {
                 setLogging(true);
-                await api.login(credentials);
+                const { data: userSession } = await api.login(credentials);
+                myStorage.userSession.saveTokens({
+                    access: userSession.tokens.access.token,
+                    refresh: userSession.tokens.refresh.token,
+                });
+
                 navigate(routes.listBabys);
             } catch (err) {
-                console.error(err);
+                throw err;
             } finally {
                 setLogging(false);
             }

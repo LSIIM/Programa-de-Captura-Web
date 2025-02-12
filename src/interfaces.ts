@@ -1,5 +1,11 @@
 //Entidades do banco de dados
 
+//USER INFO
+export type UserSession = {
+    user: { createdAt: Date; documento: string; email: string; id: number; name: string; role: "ADMIN" };
+    tokens: { access: { token: string; expires: Date }; refresh: { token: string; expired: Date } };
+};
+
 //PATIENT
 export type tPatient = {
     id: number;

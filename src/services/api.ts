@@ -1,6 +1,6 @@
 import { tNewPatient } from "../components/forms/formBaby/FormPatient";
 import { tCredentials } from "../components/forms/formLogin/FormLogin";
-import { tPatient, tProject, tRecording } from "../interfaces";
+import { tPatient, tProject, tRecording, UserSession } from "../interfaces";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -40,7 +40,7 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
     function (config) {
-        // Do something before request is sent
+        //TODO: Modificar os headers da requisição para adicionar o token de acesso
         return config;
     },
     function (error) {
@@ -66,8 +66,9 @@ instance.interceptors.response.use(
 
 const api = {
     //ACCESS
-    login: async (credentials: tCredentials, signal?: AbortSignal) =>
+    login: async (credentials: tCredentials, signal?: AbortSignal): Promise<AxiosResponse<UserSession, any>> =>
         instance.post(`/auth/login`, { ...credentials }, { signal }),
+
     logout: async () => {
         //TODO: Apagar o token de acesso caso exista
         //TODO: Chamar a rota para deslogar o usuário
