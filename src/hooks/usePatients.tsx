@@ -28,6 +28,7 @@ export default function usePatients() {
             return new Promise<tPatient[]>(async (resolve, reject) => {
                 try {
                     setArrBuscando((current) => [...current, true]);
+                    console.log(params)
                     const res = await api.getPatients(params, signal);
                     setErrorToRead(false);
                     resolve(res.data);

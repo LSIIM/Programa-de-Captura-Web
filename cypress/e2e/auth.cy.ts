@@ -7,26 +7,25 @@ describe("Auth", () => {
     it("should log in", () => {
         cy.visit(constants.VIEWS.LOGIN_PATH);
 
+        cy.getByDataTestId("input-email").type(LOGIN_EMAIL);
+        cy.getByDataTestId("input-password").type(LOGIN_PASS);
+
         cy.intercept({ method: "POST", url: constants.API.AUTH.LOGIN_PATH }, (req) => {
             expect(req.body.email).equals(LOGIN_EMAIL);
             expect(req.body.password).equals(LOGIN_PASS);
             req.reply({});
         });
 
-        cy.getByDataTestId("input-email").type(LOGIN_EMAIL);
-        cy.getByDataTestId("input-password").type(LOGIN_PASS);
         cy.getByDataTestId("button-login").click();
-
-        //TODO: Aqui deve-se verificar ainda se o token de acesso existe.
-        cy.url().should("include", constants.VIEWS.PACTIENTS_PATH);
     });
 
     it("should log out", () => {
         cy.visit(constants.VIEWS.PACTIENTS_PATH);
 
+        cy.checkOnTable({ length: 37, dataArr: ["Alana", "Ana", "Ana", "Anthony"] });
+
         cy.getByDataTestId("button-logout").click();
 
-        //TODO: Aqui deve-se verificar ainda se o token de acesso foi removido.
         cy.url().should("include", constants.VIEWS.LOGIN_PATH);
     });
 });

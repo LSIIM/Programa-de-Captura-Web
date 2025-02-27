@@ -42,6 +42,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
     function (config) {
         const tokens = myStorage.userSession.getTokens();
+        if (!tokens) return config;
+
         config.headers["Authorization"] = `Bearer ${tokens.access}`;
         return config;
     },

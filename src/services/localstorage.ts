@@ -30,12 +30,16 @@ const myStorage = {
                 refresh: yup.string().required(),
             });
 
-            const validTokens = validTokensSchema.validateSync(unknownTokens);
-            return validTokens;
+            try {
+                const validTokens = validTokensSchema.validateSync(unknownTokens);
+                return validTokens;
+            } catch (err) {
+                return undefined;
+            }
         },
         clearTokens: () => {
             localStorage.removeItem(TOKENS_KEY);
-        }
+        },
     },
 };
 
