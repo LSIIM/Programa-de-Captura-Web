@@ -148,14 +148,14 @@ export default function CreateRecord() {
                         onFindStreams={handleOnFindStreams}
                     />
                 </LayoutRecording.Header>
-                {selectedProject && selectedPatient && (
+                <div className={selectedProject && selectedPatient ? "d-flex h-100 w-100" : "d-none"}>
                     <LayoutRecording.Body
                         patient={selectedPatient}
                         project={selectedProject}
                         streamsLabel={selectedStreamsLabel}
                         moviments={selectedProject?.movesInfo ?? []}
                     />
-                )}
+                </div>
             </LayoutRecording.Root>
 
             {selectedProject && (

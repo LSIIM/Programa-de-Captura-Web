@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Col } from "react-bootstrap";
 import { v4 } from "uuid";
 import { ControlRecordingButton, MovimentsButtons } from "../../components";
@@ -21,8 +21,8 @@ export type tDoneMoviment = tMov & { data: { blob: Blob; projectVideoType: tProj
 export interface LayoutRecordingBodyProps {
     streamsLabel: tStreamLabel[];
     moviments: tMov[];
-    project: tProject;
-    patient: tPatient;
+    project?: tProject | null;
+    patient?: tPatient | null;
 }
 
 export default function LayoutRecordingBody({ streamsLabel, moviments, patient, project }: LayoutRecordingBodyProps) {
@@ -158,6 +158,7 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, patient, 
 
     const handleOnUpload = useCallback(async () => {
         try {
+            if (!patient || !project) return showAlert("Não foi possível encontrar o paciente ou o projeto.");
             if (!currentMovimentId) return showAlert("Nenhum movimento selecionado.");
 
             if (uploadedMovimentsId.includes(currentMovimentId)) return showAlert("Este movimento já foi salvo.");
@@ -217,48 +218,56 @@ export default function LayoutRecordingBody({ streamsLabel, moviments, patient, 
             </div>
 
             {streamsLabel.length < 1 && <div className="my-layout-recording-body-div-video-selected rounded-4" />}
-            {streamsLabel.map(({ stream, projectVideoType }) => {
-                const isSelected = stream.id === currentSelectedStreamId;
-                const currentDonedMoviment = donedMoviments.find(({ id: id_mov }) => id_mov === currentMovimentId);
-                const dataSaved = currentDonedMoviment?.data?.find(
-                    (data) => data.projectVideoType.id === projectVideoType.id
-                );
-                return (
-                    <div
-                        key={v4()}
-                        className={`my-layout-recording-body-div-video${
-                            isSelected ? "-selected border-primary" : ""
-                        } rounded-4 overflow-hidden d-flex border border-3`}
-                        onClick={() => setTimeout(() => setCurrentSelectedStreamId(stream.id), 150)}
-                    >
-                        <div className="d-flex w-100 h-100 position-relative">
-                            {!isSelected && (
-                                <i className="bi bi-box-arrow-in-up-left fs-5 position-absolute top-0 start-0 ms-2 mt-2" />
-                            )}
-                            <span className="position-absolute top-0 end-0 bg-black bg-opacity-50 rounded text-white me-2 mt-2 ps-1 pe-1">
-                                {projectVideoType.typeName}
-                            </span>
-                            <video
-                                className="w-100 h-100"
-                                autoPlay
-                                playsInline
-                                muted
-                                controls={!!dataSaved}
-                                ref={(video) => {
-                                    if (!video) return;
+            {useMemo(
+                () =>
+                    streamsLabel.map(({ stream, projectVideoType }) => {
+                        const isSelected = stream.id === currentSelectedStreamId;
+                        const currentDonedMoviment = donedMoviments.find(
+                            ({ id: id_mov }) => id_mov === currentMovimentId
+                        );
+                        const dataSaved = currentDonedMoviment?.data?.find(
+                            (data) => data.projectVideoType.id === projectVideoType.id
+                        );
+                        return (
+                            <div
+                                key={v4()}
+                                className={`my-layout-recording-body-div-video${
+                                    isSelected ? "-selected border-primary" : ""
+                                } rounded-4 overflow-hidden d-flex border border-3`}
+                                onClick={() => setTimeout(() => setCurrentSelectedStreamId(stream.id), 150)}
+                            >
+                                <div className="d-flex w-100 h-100 position-relative">
+                                    {!isSelected && (
+                                        <span className="position-absolute top-0 start-0 ms-2 mt-2 h-max-content w-auto ratio-1x1 bg-black px-1 bg-opacity-50 rounded">
+                                            <i className="bi bi-box-arrow-in-up-left fs-5 text-white lh-1" />
+                                        </span>
+                                    )}
+                                    <span className="position-absolute top-0 end-0 bg-black bg-opacity-50 rounded text-white me-2 mt-2 ps-1 pe-1">
+                                        {projectVideoType.typeName}
+                                    </span>
+                                    <video
+                                        className="w-100 h-100"
+                                        autoPlay
+                                        playsInline
+                                        muted
+                                        controls={!!dataSaved}
+                                        ref={(video) => {
+                                            if (!video) return;
 
-                                    if (dataSaved) {
-                                        video.srcObject = null;
-                                        video.src = URL.createObjectURL(dataSaved.blob);
-                                    } else {
-                                        video.srcObject = stream;
-                                    }
-                                }}
-                            />
-                        </div>
-                    </div>
-                );
-            })}
+                                            if (dataSaved) {
+                                                video.srcObject = null;
+                                                video.src = URL.createObjectURL(dataSaved.blob);
+                                            } else {
+                                                video.srcObject = stream;
+                                            }
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    }),
+                [streamsLabel, currentSelectedStreamId, donedMoviments, currentMovimentId]
+            )}
         </Col>
     );
 }

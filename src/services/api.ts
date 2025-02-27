@@ -3,6 +3,7 @@ import { tCredentials } from "../components/forms/formLogin/FormLogin";
 import { tPatient, tProject, tRecording, UserSession } from "../interfaces";
 import { routes } from "../router";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import myStorage from "./localstorage";
 
 export type tQuery<WhereObj extends object, SortKeys extends string> = {
     limit?: number;
@@ -40,7 +41,8 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
     function (config) {
-        //TODO: Modificar os headers da requisição para adicionar o token de acesso
+        const tokens = myStorage.userSession.getTokens();
+        config.headers["Authorization"] = `Bearer ${tokens.access}`;
         return config;
     },
     function (error) {
@@ -70,7 +72,7 @@ const api = {
         instance.post(`/auth/login`, { ...credentials }, { signal }),
 
     logout: async () => {
-        //TODO: Apagar o token de acesso caso exista
+        myStorage.userSession.clearTokens();
         //TODO: Chamar a rota para deslogar o usuário
         return new Promise<void>((resolve) => {
             setTimeout(() => {

@@ -66,10 +66,9 @@ export default function SystemProvider(props: SystemProviderProps) {
             setAlerts((current) => {
                 const newAlert: tAlert = { show: true, id, dateTime, message, hide: () => onHideAlert(id) };
 
-                //Verifica se a message já está sendo mostrada => mostra a nova e remove antiga
                 if (current.some((alert) => alert.message === message))
                     return [...current.filter((alert) => alert.message !== message), newAlert];
-                //Adiciona o novo alerta
+
                 return [...current, newAlert];
             });
         },
@@ -80,7 +79,6 @@ export default function SystemProvider(props: SystemProviderProps) {
         const currentMode = myStorage.userPreferences.getLightMode();
         const newMode: tLightMode = currentMode === "dark" ? "light" : "dark";
 
-        //Modifica visualmente o tema e salva nas preferencias de usuário
         document.documentElement.setAttribute(ATTRIBUTE_THEME, newMode);
         myStorage.userPreferences.setLightMode(newMode);
         setLightMode(newMode);

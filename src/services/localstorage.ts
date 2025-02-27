@@ -23,16 +23,19 @@ const myStorage = {
             localStorage.setItem(TOKENS_KEY, JSON.stringify(tokens));
         },
         getTokens: () => {
-            const tokens: unknown = JSON.parse(localStorage.getItem(TOKENS_KEY) ?? "{}");
+            const unknownTokens = JSON.parse(localStorage.getItem(TOKENS_KEY) ?? "{}");
 
             const validTokensSchema: yup.ObjectSchema<{ access: string; refresh: string }> = yup.object({
                 access: yup.string().required(),
                 refresh: yup.string().required(),
             });
 
-            if (!validTokensSchema.validateSync(tokens)) return {};
-            return tokens;
+            const validTokens = validTokensSchema.validateSync(unknownTokens);
+            return validTokens;
         },
+        clearTokens: () => {
+            localStorage.removeItem(TOKENS_KEY);
+        }
     },
 };
 
